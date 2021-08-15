@@ -6,8 +6,6 @@ import kodlamaIo5GunOdev.business.abstracts.VerificationService;
 
 public class VerificationManager implements VerificationService{
 	
-	CustomerCheckManager customerCheckManager;
-	
 	ArrayList<String> verificatedEmails = new ArrayList<String>();
 	
 	@Override
