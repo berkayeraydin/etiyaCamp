@@ -5,6 +5,6 @@ import kodlamaIo5GunOdev.entities.concretes.Customer;
 public interface CustomerService {
 	
 	void signUp(Customer customer);
-	void signIn(Customer customer);
+	void login(Customer customer);
 
 }

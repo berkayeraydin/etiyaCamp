@@ -36,7 +36,7 @@ public class CustomerManager implements CustomerService {
 		
 	// GIRIS YAPMA
 	@Override
-	public void signIn(Customer customer) {
+	public void login(Customer customer) {
 		mailVerificationService.verifyMail(customer.getEmail());
 		//CUSTOMERDAO DAKI LISTTEde EMAIL SIFRE 
 		if (customerDao.getEmail(customer.getEmail()) && customerDao.getPassword(customer.getPassword())

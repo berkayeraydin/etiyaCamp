@@ -23,7 +23,7 @@ public class Main {
 		customerManager.signUp(c3);
 		customerManager.signUp(c4);
 		customerManager.signUp(c1);
-		customerManager.signIn(c1);
+		customerManager.login(c1);
 	}
 
 }
