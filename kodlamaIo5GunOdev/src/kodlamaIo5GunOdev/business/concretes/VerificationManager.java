@@ -9,7 +9,7 @@ public class VerificationManager implements VerificationService{
 	ArrayList<String> verificatedEmails = new ArrayList<String>();
 	
 	@Override
-	public void sendToVerifyMail(String email) {
+	public void sendToVerifyEmail(String email) {
 		//DOGRULANAN MAILI DOGRULAMA LISTESINE EKLIYORUZ
 		verificatedEmails.add(email);
 		System.out.println(email + "  dogrulandi.");	
@@ -18,7 +18,7 @@ public class VerificationManager implements VerificationService{
 
 	@Override
 	//LINKE SIMILASYON
-	public void verifyMail(String email) {
+	public void verifyEmail(String email) {
 		System.out.println(email + " mailine dogrulama gönderildi.");
 		
 	}

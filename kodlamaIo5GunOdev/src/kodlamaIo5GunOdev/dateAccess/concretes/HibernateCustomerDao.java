@@ -19,12 +19,6 @@ public class HibernateCustomerDao implements CustomerDao {
 	}
 
 	@Override
-	public void remove(Customer customer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	// customers listesinde mustteri emaili bulma
 	public boolean getEmail(String email) {
 		for (Customer customer : customers) {

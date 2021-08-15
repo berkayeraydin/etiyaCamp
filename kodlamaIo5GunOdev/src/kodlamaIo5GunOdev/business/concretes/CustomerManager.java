@@ -9,12 +9,12 @@ import kodlamaIo5GunOdev.entities.concretes.Customer;
 public class CustomerManager implements CustomerService {
 
 	CustomerCheckService customerCheckService;
-	VerificationService mailVerificationService;
+	VerificationService verificationService;
 	CustomerDao customerDao;
 	
-	public CustomerManager(CustomerCheckService customerCheckService, VerificationService mailVerificationService,CustomerDao customerDao) {
+	public CustomerManager(CustomerCheckService customerCheckService, VerificationService verificationService,CustomerDao customerDao) {
 		this.customerCheckService = customerCheckService;
-		this.mailVerificationService = mailVerificationService;
+		this.verificationService = verificationService;
 		this.customerDao = customerDao;
 	}
 	
@@ -26,7 +26,7 @@ public class CustomerManager implements CustomerService {
 		if (customerCheckService.approval(customer) == true) {
 			System.out.println(customer.getFirstName() + " kullanicisi sisteme eklendi.");
 			//DOGRULAMA MESAJI
-			mailVerificationService.sendToVerifyMail(customer.getEmail());
+			verificationService.sendToVerifyEmail(customer.getEmail());
 			//DB EKLENDI
 			customerDao.add(customer);
 		}
@@ -37,11 +37,11 @@ public class CustomerManager implements CustomerService {
 	// GIRIS YAPMA
 	@Override
 	public void login(Customer customer) {
-		mailVerificationService.verifyMail(customer.getEmail());
+		verificationService.verifyEmail(customer.getEmail());
 		//CUSTOMERDAO DAKI LISTTEde EMAIL SIFRE 
 		if (customerDao.getEmail(customer.getEmail()) && customerDao.getPassword(customer.getPassword())
 				// DOGRULANMISMI DIYE KONTROL EDIYOR
-				&& mailVerificationService.checkVerifyAccount(customer.getEmail()) == true) {
+				&& verificationService.checkVerifyAccount(customer.getEmail()) == true) {
 			System.out.println("Basariyla giris yaptiniz.");
 			
 		} else {
