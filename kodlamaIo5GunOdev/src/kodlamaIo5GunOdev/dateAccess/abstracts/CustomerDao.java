@@ -1,7 +1,5 @@
 package kodlamaIo5GunOdev.dateAccess.abstracts;
 
-
-
 import kodlamaIo5GunOdev.entities.concretes.Customer;
 
 public interface CustomerDao {
