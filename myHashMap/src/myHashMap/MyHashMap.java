@@ -21,13 +21,6 @@ public class MyHashMap {
 		this.value = tempValue;
 	}
 	
-	// HashMap .clear temizleme islemidir
-	public void clear() {
-		// Referance
-		this.key = new String[0];
-		this.value = new String[0];
-	}
-	
 	public String[] getAllcountryCapitals() {
 		String[] array = new String[this.key.length];
 		for (int i = 0; i < this.key.length; i++) {

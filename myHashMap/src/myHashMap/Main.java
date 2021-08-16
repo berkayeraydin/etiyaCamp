@@ -17,6 +17,7 @@ public class Main {
 		// Key:Value
 		//eraydinAilesi.put("Berkay", 23);
 		//eraydinAilesi.put("Sena", 20);
+		//eraydinAilesi.remove("Berkay");
 		//System.out.println(countryCapital.get("Berkay"));
 		// KUMEYI ekrana yazdir
 		//System.out.println(eraydinAilesi);
@@ -24,8 +25,6 @@ public class Main {
 		for (String countryCapitals : countryCapital.getAllcountryCapitals()) {
 			System.out.println(countryCapitals);
 		}
-		
-		countryCapital.clear();
 		
 		//ANAHTAR ve -> DEGERINE ULASMA
 		//for(String i:eraydinAilesi.keySet()) {		
