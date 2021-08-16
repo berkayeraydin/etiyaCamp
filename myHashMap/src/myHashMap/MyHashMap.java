@@ -21,6 +21,7 @@ public class MyHashMap {
 		this.value = tempValue;
 	}
 	
+	// MyHashMap icindeki this.key ve this.value yi isleme sokuyoruz
 	public String[] getAllcountryCapitals() {
 		String[] array = new String[this.key.length];
 		for (int i = 0; i < this.key.length; i++) {
