@@ -3,22 +3,23 @@ package etiyaGame;
 public class Game {
 	
 	private int id;
+	private int categoryId;
 	private String gameName;
 	private double gamePrice;
 	
-	
-
 	@Override
 	public String toString() {
-		return "Game [id=" + id + ", gameName=" + gameName + ", gamePrice=" + gamePrice + "]";
+		return "Game [id=" + id + ", categoryId=" + categoryId + ", gameName=" + gameName + ", gamePrice=" + gamePrice
+				+ "]";
 	}
 
 	// constructors
-	Game (int id,String gameName, double gamePrice){
-		this.id=id;
-		this.gameName=gameName;
-		this.gamePrice=gamePrice;
-	}
+		Game (int id,int categoryId,String gameName, double gamePrice){
+			this.id=id;
+			this.categoryId=categoryId;
+			this.gameName=gameName;
+			this.gamePrice=gamePrice;
+		}
 	
 	public Game(){
 		
