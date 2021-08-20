@@ -3,7 +3,7 @@ export default class User{
     constructor(id,name,age){
 
         if(!id || !name || !age){
-            console.log("Nesne Geçersiz")
+            console.log("Kullanıcı Bilgileri Boş Bırakılamaz.")
         }
         //prototyping
         this.id=id;

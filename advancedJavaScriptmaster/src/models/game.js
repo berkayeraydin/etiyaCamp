@@ -4,7 +4,7 @@ export default class Game{
     constructor(id,name,unitPrice,minAge){
 
         if(!id || !name || !unitPrice || !minAge){
-            console.log("Nesne Geçersiz")
+            console.log("Oyun Bilgileri Boş Bırakılamaz.")
         }
         //prototyping
         this.id=id;

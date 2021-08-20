@@ -32,7 +32,7 @@ export default class GameService{
 
         if (indexToRemove===-1){
 
-            console.log("Böyle bir oyun yok")
+            console.log("Böyle bir oyun yok DB de yok.")
         }else{
 
             this.games.splice(indexToRemove,1);
