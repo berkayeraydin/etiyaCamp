@@ -53,9 +53,6 @@ let sellingService = new SellingService();
 sellingService.sell(user2,game1)
 sellingService.sell(user1,game1)
 
-sellingService.sellList()
-
-
 // console.log(productService.list())
 
 
