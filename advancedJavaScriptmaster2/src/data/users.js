@@ -1,0 +1,38 @@
+export let users = [
+    {
+        id:1,
+        firstName:"Gizem",
+        lastName:"Özgün",
+        age: 23,
+        creditCardNumber:"12345",
+        type:"customer",
+        email:"gizem@etiya"
+    },
+    {
+        id:2,
+        firstName:"İbrahim",
+        lastName:"Döş",
+        age:24,
+        creditCardNumber:"54321",
+        type:"employee",
+        email:"ibrahim@etiya.com"
+    },
+    {
+        id:3,
+        firstName:"Gülsüm",
+        lastName:"Ceylan",
+        age:24,
+        creditCardNumber:"56487",
+        type:"customer",
+        email:"gulsum@etiya.com"
+    },
+    {
+        id:4,
+        firstName:"Taha",
+        lastName:"Bayav",
+        age:-8,
+        creditCardNumber:"96854",
+        type:"customer",
+        email:"taha@etiya.com"
+    }
+]
