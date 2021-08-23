@@ -69,6 +69,6 @@ let gameService2 = new GameService2()
 
 gameService2.load()
 
-// gameService2.add({id:10,gameName:"VALORANT",unitPrice:60,minAge:20,gameType:"Fps"})
-//gameService2.add({id:10,gameName:"PUBG",unitPrice:60,minAge:20,gameType:"Fps"})
+//gameService2.add({id:10,gameName:"VALORANT",unitPrice:60,minAge:20,gameType:"Fps"})
+//gameService2.add({id:10,gameName:"VALORANT",unitPrice:60,minAge:20,gameType:"Fps"})
 

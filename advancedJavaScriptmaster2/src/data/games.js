@@ -33,5 +33,19 @@ export let games = [
         unitPrice: 100,
         minAge : 15,
         gameType : "Survivor"
+    },
+    {
+        id:6,
+        gameName : "ASTRONER",
+        unitPrice: 100,
+        minAge : 15,
+        gameType : "Survivor"
+    },
+    {
+        id:7,
+        gameName : "ZULA",
+        unitPrice: 100,
+        minAge : 15,
+        gameType : "Fps"
     }
 ]

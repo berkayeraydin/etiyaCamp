@@ -72,15 +72,12 @@ export default class GameService2 {
     }
     
     gameNameCheck(game) {
-        let hasErrors = false
         for(let i = 0 ; i<games.length;i++){
             if(game.gameName == games[i].gameName && games.indexOf(game) !=i){
                 this.gamesErrors.push("Bu oyun tekrar edildi : "+ games[i].gameName,games[i])
                 this.yedek.push(games[i])
                 games.splice(i,1)
-                hasErrors = true
             }
         }
-        return hasErrors
     }
 }
