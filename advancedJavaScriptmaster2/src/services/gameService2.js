@@ -12,14 +12,9 @@ export default class GameService2 {
     load() {
         for (let game of games) {
 
-            for(let i = 0 ; i<games.length;i++){
-                if(game.gameName == games[i].gameName && games.indexOf(game) !=i){
-                    this.gamesErrors.push("Bu oyun tekrar edildi : "+ games[i].gameName,games[i])
-                    this.yedek.push(games[i])
-                    games.splice(i,1)
-                }
-            }
-            if (this.validateGame(game) === false) {
+            this.gameNameCheck(game)
+
+            if (this.validateGame(game) === false ) {
                 if (game.gameType == "Strateji") {
                     this.gamesStrateji.push(game)
                 } else if (game.gameType == "Fps" ) {
