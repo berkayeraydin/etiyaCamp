@@ -26,11 +26,17 @@ export default class GameService2 {
                 }
             }
         }
+
+        for (const iterator of this.yedek) {
+            games.push(iterator)
+        }
+        
         console.log(this.gamesStrateji)
         console.log(this.gamesFps)
         console.log(this.gamesSurvivor)
         console.log(this.gamesErrors)
         console.log(this.yedek)
+        console.log(games)
     }
 
     add(game) {
@@ -73,7 +79,7 @@ export default class GameService2 {
     
     gameNameCheck(game) {
         for(let i = 0 ; i<games.length;i++){
-            if(game.gameName == games[i].gameName && games.indexOf(game) !=i){
+            if(game.gameName == games[i].gameName && games.indexOf(game) != i){
                 this.gamesErrors.push("Bu oyun tekrar edildi : "+ games[i].gameName,games[i])
                 this.yedek.push(games[i])
                 games.splice(i,1)
