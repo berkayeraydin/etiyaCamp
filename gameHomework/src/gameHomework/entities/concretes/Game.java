@@ -7,14 +7,17 @@ public class Game implements Entity {
 	private int id;
 	private String gameName;
 	private double gamePrice;
+	Campaing campaing;
+	private double campaignPrice;
 	
 	public Game() {
 		super();
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Game [id=" + id + ", gameName=" + gameName + ", gamePrice=" + gamePrice + "]";
+		return "Game [id=" + id + ", gameName=" + gameName + ", gamePrice=" + gamePrice + ", campaing=" + campaing
+				+ ", campaignPrice=" + campaignPrice + "]";
 	}
 
 	public Game(int id, String gameName, double gamePrice) {
@@ -22,6 +25,14 @@ public class Game implements Entity {
 		this.id = id;
 		this.gameName = gameName;
 		this.gamePrice = gamePrice;
+	}
+
+	public Game(int id, String gameName, double gamePrice,Campaing campaing) {
+		super();
+		this.id = id;
+		this.gameName = gameName;
+		this.gamePrice = gamePrice;
+		this.campaing = campaing;
 	}
 
 	public int getId() {
@@ -46,6 +57,19 @@ public class Game implements Entity {
 
 	public void setGamePrice(double gamePrice) {
 		this.gamePrice = gamePrice;
+	}
+
+	public Campaing getCampaing() {
+		return campaing;
+	}
+
+	public void setCampaing(Campaing campaing) {
+		this.campaing = campaing;
+	}
+
+	public double getCampaignPrice() {
+		this.campaignPrice = this.gamePrice - (this.gamePrice*this.getCampaing().getDiscount())/100;
+		return  campaignPrice;
 	}
 
 }

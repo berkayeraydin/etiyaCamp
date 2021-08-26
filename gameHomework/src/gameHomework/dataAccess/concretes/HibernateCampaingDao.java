@@ -8,7 +8,7 @@ public class HibernateCampaingDao implements CampaingDao {
 	@Override
 	// Campaing campaing
 	public void add(Campaing campaing) {
-		System.out.println( " hibarnate ile kampanya eklendi");
+		System.out.println( campaing.getCampaignName() +", hibarnateCampaingDao ile kampanya eklendi");
 		
 	}
 

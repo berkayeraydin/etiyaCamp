@@ -8,7 +8,9 @@ import gameHomework.entities.concretes.Selling;
 
 public interface SellingDao {
 
-	void add(Selling selling);
+	void campaingSellingAdd(Game game, Gamer gamer);
+	
+	void sellingAdd(Game game,Gamer gamer);
 	
 	ArrayList<Selling> list();
 	

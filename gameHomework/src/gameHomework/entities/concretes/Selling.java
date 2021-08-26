@@ -12,21 +12,18 @@ public class Selling implements Entity {
 	
 	public Selling() {
 		super();
-		
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Selling [id=" + id + ", gamer=" + gamer + ", game=" + game + ", campaing=" + campaing
-				+ ", CampaignPrice=" + CampaignPrice + "]";
+		return "Selling [gamer=" + gamer + ", game=" + game + "]";
 	}
 
-	public Selling(int id, Gamer gamer, Game game, Campaing campaing) {
+	public Selling( Gamer gamer, Game game) {
 		super();
-		this.id = id;
 		this.gamer = gamer;
 		this.game = game;
-		this.campaing = campaing;
+		
 	}
 
 	public int getId() {
@@ -63,14 +60,8 @@ public class Selling implements Entity {
 
 	public double getCampaignPrice() {
 		
-		double result;
-		result = ( this.game.getGamePrice() * this.campaing.getDiscount())/100;
-		this.CampaignPrice = this.game.getGamePrice() - result ;
-		
 		return this.CampaignPrice;
 	}
 
-
 	
-
 }

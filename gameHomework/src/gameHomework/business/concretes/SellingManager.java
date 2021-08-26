@@ -10,29 +10,33 @@ import gameHomework.entities.concretes.Game;
 import gameHomework.entities.concretes.Gamer;
 import gameHomework.entities.concretes.Selling;
 
+
 public class SellingManager implements SellingService {
 	
-	
 	HibernateSellingDao hibernateSellingDao;
-	
+
 	public SellingManager( HibernateSellingDao hibernateSellingDao) {
-		
-		
 		this.hibernateSellingDao = hibernateSellingDao;
 	}
 	
 	@Override
-	public void sales(Selling selling) {
+	public void campaingSales(Game game,Gamer gamer) {
 		
-		this.hibernateSellingDao.add(selling);
+		this.hibernateSellingDao.campaingSellingAdd(game,gamer);
 		
 	}
 	
 	@Override
-	public ArrayList<Selling> sellingList() {
-		
-		return this.hibernateSellingDao.list();
+	public void sales(Game game, Gamer gamer) {
+		this.hibernateSellingDao.sellingAdd(game, gamer);
 		
 	}
+
+	@Override
+	public ArrayList<Selling> sellingList() {
+		return this.hibernateSellingDao.list();
+	}
+
+	
 
 }

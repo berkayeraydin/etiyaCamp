@@ -10,7 +10,8 @@ import gameHomework.entities.concretes.Selling;
 public interface SellingService {
 	
 	
-	void sales(Selling selling);
+	void campaingSales(Game game, Gamer gamer);
+	void sales(Game game, Gamer gamer);
 	ArrayList<Selling> sellingList();
 	
 }

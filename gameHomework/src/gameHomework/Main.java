@@ -18,41 +18,36 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		Campaing campaing1 = new Campaing(1,"Yaz Indirimi",50);
+		
 		Gamer gamer1 = new Gamer("Berkay","ERAYDIN","12345678900","1998");
 		Gamer gamer2 = new Gamer("Serkan","ERAYDIN","12345678900","1998");
 		
-		GamerManager gamerManager = new GamerManager(new VerificationManager(),new HibernateGamerDao());
+		Game game1 = new Game(1,"CS",100,campaing1);
+		Game game2 = new Game(2,"PUBG",70,campaing1);
+		Game game3 = new Game(3,"VALORANT",10);
 		
+		GamerManager gamerManager = new GamerManager(new VerificationManager(),new HibernateGamerDao());
 		gamerManager.register(gamer1);
-		System.out.println("-------------");
 		gamerManager.remove(gamer1);
 		
-		Campaing campaing1 = new Campaing(1,"Yaz Indirimi",50);
-		
+		System.out.println("-------------");
 		CampaingManager campaingManager = new CampaingManager(new HibernateCampaingDao());
 		campaingManager.add(campaing1);
 		
-		Game game1 = new Game(1,"CS",100);
-		//Game game2 = new Game(1,"PUBG",70);
-		System.out.println();
-		System.out.println("------OYUN-------");
-		
+		System.out.println("------OYUN EKLEME-------");
 		GameManager gameManager = new GameManager(new HibernateGameDao());
 		gameManager.add(game1);
+		gameManager.add(game3);
 		
-		System.out.println();
 		System.out.println("------SATIS-------");
-		
-		Selling selling = new Selling(1,gamer1,game1,campaing1);
-		//Selling selling2 = new Selling(2,gamer2,game2,campaing1);
-		
 		SellingManager sellingManager = new SellingManager(new HibernateSellingDao());
+		sellingManager.campaingSales(game1,gamer1);
+		sellingManager.campaingSales(game2,gamer2);
+		sellingManager.sales(game3, gamer2);
 		
-		sellingManager.sales(selling);
-		//sellingManager.sales(selling2);
-		
-		for (Selling selling1 : sellingManager.sellingList()) {
-			System.out.println(selling1);
+		for (Selling selling : sellingManager.sellingList()) {
+			System.out.println(selling);
 		}
 		
 		
