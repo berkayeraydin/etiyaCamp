@@ -5,6 +5,7 @@ import etiyaGameProje.businness.abstracts.GameService;
 import etiyaGameProje.businness.abstracts.GamerService;
 import etiyaGameProje.businness.concretes.CalculateGameManager;
 import etiyaGameProje.businness.concretes.CampaingManager;
+import etiyaGameProje.businness.concretes.GameCheckManager;
 import etiyaGameProje.businness.concretes.GameManager;
 import etiyaGameProje.businness.concretes.GamePlayManager;
 import etiyaGameProje.businness.concretes.GamerManager;
@@ -41,7 +42,7 @@ public class Main {
 		gamerService.add(gamer);
 		
 		System.out.println("--------OYUN DB EKLEME----------");
-		GameService gameService = new GameManager(new HibernateGameDao());
+		GameService gameService = new GameManager(new HibernateGameDao(),new GameCheckManager());
 		gameService.add(game1);
 		
 		System.out.println("--------KAMPANYA DB EKLEME----------");

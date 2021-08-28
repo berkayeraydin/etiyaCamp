@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/etiyaGameProje/Main.java=UTF-8
+encoding//src/etiyaGameProje/businness/concretes/GameCheckManager.java=UTF-8
 encoding//src/etiyaGameProje/businness/concretes/KidsGameCalculator.java=UTF-8
 encoding//src/etiyaGameProje/businness/concretes/OldGameCalculator.java=UTF-8
 encoding//src/etiyaGameProje/businness/concretes/UserCheckManager.java=UTF-8

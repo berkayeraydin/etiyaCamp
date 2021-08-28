@@ -1,5 +1,6 @@
 package etiyaGameProje.businness.concretes;
 
+import etiyaGameProje.businness.abstracts.GameCheckService;
 import etiyaGameProje.businness.abstracts.GameService;
 import etiyaGameProje.businness.abstracts.GamerService;
 import etiyaGameProje.dataAccess.abstracts.GameDao;
@@ -9,15 +10,20 @@ import etiyaGameProje.entities.Gamer;
 public class GameManager implements GameService{
 
 	GameDao gameDao;
+	GameCheckService gameCheckService;
 	
-	public GameManager(GameDao gameDao) {
+	public GameManager(GameDao gameDao,GameCheckService gameCheckService) {
 		super();
 		this.gameDao = gameDao;
+		this.gameCheckService = gameCheckService;
 	}
 
 	@Override
 	public void add(Game game) {
-		this.gameDao.add(game);
+		if(gameCheckService.approval(game)==true) {
+			this.gameDao.add(game);
+		}
+		
 		
 	}
 

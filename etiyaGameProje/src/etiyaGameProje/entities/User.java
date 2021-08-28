@@ -2,29 +2,31 @@ package etiyaGameProje.entities;
 
 public class User {
 	
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", nationalIdentityNumber=" + nationalIdentityNumber + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", yearOfBirth=" + yearOfBirth + "]";
-	}
-
 	private int id;
 	private String nationalIdentityNumber;
 	private String firstName;
 	private String lastName;
 	private int yearOfBirth;
+	private String gender;
 	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", nationalIdentityNumber=" + nationalIdentityNumber + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", yearOfBirth=" + yearOfBirth + ", gender=" + gender + "]";
+	}
+
 	public User() {
 		super();
 	}
 	
-	public User(int id, String nationalIdentityNumber, String firstName, String lastName, int yearOfBirth) {
+	public User(int id, String nationalIdentityNumber, String firstName, String lastName, int yearOfBirth,String gender) {
 		super();
 		this.id = id;
 		this.nationalIdentityNumber = nationalIdentityNumber;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.yearOfBirth = yearOfBirth;
+		this.gender=gender;
 	}
 
 	public int getId() {
@@ -65,5 +67,13 @@ public class User {
 
 	public void setYearOfBirth(int yearOfBirth) {
 		this.yearOfBirth = yearOfBirth;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 }
