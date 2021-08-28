@@ -1,20 +1,18 @@
 package etiyaGameProje.dataAccess.concretes;
 
+import java.util.ArrayList;
+
 import etiyaGameProje.dataAccess.abstracts.GamerDao;
 import etiyaGameProje.entities.Gamer;
 
 public class HibernateGamerDao implements GamerDao {
 	
+	ArrayList<Gamer> gamer = new ArrayList<Gamer>();
+	
 	@Override
 	public void add(Gamer gamer) {
 		System.out.println(gamer.getFirstName() + " HibernateGamerDao ile Eklendi");
-		
-	}
-
-	@Override
-	public void list() {
-		System.out.println( " HibernateGamerDao ile Listelendi");
-		
+		this.gamer.add(gamer);
 	}
 
 	@Override
@@ -27,6 +25,13 @@ public class HibernateGamerDao implements GamerDao {
 	public void remove(Gamer gamer) {
 		System.out.println(gamer.getFirstName() + " HibernateGamerDao ile Silindi");
 		
+	}
+
+
+	@Override
+	public ArrayList<Gamer> list() {
+		
+		return gamer;
 	}
 	
 	

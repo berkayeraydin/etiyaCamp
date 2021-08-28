@@ -31,15 +31,20 @@ public class Main {
 		
 		Campaing campaing1 = new Campaing(1,"Yaz Indirimi",50);
 		
-		Gamer gamer = new Gamer(1,"234512311161","Engin","DEMIROG",1980,"Erkek");
-		Gamer gamer2 = new Gamer(1,"234512311161","Berkay","ERAYDIN",1920,"Erkek");
-		Gamer gamer3 = new Gamer(1,"234512311161","Sena","ERAYDIN",2009,"Kadin");
+		Gamer gamer = new Gamer(1,"234512311161","Engin","DEMIROG",1985,"Erkek");
+		Gamer gamer2 = new Gamer(2,"234512311161","Berkay","ERAYDIN",1920,"Erkek");
+		Gamer gamer3 = new Gamer(3,"234512311161","Sena","ERAYDIN",2009,"Kadin");
+		Gamer gamer4= new Gamer(4,"234512311161","Sena2","ERAYDIN",2009,"Kadin");
 		
 		Game game1 = new Game(1,"CS","FPS",50,100);
 		
 		System.out.println("--------KULLANICI KONTROLU VE DB EKLEME----------");
 		GamerService gamerService = new GamerManager(new MernisKpsServiceAdapter(),new UserCheckManager(),new HibernateGamerDao());
 		gamerService.add(gamer);
+		
+		for (Gamer gamerIndex : gamerService.gamerList()) {
+			System.out.println(gamerIndex);
+		}
 		
 		System.out.println("--------OYUN DB EKLEME----------");
 		GameService gameService = new GameManager(new HibernateGameDao(),new GameCheckManager());
@@ -67,10 +72,12 @@ public class Main {
 		GamePlayService gamePlayService  = new GamePlayManager(new ManGameCalculator());
 		GamePlayService gamePlayService2 = new GamePlayManager(new OldGameCalculator());
 		GamePlayService gamePlayService3 = new GamePlayManager(new OldGameCalculator());
-
+		GamePlayService gamePlayService4 = new GamePlayManager(new KidsGameCalculator());
+		
 		gamePlayService.play(gamer,game1);
 		gamePlayService2.play(gamer2,game1);
 		gamePlayService3.play(gamer3, game1);
+		gamePlayService4.play(gamer4, game1);
 		
 	}
 

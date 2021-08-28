@@ -10,6 +10,7 @@ public class GamePlayManager implements GamePlayService {
 	BaseCalculateGameService baseCalculateGameSercice;
 	
 	
+	
 	public GamePlayManager(BaseCalculateGameService baseCalculateGameSercice) {
 		super();
 		this.baseCalculateGameSercice = baseCalculateGameSercice;
@@ -18,7 +19,10 @@ public class GamePlayManager implements GamePlayService {
 	
 	@Override
 	public void play(Gamer gamer, Game game) {
+			
+		
 			this.baseCalculateGameSercice.calculate(gamer,game);
+			
 			
 	}
 

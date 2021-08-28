@@ -1,5 +1,7 @@
 package etiyaGameProje.businness.concretes;
 
+import java.util.ArrayList;
+
 import etiyaGameProje.businness.abstracts.BaseCalculateGameService;
 import etiyaGameProje.businness.abstracts.GamerService;
 import etiyaGameProje.businness.abstracts.UserCheckService;
@@ -41,6 +43,11 @@ public class GamerManager implements GamerService {
 	public void remove(Gamer gamer) {
 		this.gamerDao.remove(gamer);
 		
+	}
+
+	@Override
+	public ArrayList<Gamer> gamerList() {
+		return this.gamerDao.list();
 	}
 
 }

@@ -3,6 +3,11 @@ package etiyaGameProje.entities;
 public class Gamer extends User {
 	
 	
+	@Override
+	public String toString() {
+		return "Gamer [" + super.toString() +  "]";
+	}
+
 	public Gamer() {
 		
 	}

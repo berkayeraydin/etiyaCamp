@@ -1,5 +1,7 @@
 package etiyaGameProje.businness.concretes;
 
+import java.util.ArrayList;
+
 import etiyaGameProje.businness.abstracts.GameCheckService;
 import etiyaGameProje.businness.abstracts.GameService;
 import etiyaGameProje.businness.abstracts.GamerService;
@@ -40,9 +42,10 @@ public class GameManager implements GameService{
 	}
 
 	@Override
-	public void list() {
-		this.gameDao.list();
+	public ArrayList<Game> gameList() {
 		
+		return this.gameDao.list();
 	}
+
 
 }
