@@ -64,7 +64,7 @@ public class Main {
 		for (Selling sellingIndex : sellingManager.sellingList()) {
 			System.out.println(sellingIndex);
 		}
-		
+		//https://stackoverflow.com/questions/31715958/android-eclipse-localdate-cannot-be-resolved-to-a-type
 		System.out.println();
 		System.out.println("-------OYUN OYNATMA-----------");
 		GamePlayService gamePlayService  = new GamePlayManager(new CalculateGameManager());
