@@ -1,12 +1,14 @@
 package etiyaGameProje.entities;
 
+import java.time.LocalDate;
+
 public class User {
 	
 	private int id;
 	private String nationalIdentityNumber;
 	private String firstName;
 	private String lastName;
-	private int yearOfBirth;
+	private LocalDate yearOfBirth;
 	private String gender;
 	
 	@Override
@@ -19,7 +21,7 @@ public class User {
 		super();
 	}
 	
-	public User(int id, String nationalIdentityNumber, String firstName, String lastName, int yearOfBirth,String gender) {
+	public User(int id, String nationalIdentityNumber, String firstName, String lastName, LocalDate yearOfBirth,String gender) {
 		super();
 		this.id = id;
 		this.nationalIdentityNumber = nationalIdentityNumber;
@@ -61,11 +63,11 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public int getYearOfBirth() {
+	public LocalDate getYearOfBirth() {
 		return yearOfBirth;
 	}
 
-	public void setYearOfBirth(int yearOfBirth) {
+	public void setYearOfBirth(LocalDate yearOfBirth) {
 		this.yearOfBirth = yearOfBirth;
 	}
 

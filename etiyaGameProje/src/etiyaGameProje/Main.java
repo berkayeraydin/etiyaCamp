@@ -1,6 +1,7 @@
 package etiyaGameProje;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 import etiyaGameProje.businness.abstracts.GamePlayService;
 import etiyaGameProje.businness.abstracts.GameService;
@@ -29,9 +30,9 @@ public class Main {
 		
 		Campaing campaing1 = new Campaing(1,"Yaz Indirimi",50);
 		
-		Gamer gamer = new Gamer(1,"234512311161","Engin","DEMIROG",1985,"Erkek");
-		Gamer gamer2 = new Gamer(2,"234512311161","Berkay","ERAYDIN",1920,"Erkek");
-		Gamer gamer3 = new Gamer(3,"234512311161","Sena","ERAYDIN",2009,"Kadin");
+		Gamer gamer = new Gamer(1,"234512311161","Engin","DEMIROG",LocalDate.of(1985, 8, 29),"Erkek");
+		Gamer gamer2 = new Gamer(2,"234512311161","Berkay","ERAYDIN",LocalDate.of(1920, 10, 27),"Erkek");
+		Gamer gamer3 = new Gamer(3,"234512311161","Sena","ERAYDIN",LocalDate.of(2009, 3, 3),"Kadin");
 		
 		Game game1 = new Game(1,"CS","FPS",50,100);
 		
@@ -73,6 +74,12 @@ public class Main {
 		gamePlayService.play(gamer,game1);
 		gamePlayService2.play(gamer2,game1);
 		gamePlayService3.play(gamer3, game1);
+		
+		LocalDate today = LocalDate.now();
+		Period ageDifference = Period.between(today, gamer.getYearOfBirth());
+		System.out.println();
+		System.out.println(ageDifference);
+		System.out.println(ageDifference.getYears());
 
 	
 	}
