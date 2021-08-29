@@ -1,5 +1,7 @@
 package etiyaGameProje;
 
+import java.time.LocalDate;
+
 import etiyaGameProje.businness.abstracts.GamePlayService;
 import etiyaGameProje.businness.abstracts.GameService;
 import etiyaGameProje.businness.abstracts.GamerService;
@@ -9,12 +11,8 @@ import etiyaGameProje.businness.concretes.GameCheckManager;
 import etiyaGameProje.businness.concretes.GameManager;
 import etiyaGameProje.businness.concretes.GamePlayManager;
 import etiyaGameProje.businness.concretes.GamerManager;
-import etiyaGameProje.businness.concretes.KidsGameCalculator;
-import etiyaGameProje.businness.concretes.ManGameCalculator;
-import etiyaGameProje.businness.concretes.OldGameCalculator;
 import etiyaGameProje.businness.concretes.SellingManager;
 import etiyaGameProje.businness.concretes.UserCheckManager;
-import etiyaGameProje.businness.concretes.WomenGameCalculator;
 import etiyaGameProje.core.MernisKpsServiceAdapter;
 import etiyaGameProje.dataAccess.concretes.HibernateCampaingDao;
 import etiyaGameProje.dataAccess.concretes.HibernateGameDao;
@@ -34,7 +32,6 @@ public class Main {
 		Gamer gamer = new Gamer(1,"234512311161","Engin","DEMIROG",1985,"Erkek");
 		Gamer gamer2 = new Gamer(2,"234512311161","Berkay","ERAYDIN",1920,"Erkek");
 		Gamer gamer3 = new Gamer(3,"234512311161","Sena","ERAYDIN",2009,"Kadin");
-		Gamer gamer4= new Gamer(4,"234512311161","Sena2","ERAYDIN",2009,"Kadin");
 		
 		Game game1 = new Game(1,"CS","FPS",50,100);
 		
@@ -69,16 +66,14 @@ public class Main {
 		
 		System.out.println();
 		System.out.println("-------OYUN OYNATMA-----------");
-		GamePlayService gamePlayService  = new GamePlayManager(new ManGameCalculator());
-		GamePlayService gamePlayService2 = new GamePlayManager(new OldGameCalculator());
-		GamePlayService gamePlayService3 = new GamePlayManager(new OldGameCalculator());
-		GamePlayService gamePlayService4 = new GamePlayManager(new KidsGameCalculator());
+		GamePlayService gamePlayService  = new GamePlayManager(new CalculateGameManager());
+		GamePlayService gamePlayService2 = new GamePlayManager(new CalculateGameManager());
+		GamePlayService gamePlayService3 = new GamePlayManager(new CalculateGameManager());
 		
 		gamePlayService.play(gamer,game1);
 		gamePlayService2.play(gamer2,game1);
 		gamePlayService3.play(gamer3, game1);
-		gamePlayService4.play(gamer4, game1);
-		
-	}
 
+	
+	}
 }

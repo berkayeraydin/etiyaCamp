@@ -20,12 +20,7 @@ public class GamePlayManager implements GamePlayService {
 	@Override
 	public void play(Gamer gamer, Game game) {
 			
-		
 			this.baseCalculateGameSercice.calculate(gamer,game);
-			
-			
+				
 	}
-
-	
-
 }
