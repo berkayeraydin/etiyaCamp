@@ -74,13 +74,6 @@ public class Main {
 		gamePlayService.play(gamer,game1);
 		gamePlayService2.play(gamer2,game1);
 		gamePlayService3.play(gamer3, game1);
-		
-		LocalDate today = LocalDate.now();
-		Period ageDifference = Period.between(today, gamer.getYearOfBirth());
-		System.out.println();
-		System.out.println(ageDifference);
-		System.out.println(ageDifference.getYears());
-
 	
 	}
 }
