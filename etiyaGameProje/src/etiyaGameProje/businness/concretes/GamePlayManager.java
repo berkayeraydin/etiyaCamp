@@ -7,9 +7,8 @@ import etiyaGameProje.entities.Gamer;
 
 public class GamePlayManager implements GamePlayService {
 	
+	
 	BaseCalculateGameService baseCalculateGameSercice;
-	
-	
 	
 	public GamePlayManager(BaseCalculateGameService baseCalculateGameSercice) {
 		super();

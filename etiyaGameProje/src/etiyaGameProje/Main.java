@@ -6,14 +6,17 @@ import java.time.Period;
 import etiyaGameProje.businness.abstracts.GamePlayService;
 import etiyaGameProje.businness.abstracts.GameService;
 import etiyaGameProje.businness.abstracts.GamerService;
-import etiyaGameProje.businness.concretes.CalculateGameManager;
 import etiyaGameProje.businness.concretes.CampaingManager;
 import etiyaGameProje.businness.concretes.GameCheckManager;
 import etiyaGameProje.businness.concretes.GameManager;
 import etiyaGameProje.businness.concretes.GamePlayManager;
 import etiyaGameProje.businness.concretes.GamerManager;
+import etiyaGameProje.businness.concretes.KidsGameCalculator;
+import etiyaGameProje.businness.concretes.ManGameCalculator;
+import etiyaGameProje.businness.concretes.OldGameCalculator;
 import etiyaGameProje.businness.concretes.SellingManager;
 import etiyaGameProje.businness.concretes.UserCheckManager;
+import etiyaGameProje.businness.concretes.WomenGameCalculator;
 import etiyaGameProje.core.MernisKpsServiceAdapter;
 import etiyaGameProje.dataAccess.concretes.HibernateCampaingDao;
 import etiyaGameProje.dataAccess.concretes.HibernateGameDao;
@@ -67,9 +70,11 @@ public class Main {
 		//https://stackoverflow.com/questions/31715958/android-eclipse-localdate-cannot-be-resolved-to-a-type
 		System.out.println();
 		System.out.println("-------OYUN OYNATMA-----------");
-		GamePlayService gamePlayService  = new GamePlayManager(new CalculateGameManager());
-		GamePlayService gamePlayService2 = new GamePlayManager(new CalculateGameManager());
-		GamePlayService gamePlayService3 = new GamePlayManager(new CalculateGameManager());
+		
+		// BURADA API DE YAZILACAK IF KOSULLARI YAZDIGIMIZI VAR SAYALIM
+		GamePlayService gamePlayService  = new GamePlayManager(new ManGameCalculator());
+		GamePlayService gamePlayService2 = new GamePlayManager(new OldGameCalculator());
+		GamePlayService gamePlayService3 = new GamePlayManager(new KidsGameCalculator());
 		
 		gamePlayService.play(gamer,game1);
 		gamePlayService2.play(gamer2,game1);

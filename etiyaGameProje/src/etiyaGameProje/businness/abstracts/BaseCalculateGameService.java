@@ -5,5 +5,5 @@ import etiyaGameProje.entities.Gamer;
 
 public interface BaseCalculateGameService {
 	
-	void calculate(Gamer gamer, Game game) ;
+	double calculate(Gamer gamer, Game game) ;
 }
