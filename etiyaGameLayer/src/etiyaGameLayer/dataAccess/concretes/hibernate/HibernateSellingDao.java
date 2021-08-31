@@ -12,8 +12,7 @@ public class HibernateSellingDao implements SellingDao {
 	
 	@Override
 	public List<Selling> getAll() {
-		System.out.println();
-		System.out.println("Hibernate ile listelendi : ");
+		System.out.println("HibernateSellingDao ile listelendi : ");
 		return this.sellings;
 	}
 

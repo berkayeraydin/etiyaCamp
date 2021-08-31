@@ -28,7 +28,7 @@ public class SellingManager implements SellingService {
 	}
 
 	@Override
-	public List<Selling> sellingList() {
+	public List<Selling> getAll() {
 		// TODO Auto-generated method stub
 		return this.sellingDao.getAll();
 	}

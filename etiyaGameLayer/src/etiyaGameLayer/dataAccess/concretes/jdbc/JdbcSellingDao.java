@@ -12,8 +12,7 @@ List<Selling> sellings = new ArrayList<Selling>();
 	
 	@Override
 	public List<Selling> getAll() {
-		System.out.println();
-		System.out.println("Hibernate ile listelendi : ");
+		System.out.println("JdbcSellingDao ile listelendi : ");
 		return this.sellings;
 	}
 

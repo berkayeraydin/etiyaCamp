@@ -61,10 +61,12 @@ public class Main {
 		System.out.println("----------SATIS ISLEMLERI----------------");
 		Selling selling = new Selling(1,gamer1,game1,campaing1);
 		Selling selling2 = new Selling(2,gamer2,game1);
-		SellingManager sellingManager = new SellingManager(new HibernateSellingDao());
-		SellingManager sellingManager2 = new SellingManager(new JdbcSellingDao());
+		SellingManager sellingManager = new SellingManager(new JdbcSellingDao());
 		sellingManager.campaingSales(selling);
-		sellingManager2.sales(selling2);
+		sellingManager.sales(selling2);
+		for (Selling sellingIndex : sellingManager.getAll()) {
+			System.out.println(sellingIndex);
+		}
 		
 		System.out.println();
 		System.out.println("-------OYUN OYNATMA PUAN----------");

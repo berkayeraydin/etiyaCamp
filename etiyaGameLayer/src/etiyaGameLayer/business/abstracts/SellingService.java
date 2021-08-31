@@ -8,5 +8,5 @@ public interface SellingService {
 	
 	void campaingSales(Selling selling);
 	void sales(Selling selling);
-	List<Selling> sellingList();
+	List<Selling> getAll();
 }	
