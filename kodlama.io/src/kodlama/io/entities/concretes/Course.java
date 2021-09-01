@@ -7,18 +7,20 @@ public class Course {
 	private String name;
 	private String img;
 	private Instructor instructor;
+	private Category category;
 
 	public Course() {
 		super();
 	}
 	
-	public Course(int id,int categoryId, String name, String img, Instructor instructor) {
+	public Course(int id,int categoryId, String name, String img, Instructor instructor,Category category) {
 		super();
 		this.id = id;
 		this.categoryId = categoryId;
 		this.name = name;
 		this.img = img;
 		this.instructor = instructor;
+		this.category = category;
 	}
 	
 	public int getId() {
@@ -56,11 +58,21 @@ public class Course {
 		this.instructor = instructor;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
 		return "Course [id=" + id + ", categoryId=" + categoryId + ", name=" + name + ", img=" + img + ", instructor="
-				+ instructor + "]";
+				+ instructor + ", category=" + category + "]";
 	}
+
+
 	
 	
 }

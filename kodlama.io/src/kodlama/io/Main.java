@@ -20,7 +20,7 @@ public class Main {
 		
 		System.out.println("------ Instructor Transactions -------");
 		
-		Instructor instructor = new Instructor(1,1,"Engin","DEMIROG","engin@gmail.com","https://www.filepicker.io/api/file/GsqiGFGCRmuBuel0qqF3");
+		Instructor instructor = new Instructor(1,1,"Engin","DEMIROG","engin@gmail.com","engin.jpg");
 		
 		InstructorService instructorService = new InstructorManager(new HibernateInstructorDao());
 		instructorService.add(instructor);
@@ -30,14 +30,29 @@ public class Main {
 		}
 		
 		System.out.println();
+		System.out.println("------ Category Transactions -------");
+		
+		Category category1 = new Category(1,"Programlama");
+		Category category2 = new Category(2,"SQL");
+		
+		CategoryService categoryService = new CategoryManager(new HibernateCategoryDao());
+		categoryService.add(category1);
+		categoryService.add(category2);
+
+		System.out.print(categoryService.getAll());
+		
+		System.out.println();
 		System.out.println("------ Course Transactions -------");
 		
 		Course course1 = new Course(1,1,"Yazılım Geliştirici Yetiştirme Kampı (C# + ANGULAR)"
-				,"https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/Zk7d1MdoSJ6cEShVbfd0",instructor);
+				,"course1.jpg"
+				,instructor,category1);
 		Course course2 = new Course(2,1,"Yazılım Geliştirici Yetiştirme Kampı (JAVA + REACT)"
-				,"https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/qi4s19xSKCmtaaRUqUFI",instructor);
-		Course course3 = new Course(3,1,"Programlamaya Giriş için Temel Kurs"
-				,"https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/BBLmG3XFTtm8XBTrzg4v",instructor);
+				,"course2.jpg"
+				,instructor,category1);
+		Course course3 = new Course(3,2,"Programlamaya Giriş için Temel Kurs"
+				,"course3.jpg"
+				,instructor,category2);
 		
 		CourseService courseService = new CourseManager(new HibernateCourseDao());
 		courseService.add(course1);
@@ -47,6 +62,7 @@ public class Main {
 		for (Course courseIndex : courseService.getAll()) {
 			System.out.println(courseIndex);
 		}
+		
 		System.out.println();
 		System.out.println("------ Isme Gore Arama -------");
 		courseService.search("Engin");
@@ -54,24 +70,7 @@ public class Main {
 		courseService.search("JAVA");
 		courseService.search("Prog");
 		
-		
-		System.out.println();
-		System.out.println("------ Category Transactions -------");
-		
-		Category category1 = new Category(1,"Programlama",course1);
-		Category category2 = new Category(1,"Programlama",course2);
-		Category category3 = new Category(1,"Programlama",course3);
-		
-		CategoryService categoryService = new CategoryManager(new HibernateCategoryDao());
-		categoryService.add(category1);
-		categoryService.add(category2);
-		categoryService.add(category3);
-		
-		for (Category categoryIndex : categoryService.getAll()) {
-			System.out.println(categoryIndex);
-		}
-		System.out.println("-------- Uzun Hali -------");
-		System.out.print(categoryService.getAll());
+	
 
 	}
 
