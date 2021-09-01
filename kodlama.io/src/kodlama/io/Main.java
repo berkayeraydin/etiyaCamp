@@ -52,6 +52,7 @@ public class Main {
 		courseService.search("Engin");
 		System.out.println("---------------");
 		courseService.search("JAVA");
+		courseService.search("Prog");
 		
 		
 		System.out.println();
@@ -59,7 +60,7 @@ public class Main {
 		
 		Category category1 = new Category(1,"Programlama",course1);
 		Category category2 = new Category(1,"Programlama",course2);
-		Category category3 = new Category(2,"Programlama",course3);
+		Category category3 = new Category(1,"Programlama",course3);
 		
 		CategoryService categoryService = new CategoryManager(new HibernateCategoryDao());
 		categoryService.add(category1);
