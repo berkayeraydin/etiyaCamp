@@ -39,7 +39,7 @@ public class Main {
 		categoryService.add(category1);
 		categoryService.add(category2);
 
-		System.out.print(categoryService.getAll());
+		System.out.println(categoryService.getAll());
 		
 		System.out.println();
 		System.out.println("------ Course Transactions -------");
@@ -64,14 +64,19 @@ public class Main {
 		}
 		
 		System.out.println();
-		System.out.println("------ Isme Gore Arama -------");
+		System.out.println("------ Search By Name -------");
 		courseService.search("Engin");
 		System.out.println("---------------");
 		courseService.search("JAVA");
 		courseService.search("Prog");
 		
+		System.out.println();
+		System.out.println("------ By Category Filtering -------");
+		
+		for (Course courseIndex : courseService.selectedFilterByCategory(1)) {
+			System.out.println(courseIndex);
+		}
 	
-
 	}
 
 }

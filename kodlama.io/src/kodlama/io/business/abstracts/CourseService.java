@@ -9,4 +9,5 @@ public interface CourseService {
 	List<Course> getAll();
 	void add(Course course);
 	void search(String string);
+	List<Course> selectedFilterByCategory(int categoryId);
 }

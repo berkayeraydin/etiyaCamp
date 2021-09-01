@@ -38,4 +38,15 @@ public class HibernateCourseDao implements CourseDao {
 		this.courses.remove(entity);
 	}
 
+	@Override
+	public List<Course> selectedFilterByCategory(int categoryId) {
+		List<Course> matchedCourseds = new ArrayList<Course>();
+		for (Course course : this.courses) {
+			if(course.getCategoryId() == categoryId) {
+				matchedCourseds.add(course);
+			}
+		}
+		return matchedCourseds;
+	}
+
 }

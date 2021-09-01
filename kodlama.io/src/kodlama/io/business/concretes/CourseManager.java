@@ -35,4 +35,10 @@ public class CourseManager implements CourseService{
 	
 	}
 
+	@Override
+	public List<Course> selectedFilterByCategory(int categoryId) {
+		
+		return this.courseDao.selectedFilterByCategory(categoryId);
+	}
+
 }
