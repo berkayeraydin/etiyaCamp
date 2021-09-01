@@ -36,7 +36,7 @@ public class Main {
 				,"https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/Zk7d1MdoSJ6cEShVbfd0",instructor);
 		Course course2 = new Course(2,1,"Yazılım Geliştirici Yetiştirme Kampı (JAVA + REACT)"
 				,"https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/qi4s19xSKCmtaaRUqUFI",instructor);
-		Course course3 = new Course(3,2,"Programlamaya Giriş için Temel Kurs"
+		Course course3 = new Course(3,1,"Programlamaya Giriş için Temel Kurs"
 				,"https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/BBLmG3XFTtm8XBTrzg4v",instructor);
 		
 		CourseService courseService = new CourseManager(new HibernateCourseDao());
