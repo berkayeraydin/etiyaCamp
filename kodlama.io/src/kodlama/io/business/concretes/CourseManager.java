@@ -28,7 +28,7 @@ public class CourseManager implements CourseService{
 	@Override
 	public void search(String string) {
 		for (Course courseIndex : this.courseDao.getAll()) {
-			if(courseIndex.getName() == string || courseIndex.getInstructor().getFirstName() == string) {
+			if(courseIndex.getName().contains(string) || courseIndex.getInstructor().getFirstName().contains(string)) {
 				System.out.println(string + " aramasinin sonucu cikan kurslar " + courseIndex.getName());
 			}
 		}

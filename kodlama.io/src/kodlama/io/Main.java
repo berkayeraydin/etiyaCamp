@@ -50,6 +50,8 @@ public class Main {
 		System.out.println();
 		System.out.println("------ Isme Gore Arama -------");
 		courseService.search("Engin");
+		System.out.println("---------------");
+		courseService.search("JAVA");
 		
 		
 		System.out.println();
