@@ -35,7 +35,7 @@ public class EmployerManager implements EmployerService{
 	public Result add(Employer employer) {
 		if(approval(employer)== false) {
 			return  new ErrorResult("Employer Eklenemedi. Bos Birakamazsiniz. ");
-		}else if(checkEmailVerify(employer) == false) {
+		}else if(checkEmailVerify(employer) == true) {
 			return  new ErrorResult("Employer Eklenemedi. Email Kayitli. ");
 		}
 		this.employerDao.save(employer);
@@ -58,7 +58,7 @@ public class EmployerManager implements EmployerService{
 	}
 	
 	public boolean checkCompanyMail(Employer employer) {
-		if(employer.getCompanyMail().isEmpty()) {
+		if(employer.getEmail().isEmpty()) {
 			return false;
 		}
 		return true;

@@ -37,10 +37,6 @@ public class Employer extends User{
 	private String webAdress;
 	
 	@NotNull
-	@Column(name = "company_mail")
-	private String companyMail;
-	
-	@NotNull
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	

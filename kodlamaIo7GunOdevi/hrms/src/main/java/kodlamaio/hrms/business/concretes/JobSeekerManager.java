@@ -108,10 +108,10 @@ public class JobSeekerManager implements JobSeekerService {
 		List<JobSeeker> jobSeekers = this.jobSeekerDao.findAll();
 		for (JobSeeker jobSeekerIndex : jobSeekers) {
 			if ( jobSeeker.getEmail() == jobSeekerIndex.getEmail() || jobSeeker.getIdentitiyNumber()== jobSeekerIndex.getIdentitiyNumber()) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	
