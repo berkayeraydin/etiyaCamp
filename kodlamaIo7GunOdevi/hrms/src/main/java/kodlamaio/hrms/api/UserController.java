@@ -12,7 +12,6 @@ import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.abstracts.User;
-
 @RestController
 @RequestMapping("/api/user")
 public class UserController {

@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
@@ -21,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "job_seekers")
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobSeeker extends User {
+public class JobSeeker extends User{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,4 +45,5 @@ public class JobSeeker extends User {
 	@NotNull
 	@Column(name = "birth_date")
 	private String birthDate;
+
 }

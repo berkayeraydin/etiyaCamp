@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "employers")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employer extends User{
+public class Employer extends User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
