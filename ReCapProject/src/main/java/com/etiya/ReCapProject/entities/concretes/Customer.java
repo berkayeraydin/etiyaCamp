@@ -8,10 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.etiya.ReCapProject.core.entities.concretes.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -19,49 +20,32 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cars")
+@Entity
+@Table(name = "customers")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","rentals"})
-public class Car {
+public class Customer {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "car_id")
-	private int carId;
+	@Column(name = "customer_id")
+	private int customerId;
 	
-	@Column(name = "car_name")
-	private String carName;
+	//@Column(name = "user_id")
+	//private String userID;
 	
-	//@Column(name ="brand_id")
-	//private int brandId; 
+	@Column(name = "campany_name")
+	private String companyName;
 	
-	//@Column(name ="color_id")
-	//private int colorId; 
-	
-	@Column(name ="model_year")
-	private String modelYear; 
-	
-	@Column(name ="daily_price")
-	private double dailyPrice; 
-	
-	@Column(name ="descripton")
-	private String descripton; 
-	
-	@ManyToOne
-	@JoinColumn(name = "brand_id")
-	private Brand brand;
-	
-	@ManyToOne
-	@JoinColumn(name = "color_id")
-	private Color color;
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 	
 	@JsonIgnore
-	// ayni arac birden fazla kiralanabilir
-	@OneToMany(mappedBy="car")
+	@OneToMany(mappedBy = "customer")
 	private List<Rental> rental;
 	
-	
+
 }
