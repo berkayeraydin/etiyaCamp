@@ -63,14 +63,19 @@ public class RentalManager implements RentalService {
 		return new SuccessDataResult<Rental>(this.rentalDao.getById(rentalId), "Id e gore Listelendi.");
 	}
 	
+	
 	// Genel core da is olustur boolean degil Result don
 	public Result checkCarIsReturned(int carId) {
-		for (Rental rental : this.rentalDao.getByCar_CarId(carId)) {
-			if(rental.getReturnDate() == null ) {
-				// araba teslim edilmemiş. teslim tarihi null dur.
-				return new ErrorResult("Teslim Tarihi yoktur. Teslim edilmemistir. Arac Kiralanamaz.");
+		List<Rental> rentals = this.rentalDao.getByCar_CarId(carId);
+		if ( rentals != null) {
+			for (Rental rental : this.rentalDao.getByCar_CarId(carId)) {
+				if(rental.getReturnDate() == null ) {
+					// araba teslim edilmemiş. teslim tarihi null dur.
+					return new ErrorResult("Teslim Tarihi yoktur. Teslim edilmemistir. Arac Kiralanamaz.");
+				}
 			}
 		}
+		
 		return new SuccessResult();
 	}
 	
