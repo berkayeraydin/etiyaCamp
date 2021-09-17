@@ -5,6 +5,7 @@ import java.util.List;
 import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Customer;
+import com.etiya.ReCapProject.entities.requests.CreateCustomerRequest;
 
 public interface CustomerService {
 	
@@ -12,9 +13,9 @@ public interface CustomerService {
 	
 	DataResult<Customer> getById(int colorId);
 	
-	Result add(Customer customer);
+	Result add(CreateCustomerRequest createCustomerRequest);
 	
-	Result update(Customer customer);
+	Result update(CreateCustomerRequest createCustomerRequest);
 	
-	Result delete(Customer customer);
+	Result delete(int customerId);
 }

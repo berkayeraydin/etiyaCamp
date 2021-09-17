@@ -38,8 +38,11 @@ public class Rental {
 	@Column(name = "rent_date")
 	private Date rentDate;
 	
-	@Column(name = "last_name") //duzelt
+	@Column(name = "last_name") //duzelt tablo ismi return_date olacak
 	private Date returnDate;
+	
+	@Column(name = "is_car_returned",columnDefinition = "boolean default false") 
+	private boolean isCarReturned;
 	
 	@ManyToOne
 	@JoinColumn(name = "customer_id")

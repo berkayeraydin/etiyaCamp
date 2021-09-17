@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.etiya.ReCapProject.core.entities.concretes.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -41,7 +40,7 @@ public class Customer {
 	
 	@OneToOne
 	@JoinColumn(name = "user_id")
-	private User user;
+	private ApplicationUser applicationUser;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "customer")

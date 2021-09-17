@@ -5,6 +5,7 @@ import java.util.List;
 import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Color;
+import com.etiya.ReCapProject.entities.requests.CreateColorRequest;
 
 public interface ColorService {
 	
@@ -12,10 +13,10 @@ public interface ColorService {
 	
 	DataResult<Color> getById(int colorId);
 	
-	Result add(Color color);
+	Result add(CreateColorRequest createColorRequest);
 	
-	Result update(Color color);
+	Result update(CreateColorRequest createColorRequest);
 	
-	Result delete(Color color);
+	Result delete(int colorId);
 
 }

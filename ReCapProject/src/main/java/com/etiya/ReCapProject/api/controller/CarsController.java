@@ -14,6 +14,7 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Car;
 import com.etiya.ReCapProject.entities.dtos.CarDetailDto;
+import com.etiya.ReCapProject.entities.requests.CreateCarRequest;
 
 @RestController
 @RequestMapping("/api/cars")
@@ -40,22 +41,22 @@ public class CarsController {
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody Car car){
+	public Result add(@RequestBody CreateCarRequest createCarRequest){
 		
-		return  this.carService.add(car);
+		return  this.carService.add(createCarRequest);
 		
 	}
 	
 	@PostMapping("/update")
-	public Result update(@RequestBody Car car){
+	public Result update(@RequestBody CreateCarRequest createCarRequest){
 		
-		return this.carService.update(car);
+		return this.carService.update(createCarRequest);
 	}
 	
 	@PostMapping("/delete")
-	public Result delete(Car car){
+	public Result delete(int carId){
 		
-		return  this.carService.delete(car);
+		return  this.carService.delete(carId);
 	}
 	
 	@GetMapping("/getCarWithBrandAndColorDetails")

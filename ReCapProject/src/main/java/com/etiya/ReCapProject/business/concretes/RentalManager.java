@@ -2,10 +2,14 @@ package com.etiya.ReCapProject.business.concretes;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.etiya.ReCapProject.business.abstracts.RentalService;
+import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.ErrorResult;
 import com.etiya.ReCapProject.core.results.Result;
@@ -13,7 +17,10 @@ import com.etiya.ReCapProject.core.results.SuccessDataResult;
 import com.etiya.ReCapProject.core.results.SuccessResult;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinnesRules;
 import com.etiya.ReCapProject.dataAccess.abstracts.RentalDao;
+import com.etiya.ReCapProject.entities.concretes.Car;
+import com.etiya.ReCapProject.entities.concretes.Customer;
 import com.etiya.ReCapProject.entities.concretes.Rental;
+import com.etiya.ReCapProject.entities.requests.CreateRentalRequest;
 
 @Service
 public class RentalManager implements RentalService {
@@ -29,52 +36,76 @@ public class RentalManager implements RentalService {
 	@Override
 	public DataResult<List<Rental>> getAll() {
 		
-		return new SuccessDataResult<List<Rental>>(this.rentalDao.findAll(), "Basariyla Listelendi.");
+		return new SuccessDataResult<List<Rental>>(this.rentalDao.findAll(), Messages.RentalsListed);
 	}
 
 	@Override
-	public Result add(Rental rental) {
+	public Result add(@Valid @RequestBody CreateRentalRequest createRentalRequest) {
 		
-		var result = BusinnesRules.run(checkCarIsReturned(rental.getCar().getCarId()));
+		var result = BusinnesRules.run(checkCarIsReturned());
 				
 		if (result != null) {
 			return result;
 		}
 		
+		Car car = new Car();
+		car.setCarId(createRentalRequest.getCarId());
+		
+		Customer customer = new Customer();
+		customer.setCustomerId(createRentalRequest.getCustomerId());
+		
+		Rental rental = new Rental();
+		rental.setRentDate(createRentalRequest.getRentDate());
+		rental.setReturnDate(createRentalRequest.getReturnDate());
+		
+		rental.setCar(car);
+		rental.setCustomer(customer);
+		
 		
 		this.rentalDao.save(rental);
-		return new SuccessResult("Basariyla Eklendi.");
+		return new SuccessResult(Messages.RentalAdded);
 	}
 
 	@Override
-	public Result update(Rental rental) {
+	public Result update(@Valid @RequestBody CreateRentalRequest createRentalRequest) {
+		
+		Car car = new Car();
+		car.setCarId(createRentalRequest.getCarId());
+		
+		Customer customer = new Customer();
+		customer.setCustomerId(createRentalRequest.getCustomerId());
+		
+		Rental rental = new Rental();
+		rental.setRentDate(createRentalRequest.getRentDate());
+		rental.setReturnDate(createRentalRequest.getReturnDate());
+		
+		rental.setCar(car);
+		rental.setCustomer(customer);
+		
 		this.rentalDao.save(rental);
-		return new SuccessResult("Basariyla Guncellendi.");
+		return new SuccessResult(Messages.RentalUpdated);
 	}
 
 	@Override
-	public Result delete(Rental rental) {
-		this.rentalDao.delete(rental);
-		return new SuccessResult("Basariyla Silindi.");
+	public Result delete(int rentalId) {
+		this.rentalDao.deleteById(rentalId);
+		return new SuccessResult(Messages.RentalDeleted);
 	}
 
 	@Override
 	public DataResult<Rental> getById(int rentalId) {
-		return new SuccessDataResult<Rental>(this.rentalDao.getById(rentalId), "Id e gore Listelendi.");
+		return new SuccessDataResult<Rental>(this.rentalDao.getById(rentalId), Messages.RentalListed);
 	}
 	
 	
 	// Genel core da is olustur boolean degil Result don
-	public Result checkCarIsReturned(int carId) {
-		List<Rental> rentals = this.rentalDao.getByCar_CarId(carId);
-		if ( rentals != null) {
-			for (Rental rental : this.rentalDao.getByCar_CarId(carId)) {
-				if(rental.getReturnDate() == null ) {
+	public Result checkCarIsReturned() {
+
+				if(this.rentalDao.existsByIsCarReturnedIsFalse()) {
 					// araba teslim edilmemiş. teslim tarihi null dur.
-					return new ErrorResult("Teslim Tarihi yoktur. Teslim edilmemistir. Arac Kiralanamaz.");
+					return new ErrorResult(Messages.RentalCarNotReturn);
 				}
-			}
-		}
+		
 		
 		return new SuccessResult();
 	}

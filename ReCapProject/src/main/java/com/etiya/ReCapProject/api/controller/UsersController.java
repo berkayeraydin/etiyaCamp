@@ -2,6 +2,8 @@ package com.etiya.ReCapProject.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.ReCapProject.business.abstracts.UserService;
-import com.etiya.ReCapProject.core.entities.concretes.User;
 import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
+import com.etiya.ReCapProject.entities.concretes.ApplicationUser;
+import com.etiya.ReCapProject.entities.requests.CreateApplicationUserRequest;
 
 @RestController
 @RequestMapping("/api/users")
@@ -27,22 +30,22 @@ public class UsersController {
 	}
 	
 	@GetMapping("/getAll")
-	public DataResult<List<User>> getAll(){
+	public DataResult<List<ApplicationUser>> getAll(){
 		return this.userService.getAll();
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody User user) {
-		return this.userService.add(user);
+	public Result add(@Valid @RequestBody CreateApplicationUserRequest createApplicationUserRequest) {
+		return this.userService.add(createApplicationUserRequest);
 	}
 	
 	@PostMapping("/update")
-	public Result update(@RequestBody User user) {
-		return this.userService.update(user);
+	public Result update(@Valid @RequestBody CreateApplicationUserRequest createApplicationUserRequest) {
+		return this.userService.update(createApplicationUserRequest);
 	}
 	
 	@PostMapping("/delete")
-	public Result delete(@RequestBody User user) {
-		return this.userService.delete(user);
+	public Result delete(int userId) {
+		return this.userService.delete(userId);
 	}
 }

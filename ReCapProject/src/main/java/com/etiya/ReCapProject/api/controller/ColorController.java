@@ -13,6 +13,7 @@ import com.etiya.ReCapProject.business.abstracts.ColorService;
 import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Color;
+import com.etiya.ReCapProject.entities.requests.CreateColorRequest;
 
 @RestController
 @RequestMapping("/api/colors")
@@ -37,17 +38,17 @@ public class ColorController {
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody Color color) {
-		return this.colorService.add(color);
+	public Result add(@RequestBody CreateColorRequest createColorRequest) {
+		return this.colorService.add(createColorRequest);
 	}
 	
 	@PostMapping("/update")
-	public Result update(@RequestBody Color color) {
-		return this.colorService.update(color);
+	public Result update(@RequestBody CreateColorRequest createColorRequest) {
+		return this.colorService.update(createColorRequest);
 	}
 	
 	@PostMapping("/delete")
-	public Result delete( @RequestBody Color color) {
-		return this.colorService.delete(color);
+	public Result delete(int colorId) {
+		return this.colorService.delete(colorId);
 	}
 }
