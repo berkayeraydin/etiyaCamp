@@ -2,11 +2,8 @@ package com.etiya.ReCapProject.business.concretes;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.etiya.ReCapProject.business.abstracts.CustomerService;
 import com.etiya.ReCapProject.business.constants.Messages;
@@ -18,6 +15,7 @@ import com.etiya.ReCapProject.dataAccess.abstracts.CustomerDao;
 import com.etiya.ReCapProject.entities.concretes.ApplicationUser;
 import com.etiya.ReCapProject.entities.concretes.Customer;
 import com.etiya.ReCapProject.entities.requests.CreateCustomerRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateCustomerRequest;
 
 @Service
 public class CustomerManager implements CustomerService {
@@ -37,7 +35,7 @@ public class CustomerManager implements CustomerService {
 	}
 
 	@Override
-	public Result add(@Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
+	public Result add(CreateCustomerRequest createCustomerRequest) {
 		
 		ApplicationUser applicationUser = new ApplicationUser();
 		applicationUser.setUserId(createCustomerRequest.getUserId());
@@ -51,13 +49,14 @@ public class CustomerManager implements CustomerService {
 	}
 
 	@Override
-	public Result update(@Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
+	public Result update(UpdateCustomerRequest updateCustomerRequest) {
 		
 		ApplicationUser applicationUser = new ApplicationUser();
-		applicationUser.setUserId(createCustomerRequest.getUserId());
+		applicationUser.setUserId(updateCustomerRequest.getUserId());
 		
 		Customer customer = new Customer();
-		customer.setCompanyName(createCustomerRequest.getCompanyName());
+		customer.setCustomerId(updateCustomerRequest.getCustomerId());
+		customer.setCompanyName(updateCustomerRequest.getCompanyName());
 		customer.setApplicationUser(applicationUser);
 		
 		this.customerDao.save(customer);

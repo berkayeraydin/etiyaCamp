@@ -2,11 +2,8 @@ package com.etiya.ReCapProject.business.concretes;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.etiya.ReCapProject.business.abstracts.RentalService;
 import com.etiya.ReCapProject.business.constants.Messages;
@@ -21,6 +18,7 @@ import com.etiya.ReCapProject.entities.concretes.Car;
 import com.etiya.ReCapProject.entities.concretes.Customer;
 import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.etiya.ReCapProject.entities.requests.CreateRentalRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateRentalRequest;
 
 @Service
 public class RentalManager implements RentalService {
@@ -40,7 +38,7 @@ public class RentalManager implements RentalService {
 	}
 
 	@Override
-	public Result add(@Valid @RequestBody CreateRentalRequest createRentalRequest) {
+	public Result add(CreateRentalRequest createRentalRequest) {
 		
 		var result = BusinnesRules.run(checkCarIsReturned());
 				
@@ -67,17 +65,18 @@ public class RentalManager implements RentalService {
 	}
 
 	@Override
-	public Result update(@Valid @RequestBody CreateRentalRequest createRentalRequest) {
+	public Result update( UpdateRentalRequest updateRentalRequest) {
 		
 		Car car = new Car();
-		car.setCarId(createRentalRequest.getCarId());
+		car.setCarId(updateRentalRequest.getCarId());
 		
 		Customer customer = new Customer();
-		customer.setCustomerId(createRentalRequest.getCustomerId());
+		customer.setCustomerId(updateRentalRequest.getCustomerId());
 		
 		Rental rental = new Rental();
-		rental.setRentDate(createRentalRequest.getRentDate());
-		rental.setReturnDate(createRentalRequest.getReturnDate());
+		rental.setRentDate(updateRentalRequest.getRentDate());
+		rental.setReturnDate(updateRentalRequest.getReturnDate());
+		rental.setRentalId(updateRentalRequest.getRentalId());
 		
 		rental.setCar(car);
 		rental.setCustomer(customer);

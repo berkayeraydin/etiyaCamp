@@ -64,4 +64,9 @@ public class Car {
 	private List<Rental> rental;
 	
 	
+	@OneToMany(mappedBy= "car")
+	private List<CarImage> carImages;
+	
+	
+	
 }

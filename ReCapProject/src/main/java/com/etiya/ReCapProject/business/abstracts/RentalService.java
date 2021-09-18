@@ -6,6 +6,7 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.etiya.ReCapProject.entities.requests.CreateRentalRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateRentalRequest;
 
 public interface RentalService {
 	
@@ -15,7 +16,7 @@ public interface RentalService {
 	
 	Result add(CreateRentalRequest createRentalRequest);
 	
-	Result update(CreateRentalRequest createRentalRequest);
+	Result update(UpdateRentalRequest updateRentalRequest);
 	
 	Result delete(int rentalId);
 }

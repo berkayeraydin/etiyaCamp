@@ -1,8 +1,7 @@
 package com.etiya.ReCapProject.entities.requests;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import com.sun.istack.NotNull;
 
@@ -15,26 +14,29 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCarRequest {
-	
-	private String carName;
+public class UpdateApplicationUserRequest {
 	
 	@NotNull
-	@NotBlank
-	private String modelYear; 
-	
-	@NotNull
-	@NotBlank
-	@Min(0)
-	private double dailyPrice; 
+	private int userId;
 	
 	@NotBlank
-	@Size(max= 100)
-	private String descripton; 
-	
 	@NotNull
-	private int brandId;
+	private String firstName;
 	
+	@NotBlank
 	@NotNull
-	private int colorId;
+	private String lastName;
+	
+	@NotBlank
+	@Email
+	@NotNull
+	private String email;
+	
+	@NotBlank
+	@NotNull
+	private String password;
+	
+	@NotBlank
+	@NotNull
+	private String passwordConfirm;
 }

@@ -15,7 +15,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCarRequest {
+public class UpdateCarRequest {
+	
+	@NotNull
+	private int carId;
 	
 	private String carName;
 	

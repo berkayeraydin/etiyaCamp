@@ -2,11 +2,9 @@ package com.etiya.ReCapProject.business.concretes;
 
 import java.util.List;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.etiya.ReCapProject.business.abstracts.ColorService;
 import com.etiya.ReCapProject.business.constants.Messages;
@@ -17,6 +15,7 @@ import com.etiya.ReCapProject.core.results.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.ColorDao;
 import com.etiya.ReCapProject.entities.concretes.Color;
 import com.etiya.ReCapProject.entities.requests.CreateColorRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateColorRequest;
 
 @Service
 public class ColorManager implements ColorService{
@@ -42,7 +41,7 @@ public class ColorManager implements ColorService{
 	}
 
 	@Override
-	public Result add(@Valid @RequestBody CreateColorRequest createColorRequest) {
+	public Result add(CreateColorRequest createColorRequest) {
 		
 		Color color = new Color();
 		color.setColorName(createColorRequest.getColorName());
@@ -52,10 +51,11 @@ public class ColorManager implements ColorService{
 	}
 
 	@Override
-	public Result update(@Valid @RequestBody CreateColorRequest createColorRequest) {
+	public Result update( UpdateColorRequest updateColorRequest) {
 		
 		Color color = new Color();
-		color.setColorName(createColorRequest.getColorName());
+		color.setColorId(updateColorRequest.getColorId());
+		color.setColorName(updateColorRequest.getColorName());
 		
 		this.colorDao.save(color);
 		return new SuccessResult(Messages.ColorUpdated);

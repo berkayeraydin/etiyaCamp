@@ -2,12 +2,8 @@ package com.etiya.ReCapProject.business.concretes;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import com.etiya.ReCapProject.business.abstracts.BrandService;
 import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.results.DataResult;
@@ -17,6 +13,7 @@ import com.etiya.ReCapProject.core.results.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.BrandDao;
 import com.etiya.ReCapProject.entities.concretes.Brand;
 import com.etiya.ReCapProject.entities.requests.CreateBrandRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateBrandRequest;
 
 @Service
 public class BrandManager  implements BrandService{
@@ -42,7 +39,7 @@ public class BrandManager  implements BrandService{
 	}
 
 	@Override
-	public Result add(@Valid @RequestBody CreateBrandRequest createBrandRequest) {
+	public Result add( CreateBrandRequest createBrandRequest) {
 		Brand brand = new Brand();
 		brand.setBrandName(createBrandRequest.getBrandName());
 		
@@ -52,9 +49,11 @@ public class BrandManager  implements BrandService{
 	}
 
 	@Override
-	public Result update(@Valid @RequestBody CreateBrandRequest createBrandRequest) {
+	public Result update(UpdateBrandRequest updateBrandRequest) {
+		
 		Brand brand = new Brand();
-		brand.setBrandName(createBrandRequest.getBrandName());
+		brand.setBrandId(updateBrandRequest.getBrandId());
+		brand.setBrandName(updateBrandRequest.getBrandName());
 		
 		this.brandDao.save(brand);	
 		return new SuccessResult(Messages.BrandUpdated);

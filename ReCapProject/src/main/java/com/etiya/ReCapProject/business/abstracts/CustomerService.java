@@ -6,6 +6,7 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Customer;
 import com.etiya.ReCapProject.entities.requests.CreateCustomerRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateCustomerRequest;
 
 public interface CustomerService {
 	
@@ -15,7 +16,7 @@ public interface CustomerService {
 	
 	Result add(CreateCustomerRequest createCustomerRequest);
 	
-	Result update(CreateCustomerRequest createCustomerRequest);
+	Result update(UpdateCustomerRequest updateCustomerRequest);
 	
 	Result delete(int customerId);
 }

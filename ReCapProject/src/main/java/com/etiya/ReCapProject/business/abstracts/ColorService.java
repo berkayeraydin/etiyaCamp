@@ -6,6 +6,7 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Color;
 import com.etiya.ReCapProject.entities.requests.CreateColorRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateColorRequest;
 
 public interface ColorService {
 	
@@ -15,7 +16,7 @@ public interface ColorService {
 	
 	Result add(CreateColorRequest createColorRequest);
 	
-	Result update(CreateColorRequest createColorRequest);
+	Result update(UpdateColorRequest updateColorRequest);
 	
 	Result delete(int colorId);
 

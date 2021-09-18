@@ -2,6 +2,8 @@ package com.etiya.ReCapProject.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Brand;
 import com.etiya.ReCapProject.entities.requests.CreateBrandRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateBrandRequest;
 
 
 @RestController
@@ -39,13 +42,13 @@ public class BrandController {
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody CreateBrandRequest createBrandRequest) {
+	public Result add(@Valid @RequestBody CreateBrandRequest createBrandRequest) {
 		return this.brandService.add(createBrandRequest);
 	}
 	
 	@PostMapping("/update")
-	public Result update(@RequestBody CreateBrandRequest createBrandRequest) {
-		return  this.brandService.update(createBrandRequest);
+	public Result update(@Valid @RequestBody UpdateBrandRequest updateBrandRequest) {
+		return  this.brandService.update(updateBrandRequest);
 	}
 	
 	@PostMapping("/delete")

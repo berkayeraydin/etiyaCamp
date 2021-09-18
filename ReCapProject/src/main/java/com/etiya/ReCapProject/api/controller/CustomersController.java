@@ -2,6 +2,8 @@ package com.etiya.ReCapProject.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Customer;
 import com.etiya.ReCapProject.entities.requests.CreateCustomerRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateCustomerRequest;
 
 @RestController
 @RequestMapping("/api/customers")
@@ -35,15 +38,15 @@ public class CustomersController {
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody CreateCustomerRequest createCustomerRequest) {
+	public Result add(@Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
 		return this.customerService.add(createCustomerRequest);
 		
 	}
 	
 	@PostMapping("/update")
-	public Result update(@RequestBody CreateCustomerRequest createCustomerRequest) {
+	public Result update(@Valid @RequestBody UpdateCustomerRequest updateCustomerRequest) {
 		
-		return this.customerService.update(createCustomerRequest);
+		return this.customerService.update(updateCustomerRequest);
 	}
 	
 	@PostMapping("/delete")

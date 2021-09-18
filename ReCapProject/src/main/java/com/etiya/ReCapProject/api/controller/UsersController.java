@@ -16,6 +16,7 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.ApplicationUser;
 import com.etiya.ReCapProject.entities.requests.CreateApplicationUserRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateApplicationUserRequest;
 
 @RestController
 @RequestMapping("/api/users")
@@ -40,8 +41,8 @@ public class UsersController {
 	}
 	
 	@PostMapping("/update")
-	public Result update(@Valid @RequestBody CreateApplicationUserRequest createApplicationUserRequest) {
-		return this.userService.update(createApplicationUserRequest);
+	public Result update(@Valid @RequestBody  UpdateApplicationUserRequest updateApplicationUserRequest) {
+		return this.userService.update(updateApplicationUserRequest);
 	}
 	
 	@PostMapping("/delete")

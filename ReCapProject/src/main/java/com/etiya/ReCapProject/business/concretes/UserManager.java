@@ -2,11 +2,8 @@ package com.etiya.ReCapProject.business.concretes;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.etiya.ReCapProject.business.abstracts.UserService;
 import com.etiya.ReCapProject.business.constants.Messages;
@@ -17,6 +14,7 @@ import com.etiya.ReCapProject.core.results.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.ApplicationUserDao;
 import com.etiya.ReCapProject.entities.concretes.ApplicationUser;
 import com.etiya.ReCapProject.entities.requests.CreateApplicationUserRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateApplicationUserRequest;
 
 @Service
 public class UserManager implements UserService {
@@ -36,7 +34,7 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public Result add(@Valid @RequestBody CreateApplicationUserRequest createApplicationUserRequest) {
+	public Result add( CreateApplicationUserRequest createApplicationUserRequest) {
 		
 		ApplicationUser applicationUser = new ApplicationUser();
 		applicationUser.setFirstName(createApplicationUserRequest.getFirstName());
@@ -49,13 +47,13 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public Result update(@Valid @RequestBody CreateApplicationUserRequest createApplicationUserRequest) {
+	public Result update( UpdateApplicationUserRequest updateApplicationUserRequest) {
 		
 		ApplicationUser applicationUser = new ApplicationUser();
-		applicationUser.setFirstName(createApplicationUserRequest.getFirstName());
-		applicationUser.setLastName(createApplicationUserRequest.getLastName());
-		applicationUser.setEmail(createApplicationUserRequest.getEmail());
-		applicationUser.setPassword(createApplicationUserRequest.getPassword());
+		applicationUser.setFirstName(updateApplicationUserRequest.getFirstName());
+		applicationUser.setLastName(updateApplicationUserRequest.getLastName());
+		applicationUser.setEmail(updateApplicationUserRequest.getEmail());
+		applicationUser.setPassword(updateApplicationUserRequest.getPassword());
 		
 		this.applicationUserdao.save(applicationUser);
 		return new SuccessResult(Messages.UserUpdated);

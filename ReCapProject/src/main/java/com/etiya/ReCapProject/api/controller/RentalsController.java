@@ -2,6 +2,8 @@ package com.etiya.ReCapProject.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.etiya.ReCapProject.entities.requests.CreateRentalRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateRentalRequest;
 
 @RestController
 @RequestMapping("/api/rentals")
@@ -35,15 +38,15 @@ public class RentalsController {
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody CreateRentalRequest createRentalRequest) {
+	public Result add(@Valid @RequestBody CreateRentalRequest createRentalRequest) {
 		return this.rentalService.add(createRentalRequest);
 		
 	}
 	
 	@PostMapping("/update")
-	public Result update(@RequestBody CreateRentalRequest createRentalRequest) {
+	public Result update(@Valid @RequestBody UpdateRentalRequest updateRentalRequest) {
 		
-		return this.rentalService.update(createRentalRequest);
+		return this.rentalService.update(updateRentalRequest);
 	}
 	
 	@PostMapping("/delete")

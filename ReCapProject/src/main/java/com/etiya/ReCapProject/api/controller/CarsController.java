@@ -2,6 +2,8 @@ package com.etiya.ReCapProject.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +15,10 @@ import com.etiya.ReCapProject.business.abstracts.CarService;
 import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Car;
+import com.etiya.ReCapProject.entities.concretes.CarImage;
 import com.etiya.ReCapProject.entities.dtos.CarDetailDto;
 import com.etiya.ReCapProject.entities.requests.CreateCarRequest;
+import com.etiya.ReCapProject.entities.requests.UpdateCarRequest;
 
 @RestController
 @RequestMapping("/api/cars")
@@ -35,22 +39,22 @@ public class CarsController {
 	}
 	
 	@GetMapping("/getById")
-	public DataResult<Car> getById(@RequestBody int carId){
+	public DataResult<Car> getById( int carId){
 		
 		return this.carService.getById(carId);
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody CreateCarRequest createCarRequest){
+	public Result add(@Valid @RequestBody CreateCarRequest createCarRequest){
 		
 		return  this.carService.add(createCarRequest);
 		
 	}
 	
 	@PostMapping("/update")
-	public Result update(@RequestBody CreateCarRequest createCarRequest){
+	public Result update(@Valid @RequestBody UpdateCarRequest updateCarRequest){
 		
-		return this.carService.update(createCarRequest);
+		return this.carService.update(updateCarRequest);
 	}
 	
 	@PostMapping("/delete")
@@ -63,5 +67,11 @@ public class CarsController {
 	public DataResult<List<CarDetailDto>> getCarWithBrandAndColorDetails(){
 		
 		return this.carService.getCarWithBrandAndColorDetails();
+	}
+	
+	@PostMapping("/getCarImagesByCarId")
+	public DataResult<List<CarImage>> getCarImagesByCarId(int carId){
+		
+		return this.carService.getCarImagesByCarId(carId);
 	}
 }

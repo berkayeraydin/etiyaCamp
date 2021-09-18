@@ -14,7 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class CreateRentalRequest {
+public class UpdateRentalRequest {
+	
+	@NotNull
+	private int rentalId;
 	
 	@NotNull
 	private Date rentDate;
@@ -22,9 +25,7 @@ public class CreateRentalRequest {
 	@NotNull
 	private Date returnDate;
 	
-	@NotNull
 	private int carId;
 	
-	@NotNull
 	private int customerId;
 }

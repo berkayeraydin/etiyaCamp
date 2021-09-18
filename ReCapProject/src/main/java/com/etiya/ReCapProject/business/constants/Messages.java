@@ -2,7 +2,7 @@ package com.etiya.ReCapProject.business.constants;
 
 public class Messages {
 	
-	 //Car 
+	//Car 
     public static String CarAdded = "Araba eklendi";
     public static String CarDeleted = "Araba silindi";
     public static String CarUpdated = "Araba güncellendi";
