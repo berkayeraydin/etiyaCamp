@@ -16,4 +16,10 @@ public class CarDetailDto {
 	private String colorName;
 	
 	private double dailyPrice;
+	
+	//private CarImage carImage;
+	
+	//private String imagePath;
+	
+	//private List<CarImage> carImages;
 }

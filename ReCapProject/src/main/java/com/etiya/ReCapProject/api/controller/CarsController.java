@@ -74,4 +74,17 @@ public class CarsController {
 		
 		return this.carService.getCarImagesByCarId(carId);
 	}
+	
+	@GetMapping("/getByBrandName")
+	public DataResult<List<Car>> getByBrandName(String brandName){
+		
+		return this.carService.getByBrandName(brandName);
+	}
+	
+	@GetMapping("/getByColorName")
+	public DataResult<List<Car>> getByColorName(String colorName){
+		
+		return this.carService.getByColorName(colorName);
+	}
+	
 }

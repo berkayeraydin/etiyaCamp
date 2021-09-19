@@ -26,4 +26,9 @@ public interface CarService {
 	
 	DataResult<List<CarImage>> getCarImagesByCarId(int carId);
 	
+	DataResult<List<Car>> getByBrandName(String brandName);
+	
+	DataResult<List<Car>> getByColorName(String colorName);
+	
+	
 }

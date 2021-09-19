@@ -105,6 +105,9 @@ public class CarManager implements CarService{
 
 		return new SuccessDataResult<List<CarDetailDto>>(this.carDao.getCarsWithBrandAndColorDetails(), Messages.CarDetailsListed) ;
 	}
+	
+	
+	
 
 	@Override
 	public DataResult<List<CarImage>> getCarImagesByCarId(int carId) {
@@ -149,6 +152,19 @@ public class CarManager implements CarService{
 		return new SuccessDataResult<List<Car>>(cars,"Resimleri olmayan arabalar Default resim ile listelendi.");
 	}
 
+	@Override
+	public DataResult<List<Car>> getByBrandName(String brandName) {
+
+		return new SuccessDataResult<List<Car>>(this.carDao.getByBrandName(brandName), Messages.CarsListed);
+	}
+
+	@Override
+	public DataResult<List<Car>> getByColorName(String colorName) {
+
+		return new SuccessDataResult<List<Car>>(this.carDao.getByColorName(colorName), Messages.CarsListed);
+	}
+
 	
+
 	
 }
