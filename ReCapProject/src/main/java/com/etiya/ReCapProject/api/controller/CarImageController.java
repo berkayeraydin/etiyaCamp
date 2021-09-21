@@ -1,5 +1,6 @@
 package com.etiya.ReCapProject.api.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -7,15 +8,16 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.etiya.ReCapProject.business.abstracts.CarImageService;
 import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.CarImage;
 import com.etiya.ReCapProject.entities.requests.CreateCarImageRequest;
+import com.etiya.ReCapProject.entities.requests.DeleteCarImageRequest;
 import com.etiya.ReCapProject.entities.requests.UpdateCarImageRequest;
 
 @RestController
@@ -38,22 +40,20 @@ public class CarImageController {
 	}
 	
 	@PostMapping("/add")
-	public Result add(@Valid @RequestBody CreateCarImageRequest createCarImageRequest) {
-		
-		return this.carImageService.add(createCarImageRequest);
-		
+	public Result add2(@Valid CreateCarImageRequest createCarImageRequest, MultipartFile file) throws IOException {
+		return this.carImageService.add(createCarImageRequest, file);
 	}
 	
 	@PostMapping("/update")
-	public Result update(@Valid @RequestBody UpdateCarImageRequest updateCarImageRequest) {
+	public Result update(@Valid  UpdateCarImageRequest updateCarImageRequest) {
 		
 		return this.carImageService.update(updateCarImageRequest);
 	}
 	
 	@PostMapping("/delete")
-	public Result delete(int carImageId) {
+	public Result delete(DeleteCarImageRequest deleteCarImageRequest) {
 		
-		return this.carImageService.delete(carImageId);
+		return this.carImageService.delete(deleteCarImageRequest);
 		
 	}
 	
@@ -62,4 +62,8 @@ public class CarImageController {
 		
 		return this.carImageService.getByCar_CarId(carId);
 	}
+
+	
+
+	
 }

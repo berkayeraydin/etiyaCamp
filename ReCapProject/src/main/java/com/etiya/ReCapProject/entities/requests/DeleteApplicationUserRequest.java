@@ -11,13 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCarImageRequest {
-	
+public class DeleteApplicationUserRequest {
 	
 	@NotNull
-	private int carId;
-	
-	
-	
-	
+	private int userId;
 }

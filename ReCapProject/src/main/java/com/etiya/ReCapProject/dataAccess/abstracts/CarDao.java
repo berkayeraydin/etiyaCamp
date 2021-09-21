@@ -16,8 +16,6 @@ public interface CarDao extends JpaRepository<Car, Integer>{
 			+ " (c.carName, b.brandName, col.colorName , c.dailyPrice ) "
 			+ " From Car c Inner Join c.brand b "
 			+ " Inner Join c.color col ")
-           // + " Inner Join c.carImages ci ")
-           // + " Group By c.carId")
 	List<CarDetailDto> getCarsWithBrandAndColorDetails();
 	
 	
@@ -25,15 +23,16 @@ public interface CarDao extends JpaRepository<Car, Integer>{
 	List<CarImage> existsCarImagesByCarId(int carId);
 	
 	
-	boolean existsByCarImagesIsNullAndCarId(int carId);
+	//boolean existsByCarImagesIsNullAndCarId(int carId);
 	
-	boolean existsByCarImagesIsNull();
+	//boolean existsByCarImagesIsNull();
 	
-	@Query("From Car where brand.brandName=:brandName ")
-	List<Car> getByBrandName(String brandName);
+	@Query("From Car where brand.brandId=:brandId ")
+	List<Car> getByBrandId(int brandId);
 	
-	@Query("From Car where color.colorName=:colorName ")
-	List<Car> getByColorName(String colorName);
+	@Query("From Car where color.colorId=:colorId ")
+	List<Car> getByColorId(int colorId);
+	// List<Car> getByColor_ColorId(int colorId);
 	
 	
 	

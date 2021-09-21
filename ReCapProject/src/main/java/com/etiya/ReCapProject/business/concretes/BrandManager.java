@@ -13,6 +13,7 @@ import com.etiya.ReCapProject.core.results.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.BrandDao;
 import com.etiya.ReCapProject.entities.concretes.Brand;
 import com.etiya.ReCapProject.entities.requests.CreateBrandRequest;
+import com.etiya.ReCapProject.entities.requests.DeleteBrandRequest;
 import com.etiya.ReCapProject.entities.requests.UpdateBrandRequest;
 
 @Service
@@ -60,9 +61,12 @@ public class BrandManager  implements BrandService{
 	}
 
 	@Override
-	public Result delete(int brandId) {
+	public Result delete(DeleteBrandRequest deleteBrandRequest) {
 		
-		this.brandDao.deleteById(brandId);
+		Brand brand = new Brand();
+		brand.setBrandId(deleteBrandRequest.getBrandId());
+		
+		this.brandDao.delete(brand);
 		return new SuccessResult(Messages.BrandDeleted);
 		
 	}

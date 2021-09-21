@@ -18,6 +18,7 @@ import com.etiya.ReCapProject.entities.concretes.Car;
 import com.etiya.ReCapProject.entities.concretes.Customer;
 import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.etiya.ReCapProject.entities.requests.CreateRentalRequest;
+import com.etiya.ReCapProject.entities.requests.DeleteRentalRequest;
 import com.etiya.ReCapProject.entities.requests.UpdateRentalRequest;
 
 @Service
@@ -40,7 +41,7 @@ public class RentalManager implements RentalService {
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
 		
-		var result = BusinnesRules.run(checkCarIsReturned());
+		var result = BusinnesRules.run(checkCarIsReturned(createRentalRequest.getCarId()));
 				
 		if (result != null) {
 			return result;
@@ -86,8 +87,12 @@ public class RentalManager implements RentalService {
 	}
 
 	@Override
-	public Result delete(int rentalId) {
-		this.rentalDao.deleteById(rentalId);
+	public Result delete(DeleteRentalRequest deleteRentalRequest) {
+		
+		Rental rental = new Rental();
+		rental.setRentalId(deleteRentalRequest.getRentalId());
+		
+		this.rentalDao.deleteById(deleteRentalRequest.getRentalId());
 		return new SuccessResult(Messages.RentalDeleted);
 	}
 
@@ -98,9 +103,9 @@ public class RentalManager implements RentalService {
 	
 	
 	// Genel core da is olustur boolean degil Result don
-	public Result checkCarIsReturned() {
+	public Result checkCarIsReturned(int carId) {
 
-				if(this.rentalDao.existsByIsCarReturnedIsFalse()) {
+				if(this.rentalDao.existsByIsCarReturnedIsFalseAndCar_CarId(carId)) {
 					// araba teslim edilmemiş. teslim tarihi null dur.
 					return new ErrorResult(Messages.RentalCarNotReturn);
 				}

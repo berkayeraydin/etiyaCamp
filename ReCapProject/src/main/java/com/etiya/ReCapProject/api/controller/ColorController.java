@@ -16,6 +16,7 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Color;
 import com.etiya.ReCapProject.entities.requests.CreateColorRequest;
+import com.etiya.ReCapProject.entities.requests.DeleteColorRequest;
 import com.etiya.ReCapProject.entities.requests.UpdateColorRequest;
 
 @RestController
@@ -51,7 +52,7 @@ public class ColorController {
 	}
 	
 	@PostMapping("/delete")
-	public Result delete(int colorId) {
-		return this.colorService.delete(colorId);
+	public Result delete(DeleteColorRequest deleteColorRequest) {
+		return this.colorService.delete(deleteColorRequest);
 	}
 }

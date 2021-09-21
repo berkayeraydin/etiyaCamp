@@ -16,6 +16,7 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.entities.concretes.Brand;
 import com.etiya.ReCapProject.entities.requests.CreateBrandRequest;
+import com.etiya.ReCapProject.entities.requests.DeleteBrandRequest;
 import com.etiya.ReCapProject.entities.requests.UpdateBrandRequest;
 
 
@@ -52,7 +53,7 @@ public class BrandController {
 	}
 	
 	@PostMapping("/delete")
-	public Result delete(int brandId) {
-		return this.brandService.delete(brandId);
+	public Result delete(DeleteBrandRequest deleteBrandRequest) {
+		return this.brandService.delete(deleteBrandRequest);
 	}
 }

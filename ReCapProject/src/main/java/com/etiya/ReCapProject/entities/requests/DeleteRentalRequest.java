@@ -11,13 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCarImageRequest {
-	
+public class DeleteRentalRequest {
 	
 	@NotNull
-	private int carId;
-	
-	
-	
-	
+	private int rentalId;
 }

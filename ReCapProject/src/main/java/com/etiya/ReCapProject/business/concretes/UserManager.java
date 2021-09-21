@@ -14,6 +14,7 @@ import com.etiya.ReCapProject.core.results.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.ApplicationUserDao;
 import com.etiya.ReCapProject.entities.concretes.ApplicationUser;
 import com.etiya.ReCapProject.entities.requests.CreateApplicationUserRequest;
+import com.etiya.ReCapProject.entities.requests.DeleteApplicationUserRequest;
 import com.etiya.ReCapProject.entities.requests.UpdateApplicationUserRequest;
 
 @Service
@@ -60,8 +61,12 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public Result delete(int userId) {
-		this.applicationUserdao.deleteById(userId);
+	public Result delete(DeleteApplicationUserRequest deleteApplicationUserRequest) {
+		
+		ApplicationUser applicationUser = new ApplicationUser();
+		applicationUser.setUserId(deleteApplicationUserRequest.getUserId());
+		
+		this.applicationUserdao.delete(applicationUser);
 		return new SuccessResult(Messages.UserDeleted);
 	}
 

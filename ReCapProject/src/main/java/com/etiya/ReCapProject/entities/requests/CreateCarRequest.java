@@ -24,7 +24,6 @@ public class CreateCarRequest {
 	private String modelYear; 
 	
 	@NotNull
-	@NotBlank
 	@Min(0)
 	private double dailyPrice; 
 	
