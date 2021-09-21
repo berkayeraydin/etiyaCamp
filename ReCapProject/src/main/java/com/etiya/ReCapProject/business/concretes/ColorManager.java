@@ -54,8 +54,7 @@ public class ColorManager implements ColorService{
 	@Override
 	public Result update( UpdateColorRequest updateColorRequest) {
 		
-		Color color = new Color();
-		color.setColorId(updateColorRequest.getColorId());
+		Color color = this.colorDao.getById(updateColorRequest.getColorId());
 		color.setColorName(updateColorRequest.getColorName());
 		
 		this.colorDao.save(color);
@@ -66,8 +65,7 @@ public class ColorManager implements ColorService{
 	@Override
 	public Result delete(DeleteColorRequest deleteColorRequest) {
 		
-		Color color = new Color();
-		color.setColorId(deleteColorRequest.getColorId());
+		Color color = this.colorDao.getById(deleteColorRequest.getColorId());
 		
 		this.colorDao.delete(color);
 		return new SuccessResult(Messages.ColorDeleted);

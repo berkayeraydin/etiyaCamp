@@ -11,7 +11,9 @@ import com.etiya.ReCapProject.core.results.DataResult;
 import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.core.results.SuccessDataResult;
 import com.etiya.ReCapProject.core.results.SuccessResult;
+import com.etiya.ReCapProject.dataAccess.abstracts.BrandDao;
 import com.etiya.ReCapProject.dataAccess.abstracts.CarDao;
+import com.etiya.ReCapProject.dataAccess.abstracts.ColorDao;
 import com.etiya.ReCapProject.entities.concretes.Brand;
 import com.etiya.ReCapProject.entities.concretes.Car;
 import com.etiya.ReCapProject.entities.concretes.CarImage;
@@ -25,11 +27,15 @@ import com.etiya.ReCapProject.entities.requests.UpdateCarRequest;
 public class CarManager implements CarService{
 	
 	private CarDao carDao;
+	private BrandDao brandDao;
+	private ColorDao colorDao;
 	
 	@Autowired
-	public CarManager(CarDao carDao) {
+	public CarManager(CarDao carDao,BrandDao brandDao,ColorDao colorDao) {
 		super();
 		this.carDao = carDao;
+		this.brandDao = brandDao;
+		this.colorDao = colorDao;
 	}
 
 	@Override
@@ -47,20 +53,18 @@ public class CarManager implements CarService{
 	@Override
 	public Result add( CreateCarRequest createCarRequest )  {
 		
-		Brand brand = new Brand();
-		brand.setBrandId(createCarRequest.getBrandId());
+		Brand brand = this.brandDao.getById(createCarRequest.getBrandId());
 		
-		Color color = new Color();
-		color.setColorId(createCarRequest.getColorId());
+		Color color = this.colorDao.getById(createCarRequest.getColorId());
 		
 		Car car = new Car();
 		car.setCarName(createCarRequest.getCarName());
 		car.setModelYear(createCarRequest.getModelYear());
 		car.setDailyPrice(createCarRequest.getDailyPrice());
 		car.setDescripton(createCarRequest.getDescripton());
+		
 		car.setBrand(brand);
 		car.setColor(color);
-		
 		
 		this.carDao.save(car);
 		return new SuccessResult(Messages.CarAdded);
@@ -68,18 +72,17 @@ public class CarManager implements CarService{
 
 	@Override
 	public Result update( UpdateCarRequest updateCarRequest) {
-		Brand brand = new Brand();
-		brand.setBrandId(updateCarRequest.getBrandId());
 		
-		Color color = new Color();
-		color.setColorId(updateCarRequest.getColorId());
+		Brand brand = this.brandDao.getById(updateCarRequest.getBrandId());
 		
-		Car car = new Car();
-		car.setCarId(updateCarRequest.getCarId());
+		Color color = this.colorDao.getById(updateCarRequest.getColorId());
+		
+		Car car = this.carDao.getById(updateCarRequest.getCarId());
 		car.setCarName(updateCarRequest.getCarName());
 		car.setModelYear(updateCarRequest.getModelYear());
 		car.setDailyPrice(updateCarRequest.getDailyPrice());
 		car.setDescripton(updateCarRequest.getDescripton());
+		
 		car.setBrand(brand);
 		car.setColor(color);
 		
@@ -90,8 +93,7 @@ public class CarManager implements CarService{
 	@Override
 	public Result delete(DeleteCarRequest deleteCarRequest) {
 		
-		Car car = new Car();
-		car.setCarId(deleteCarRequest.getCarId());
+		Car car = this.carDao.getById(deleteCarRequest.getCarId());
 		
 		this.carDao.delete(car);
 		return new SuccessResult(Messages.CarDeleted);

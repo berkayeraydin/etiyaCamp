@@ -50,5 +50,7 @@ public class ReCapProjectApplication {
 		ErrorDataResult<Object> error = new ErrorDataResult<Object>(validationErrors,"Dogrulama Hatalari.");
 		return error;
 	}
+	
+	
 
 }

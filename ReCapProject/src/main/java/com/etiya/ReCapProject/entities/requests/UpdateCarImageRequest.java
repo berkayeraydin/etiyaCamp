@@ -1,5 +1,8 @@
 package com.etiya.ReCapProject.entities.requests;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -18,5 +21,8 @@ public class UpdateCarImageRequest {
 	
 	@NotNull
 	private int carId;
+	
+	@JsonIgnore
+	private MultipartFile file;
 }
 

@@ -53,6 +53,8 @@ public class Messages {
     public static String CarImageUpdated = "Araba resmi güncellendi";
     public static String CarImagesListed = "Araba resimleri listelendi";
     public static String CarImagesCountOfCarError = "Arabaya ait resim sayısı 5'den fazla olamaz";
+    public static String CarImageIsNotSlected = "Herhangi bir resim seçmediniz";
+    public static String CarImagesTypeIsNotMatched = "Lütfen jpeg, jpg, png uzantılı resim seçiniz";
 
     //Auth
     public static String AuthorizationDenied = "Yetkiniz yok";

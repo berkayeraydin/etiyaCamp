@@ -13,6 +13,8 @@ import com.etiya.ReCapProject.core.results.Result;
 import com.etiya.ReCapProject.core.results.SuccessDataResult;
 import com.etiya.ReCapProject.core.results.SuccessResult;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinnesRules;
+import com.etiya.ReCapProject.dataAccess.abstracts.CarDao;
+import com.etiya.ReCapProject.dataAccess.abstracts.CustomerDao;
 import com.etiya.ReCapProject.dataAccess.abstracts.RentalDao;
 import com.etiya.ReCapProject.entities.concretes.Car;
 import com.etiya.ReCapProject.entities.concretes.Customer;
@@ -25,11 +27,15 @@ import com.etiya.ReCapProject.entities.requests.UpdateRentalRequest;
 public class RentalManager implements RentalService {
 	
 	private RentalDao rentalDao;
+	private CarDao carDao;
+	private CustomerDao customerDao;
 	
 	@Autowired
-	public RentalManager(RentalDao rentalDao) {
+	public RentalManager(RentalDao rentalDao, CarDao carDao, CustomerDao customerDao) {
 		super();
 		this.rentalDao = rentalDao;
+		this.carDao = carDao;
+		this.customerDao = customerDao;
 	}
 
 	@Override
@@ -47,11 +53,9 @@ public class RentalManager implements RentalService {
 			return result;
 		}
 		
-		Car car = new Car();
-		car.setCarId(createRentalRequest.getCarId());
+		Car car = this.carDao.getById(createRentalRequest.getCarId());
 		
-		Customer customer = new Customer();
-		customer.setCustomerId(createRentalRequest.getCustomerId());
+		Customer customer = this.customerDao.getById(createRentalRequest.getCustomerId());
 		
 		Rental rental = new Rental();
 		rental.setRentDate(createRentalRequest.getRentDate());
@@ -68,14 +72,11 @@ public class RentalManager implements RentalService {
 	@Override
 	public Result update( UpdateRentalRequest updateRentalRequest) {
 		
-		Car car = new Car();
-		car.setCarId(updateRentalRequest.getCarId());
+		Car car = this.carDao.getById(updateRentalRequest.getCarId());
 		
-		Customer customer = new Customer();
-		customer.setCustomerId(updateRentalRequest.getCustomerId());
+		Customer customer = this.customerDao.getById(updateRentalRequest.getCustomerId());
 		
-		Rental rental = new Rental();
-		rental.setRentDate(updateRentalRequest.getRentDate());
+		Rental rental = this.rentalDao.getById(updateRentalRequest.getRentalId());
 		rental.setReturnDate(updateRentalRequest.getReturnDate());
 		rental.setRentalId(updateRentalRequest.getRentalId());
 		
@@ -89,10 +90,9 @@ public class RentalManager implements RentalService {
 	@Override
 	public Result delete(DeleteRentalRequest deleteRentalRequest) {
 		
-		Rental rental = new Rental();
-		rental.setRentalId(deleteRentalRequest.getRentalId());
+		Rental rental = this.rentalDao.getById(deleteRentalRequest.getRentalId());
 		
-		this.rentalDao.deleteById(deleteRentalRequest.getRentalId());
+		this.rentalDao.delete(rental);
 		return new SuccessResult(Messages.RentalDeleted);
 	}
 

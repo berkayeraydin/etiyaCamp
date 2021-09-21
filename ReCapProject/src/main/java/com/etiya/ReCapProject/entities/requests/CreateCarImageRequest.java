@@ -1,8 +1,12 @@
 package com.etiya.ReCapProject.entities.requests;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,13 +15,16 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
+
 public class CreateCarImageRequest {
 	
 	
 	@NotNull
 	private int carId;
 	
-	
+	@JsonIgnore
+	private MultipartFile file;
 	
 	
 }
