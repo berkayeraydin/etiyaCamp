@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -20,37 +21,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "rentals")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Rental {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "rental_id")
 	private int rentalId;
-	
-	//@Column(name = "car_id")
-	//private int carId;
-	
-	//@Column(name = "customer_id")
-	//private int customerId;
-	
+
 	@Column(name = "rent_date")
 	private Date rentDate;
-	
-	@Column(name = "last_name") //duzelt tablo ismi return_date olacak
+
+	@Column(name = "return_date")
 	private Date returnDate;
-	
-	@Column(name = "is_car_returned",columnDefinition = "boolean default false") 
+
+	@Column(name = "is_car_returned", columnDefinition = "boolean default false")
 	private boolean isCarReturned;
-	
-	@ManyToOne
-	@JoinColumn(name = "customer_id")
-	private Customer customer;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "car_id")
 	private Car car;
-	
-	
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private ApplicationUser applicationUser;
 }
+

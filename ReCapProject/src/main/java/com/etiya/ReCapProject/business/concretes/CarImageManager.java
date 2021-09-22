@@ -12,16 +12,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.etiya.ReCapProject.business.abstracts.CarImageService;
+import com.etiya.ReCapProject.business.abstracts.CarService;
+import com.etiya.ReCapProject.business.constants.FilePathConfiguration;
 import com.etiya.ReCapProject.business.constants.Messages;
-import com.etiya.ReCapProject.core.constants.FilePathConfiguration;
-import com.etiya.ReCapProject.core.results.DataResult;
-import com.etiya.ReCapProject.core.results.ErrorDataResult;
-import com.etiya.ReCapProject.core.results.ErrorResult;
-import com.etiya.ReCapProject.core.results.Result;
-import com.etiya.ReCapProject.core.results.SuccessDataResult;
-import com.etiya.ReCapProject.core.results.SuccessResult;
-import com.etiya.ReCapProject.core.utilities.businnes.BusinnesRules;
-import com.etiya.ReCapProject.dataAccess.abstracts.CarDao;
+import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
+import com.etiya.ReCapProject.core.utilities.result.DataResult;
+import com.etiya.ReCapProject.core.utilities.result.ErrorDataResult;
+import com.etiya.ReCapProject.core.utilities.result.ErrorResult;
+import com.etiya.ReCapProject.core.utilities.result.Result;
+import com.etiya.ReCapProject.core.utilities.result.SuccessDataResult;
+import com.etiya.ReCapProject.core.utilities.result.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.CarImageDao;
 import com.etiya.ReCapProject.entities.concretes.Car;
 import com.etiya.ReCapProject.entities.concretes.CarImage;
@@ -33,30 +33,23 @@ import com.etiya.ReCapProject.entities.requests.UpdateCarImageRequest;
 public class CarImageManager implements CarImageService {
 
 	private CarImageDao carImageDao;
-	private CarDao carDao;
+	private CarService carService;
 
 	@Autowired
-	public CarImageManager(CarImageDao carImageDao, CarDao carDao) {
-		super();
+	public CarImageManager(CarImageDao carImageDao, CarService carService) {
+		super(); 
 		this.carImageDao = carImageDao;
-		this.carDao = carDao;
+		this.carService = carService;
 	}
 
 	@Override
 	public DataResult<List<CarImage>> getAll() {
-
 		return new SuccessDataResult<List<CarImage>>(this.carImageDao.findAll(), Messages.CarImagesListed);
 	}
 
 	@Override
-	public DataResult<CarImage> getById(int carImageId) {
-		// TODO Auto-generated method stub
-		return new SuccessDataResult<CarImage>(this.carImageDao.getById(carImageId), Messages.CarImagesListed);
-	}
-
-	@Override
 	public Result add(CreateCarImageRequest createCarImageRequest) throws IOException {
-		var result = BusinnesRules.run(checkCarImagesCount(createCarImageRequest.getCarId(), 5),
+		var result = BusinessRules.run(checkCarImagesCount(createCarImageRequest.getCarId(), 5),
 				checkImageType(createCarImageRequest.getFile()));
 
 		if (result != null) {
@@ -65,23 +58,29 @@ public class CarImageManager implements CarImageService {
 
 		Date dateNow = new java.sql.Date(new java.util.Date().getTime());
 
-		Car car = this.carDao.getById(createCarImageRequest.getCarId());
+		Car car = this.carService.getById(createCarImageRequest.getCarId()).getData();
 
 		CarImage carImage = new CarImage();
-		carImage.setImagePath(createCarImagePathReturnCarImagePath(createCarImageRequest));
+		carImage.setImagePath(this.createCarImagePathAndreturnCarImagePath(createCarImageRequest));
 		carImage.setDate(dateNow);
 
 		carImage.setCar(car);
 
 		this.carImageDao.save(carImage);
 		return new SuccessResult(Messages.CarImageAdded);
+
+	}
+
+	@Override
+	public DataResult<CarImage> getById(int carImageId) {
+		return new SuccessDataResult<CarImage>(this.carImageDao.getById(carImageId));
 	}
 
 	@Override
 	public Result update(UpdateCarImageRequest updateCarImageRequest) throws IOException {
 		CarImage carImage = this.carImageDao.getById(updateCarImageRequest.getCarImageId());
 
-		var result = BusinnesRules.run(checkCarImagesCount(carImage.getCarImageId(), 5),
+		var result = BusinessRules.run(checkCarImagesCount(carImage.getCar().getCarId(), 5),
 				checkImageType(updateCarImageRequest.getFile()));
 
 		if (result != null) {
@@ -91,7 +90,7 @@ public class CarImageManager implements CarImageService {
 		Date dateNow = new java.sql.Date(new java.util.Date().getTime());
 
 		carImage.setImagePath(
-				this.updateCarImagePathReturnCarImagePath(updateCarImageRequest, carImage.getImagePath()));
+				this.updateCarImagePathAndreturnCarImagePath(updateCarImageRequest, carImage.getImagePath()));
 		carImage.setDate(dateNow);
 
 		this.carImageDao.save(carImage);
@@ -100,37 +99,28 @@ public class CarImageManager implements CarImageService {
 
 	@Override
 	public Result delete(DeleteCarImageRequest deleteCarImageRequest) {
+		CarImage carImage = this.carImageDao.getById(deleteCarImageRequest.getCarImageId());
 
-		CarImage carImages = this.carImageDao.getById(deleteCarImageRequest.getCarImageId());
-
-		carImages.setCarImageId(deleteCarImageRequest.getCarImageId());
-
-		this.carImageDao.delete(carImages);
-		this.deleteCarImage(carImages.getImagePath());
-
+		this.carImageDao.delete(carImage);
+		this.deleteCarImage(carImage.getImagePath());
+		
 		return new SuccessResult(Messages.CarImageDeleted);
 	}
 
 	@Override
-	public DataResult<List<CarImage>> getByCar_CarId(int carId) {
+	public DataResult<List<CarImage>> getCarImagesByCarId(int carId) {
 
 		return new SuccessDataResult<List<CarImage>>(returnCarImageWithDefaultImageIfCarImageIsNull(carId).getData(),
 				Messages.CarImagesListed);
 	}
-	
-	
-	
 
-	// Araba Id sine gore limit siniri resim ekleme
-	private Result checkCarImagesCount(int carId, int limit) {
-
-		if (this.carImageDao.countByCar_CarId(carId) >= limit) {
+	private Result checkCarImagesCount(int CarId, int limit) {
+		if (this.carImageDao.countByCar_CarId(CarId) >= limit) {
 			return new ErrorResult(Messages.CarImagesCountOfCarError);
 		}
 		return new SuccessResult();
 	}
 
-	// Resmi olmayanlara otomatik atanan default resim
 	private DataResult<List<CarImage>> returnCarImageWithDefaultImageIfCarImageIsNull(int carId) {
 
 		if (this.carImageDao.existsByCar_CarId(carId)) {
@@ -147,31 +137,27 @@ public class CarImageManager implements CarImageService {
 
 	}
 
-	// Resmin tipini kontrol etme
 	private Result checkImageType(MultipartFile file) {
-
 		if (this.checkImageIsNull(file).isSuccess() == false) {
-			return this.checkImageIsNull(file);
+			return new ErrorResult(this.checkImageIsNull(file).getMessage());
 		}
-		if (!file.getContentType().substring(file.getContentType().indexOf("/") + 1).equals("jpeg")
-				&& !file.getContentType().substring(file.getContentType().indexOf("/") + 1).equals("jpg")
-				&& !file.getContentType().substring(file.getContentType().indexOf("/") + 1).equals("png")) {
-			return new ErrorResult(Messages.CarImagesTypeIsNotMatched);
+		if (!file.getContentType().toString().substring(file.getContentType().indexOf("/") + 1).equals("jpeg")
+				&& !file.getContentType().toString().substring(file.getContentType().indexOf("/") + 1).equals("jpg")
+				&& !file.getContentType().toString().substring(file.getContentType().indexOf("/") + 1).equals("png")) {
+			return new ErrorResult(Messages.CarImageTypeIsNotMatched);
 		}
 		return new SuccessResult();
 
 	}
 
-	// Resim seçilmezse girilen bilgi mesaji
 	private Result checkImageIsNull(MultipartFile file) {
-		if (file == null) {
-			return new ErrorResult(Messages.CarImageIsNotSlected);
+		if (file == null || file.isEmpty() || file.getSize() == 0) {
+			return new ErrorResult(Messages.CarImageIsNotSelected);
 		}
 		return new SuccessResult();
 	}
 
-	// gelen resmi araba id sine gore klasorleyip ekliyor.
-	private String createCarImagePathReturnCarImagePath(CreateCarImageRequest createCarImageRequest)
+	private String createCarImagePathAndreturnCarImagePath(CreateCarImageRequest createCarImageRequest)
 			throws IOException {
 
 		String imageRandomName = java.util.UUID.randomUUID().toString();
@@ -193,18 +179,16 @@ public class CarImageManager implements CarImageService {
 		return newCarFolder + "\\" + newImagePath;
 	}
 
-	// gelen resmi araba id sine gore guncelliyor ekliyor.
-	private String updateCarImagePathReturnCarImagePath(UpdateCarImageRequest updateCarImageRequest,
+	private String updateCarImagePathAndreturnCarImagePath(UpdateCarImageRequest updateCarImageRequest,
 			String willBeDeletedCarImagePath) throws IOException {
 
 		String mainPath = FilePathConfiguration.mainPath;
-		// String newCarFolder = "car" + updateCarImageRequest.getCarId();
-		
 		String newCarFolder = willBeDeletedCarImagePath.substring(0, willBeDeletedCarImagePath.indexOf("\\"));
+
 		if (!willBeDeletedCarImagePath.isEmpty() && !willBeDeletedCarImagePath.isBlank()) {
+			
 			File willBeDeletedImage = new File(mainPath + willBeDeletedCarImagePath);
 			willBeDeletedImage.delete();
-
 		}
 
 		String imageRandomName = java.util.UUID.randomUUID().toString();
@@ -220,19 +204,16 @@ public class CarImageManager implements CarImageService {
 
 		return newCarFolder + "\\" + newImagePath;
 	}
-	
-	private void deleteCarImage(String willBeDeletedCarImagePath)  {
+
+	private void deleteCarImage(String willBeDeletedCarImagePath) {
 
 		String mainPath = FilePathConfiguration.mainPath;
-		// String newCarFolder = "car" + updateCarImageRequest.getCarId();
 
 		if (!willBeDeletedCarImagePath.isEmpty() && !willBeDeletedCarImagePath.isBlank()) {
 			
 			File willBeDeletedImage = new File(mainPath + willBeDeletedCarImagePath);
 			willBeDeletedImage.delete();
-
 		}
-
 	}
-
 }
+

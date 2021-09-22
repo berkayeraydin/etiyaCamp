@@ -11,20 +11,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 @Table(name = "car_images")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","car"})
 public class CarImage {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "car_image_id")
@@ -35,9 +35,10 @@ public class CarImage {
 	
 	@Column(name = "date")
 	private Date date;
-
+	
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "car_id")
+	@JoinColumn(name="car_id")
 	private Car car;
 	
 }

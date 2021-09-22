@@ -2,11 +2,10 @@ package com.etiya.ReCapProject.business.abstracts;
 
 import java.util.List;
 
-import com.etiya.ReCapProject.core.results.DataResult;
-import com.etiya.ReCapProject.core.results.Result;
+import com.etiya.ReCapProject.core.utilities.result.DataResult;
+import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.Car;
-import com.etiya.ReCapProject.entities.concretes.CarImage;
-import com.etiya.ReCapProject.entities.dtos.CarDetailDto;
+import com.etiya.ReCapProject.entities.dtos.abstracts.CarDetailDto;
 import com.etiya.ReCapProject.entities.requests.CreateCarRequest;
 import com.etiya.ReCapProject.entities.requests.DeleteCarRequest;
 import com.etiya.ReCapProject.entities.requests.UpdateCarRequest;
@@ -14,22 +13,22 @@ import com.etiya.ReCapProject.entities.requests.UpdateCarRequest;
 public interface CarService {
 	
 	DataResult<List<Car>> getAll();
-	
+
 	DataResult<Car> getById(int carId);
-	
+
 	Result add(CreateCarRequest createCarRequest);
-	
+
 	Result update(UpdateCarRequest updateCarRequest);
-	
+
 	Result delete(DeleteCarRequest deleteCarRequest);
 	
-	DataResult<List<CarDetailDto>> getCarWithBrandAndColorDetails();
+	DataResult<List<CarDetailDto>> getAllCarsDetails();
 	
-	DataResult<List<CarImage>> getCarImagesByCarId(int carId);
+	DataResult<CarDetailDto> getCarDetailsByCarId(int carId);
 	
-	DataResult<List<Car>> getByBrandId(int brandId);
+	DataResult<List<Car>> getCarsByColorId(int colorId);
 	
-	DataResult<List<Car>> getByColorId(int colorId);
+	DataResult<List<Car>> getCarsByBrandId(int brandId);
 	
 	
 }

@@ -1,6 +1,9 @@
 package com.etiya.ReCapProject.entities.concretes;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -13,17 +16,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-
 @EqualsAndHashCode(callSuper = false)
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler","rentals","individualCustomer","corporateCustomer"})
 @Table(name = "users")
-public class ApplicationUser extends User{
+public class ApplicationUser extends User {
+
+	
+	@OneToOne(mappedBy = "applicationUser")
+	private IndividualCustomer individualCustomer;
+	
+	
+	@OneToOne(mappedBy = "applicationUser")
+	private CorporateCustomer corporateCustomer;
 	
 	@JsonIgnore
-	@OneToOne(mappedBy="applicationUser")
-	private Customer customer;
+	@OneToMany(mappedBy = "applicationUser")
+	private List<Rental> rentals;
 }

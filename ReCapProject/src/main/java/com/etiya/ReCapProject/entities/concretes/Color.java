@@ -17,22 +17,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "colors")
+@Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","cars"})
+@Table(name = "colors")
 public class Color {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "color_id")
 	private int colorId;
-	
-	@Column(name ="color_name")
-	private String colorName; 
-	
+
+	@Column(name = "color_name")
+	private String colorName;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "color")
 	private List<Car> cars;

@@ -31,7 +31,6 @@ public class UpdateCarRequest {
 	@Min(0)
 	private double dailyPrice; 
 	
-	@NotBlank
 	@Size(max= 100)
 	private String descripton; 
 	

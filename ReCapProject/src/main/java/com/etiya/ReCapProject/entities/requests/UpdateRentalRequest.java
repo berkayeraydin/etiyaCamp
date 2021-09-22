@@ -26,6 +26,4 @@ public class UpdateRentalRequest {
 	private Date returnDate;
 	
 	private int carId;
-	
-	private int customerId;
 }
