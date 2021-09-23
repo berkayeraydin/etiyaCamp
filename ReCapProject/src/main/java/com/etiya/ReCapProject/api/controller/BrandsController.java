@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.ReCapProject.business.abstracts.BrandService;
 import com.etiya.ReCapProject.core.utilities.result.*;
 import com.etiya.ReCapProject.entities.concretes.Brand;
-import com.etiya.ReCapProject.entities.requests.CreateBrandRequest;
-import com.etiya.ReCapProject.entities.requests.DeleteBrandRequest;
-import com.etiya.ReCapProject.entities.requests.UpdateBrandRequest;
+import com.etiya.ReCapProject.entities.requests.create.CreateBrandRequest;
+import com.etiya.ReCapProject.entities.requests.delete.DeleteBrandRequest;
+import com.etiya.ReCapProject.entities.requests.update.UpdateBrandRequest;
 
 @RestController
 @RequestMapping("api/brands")

@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.CarService;
+import com.etiya.ReCapProject.business.abstracts.CardInformationService;
 import com.etiya.ReCapProject.business.abstracts.CorporateCustomerService;
 import com.etiya.ReCapProject.business.abstracts.IndividualCustomerService;
 import com.etiya.ReCapProject.business.abstracts.RentalService;
 import com.etiya.ReCapProject.business.abstracts.UserService;
 import com.etiya.ReCapProject.business.constants.Messages;
+import com.etiya.ReCapProject.core.adapters.CustomerFindeksScoreService;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
@@ -20,14 +22,18 @@ import com.etiya.ReCapProject.core.utilities.result.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.RentalDao;
 import com.etiya.ReCapProject.entities.concretes.ApplicationUser;
 import com.etiya.ReCapProject.entities.concretes.Car;
+import com.etiya.ReCapProject.entities.concretes.CorporateCustomer;
+import com.etiya.ReCapProject.entities.concretes.IndividualCustomer;
 import com.etiya.ReCapProject.entities.concretes.Rental;
+import com.etiya.ReCapProject.entities.dtos.CarDetailDto;
+import com.etiya.ReCapProject.entities.dtos.CardInformationDto;
 import com.etiya.ReCapProject.entities.dtos.CorporateCustomerDetailDto;
 import com.etiya.ReCapProject.entities.dtos.IndividualCustomerDetailDto;
 import com.etiya.ReCapProject.entities.dtos.RentalDetailDto;
-import com.etiya.ReCapProject.entities.dtos.abstracts.CarDetailDto;
-import com.etiya.ReCapProject.entities.requests.CreateRentalRequest;
-import com.etiya.ReCapProject.entities.requests.DeleteRentalRequest;
-import com.etiya.ReCapProject.entities.requests.UpdateRentalRequest;
+import com.etiya.ReCapProject.entities.requests.create.CreateCardInformationRequest;
+import com.etiya.ReCapProject.entities.requests.create.CreateRentalRequest;
+import com.etiya.ReCapProject.entities.requests.delete.DeleteRentalRequest;
+import com.etiya.ReCapProject.entities.requests.update.UpdateRentalRequest;
 
 @Service
 public class RentalManager implements RentalService {
@@ -37,16 +43,22 @@ public class RentalManager implements RentalService {
 	private UserService userService;
 	private IndividualCustomerService individualCustomerService;
 	private CorporateCustomerService corporateCustomerService;
+	private CustomerFindeksScoreService customerFindeksScoreService;
+	private CardInformationService cardInformationService;
 
 	@Autowired
 	public RentalManager(RentalDao rentalDao, CarService carService, UserService userService,
-			IndividualCustomerService individualCustomerService,CorporateCustomerService corporateCustomerService) {
+			IndividualCustomerService individualCustomerService,CorporateCustomerService corporateCustomerService,
+			CustomerFindeksScoreService customerFindeksScoreService ,CardInformationService cardInformationService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.carService = carService;
 		this.userService = userService;
 		this.individualCustomerService = individualCustomerService;
 		this.corporateCustomerService = corporateCustomerService;
+		this.customerFindeksScoreService = customerFindeksScoreService;
+		this.cardInformationService = cardInformationService;
+		
 	}
 
 	@Override
@@ -61,7 +73,9 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
-		var result = BusinessRules.run(checkCarIsReturned(createRentalRequest.getCarId()));
+		
+		var result = BusinessRules.run(checkCarIsReturned(createRentalRequest.getCarId())
+				,checkCustomerFindeksScore(createRentalRequest.getUserId(),createRentalRequest.getCarId()));
 
 		if (result != null) {
 			return result;
@@ -79,11 +93,22 @@ public class RentalManager implements RentalService {
 		rental.setApplicationUser(applicationUser);
 
 		this.rentalDao.save(rental);
+		if(createRentalRequest.isCardIsSaved()) {
+			carInformationSavedIfCardIsSavedIsTrue(createRentalRequest.getCardInformationDto() , createRentalRequest.getUserId());
+		}
 		return new SuccessResult(Messages.RentalAdded);
 	}
 
 	@Override
 	public Result update(UpdateRentalRequest updateRentalRequest) {
+		
+		var result = BusinessRules.run(checkCarIsReturned(updateRentalRequest.getCarId())
+				,checkCustomerFindeksScore(this.rentalDao.getById(updateRentalRequest.getRentalId()).getApplicationUser().getUserId(),updateRentalRequest.getCarId()));
+
+		if (result != null) {
+			return result;
+		}
+		
 
 		Car car = this.carService.getById(updateRentalRequest.getCarId()).getData();
 
@@ -149,5 +174,45 @@ public class RentalManager implements RentalService {
 		
 		return null;
 	}
-
+	
+	private Result checkCustomerFindeksScore(int applicationUserId, int carId) {
+		
+		if(this.individualCustomerService.existsByUserId(applicationUserId).isSuccess()) {
+			IndividualCustomer individualCustomer = this.individualCustomerService.getByApplicationUser_UserId(applicationUserId).getData();
+			
+			if(this.carService.getById(carId).getData().getMinFindeksScore()  > 
+			this.customerFindeksScoreService.getIndividualFindeksScore(individualCustomer.getNationalIdentityNumber())) {
+				
+				return new ErrorResult("Findeks Puani Yetersiz.");
+			}
+			
+	
+		}else if(this.corporateCustomerService.existsByUserId(applicationUserId).isSuccess()) {
+			CorporateCustomer corporateCustomer = this.corporateCustomerService.getByApplicationUser_UserId(applicationUserId).getData();
+			
+			if(this.carService.getById(carId).getData().getMinFindeksScore() > 
+			this.customerFindeksScoreService.getCorporateFindeksScore(corporateCustomer.getTaxNumber())) {
+				
+				return new ErrorResult("Findeks Puani Yetersiz.");
+			}
+			
+		}
+		
+		return new SuccessResult();
+	}
+	
+	
+	private Result carInformationSavedIfCardIsSavedIsTrue(CardInformationDto cardInformationDto , int userId) {
+		
+		CreateCardInformationRequest cardInformationRequest = new CreateCardInformationRequest();
+		cardInformationRequest.setCardName(cardInformationDto.getCardName());
+		cardInformationRequest.setCardNumber(cardInformationDto.getCardNumber());
+		cardInformationRequest.setExpirationDate(cardInformationDto.getExpirationDate());
+		cardInformationRequest.setCvv(cardInformationDto.getCvv());
+		
+		cardInformationRequest.setUserId(userId);
+		
+		return new SuccessResult(this.cardInformationService.add(cardInformationRequest).getMessage());
+		
+	}
 }

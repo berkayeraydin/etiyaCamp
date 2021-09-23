@@ -16,9 +16,9 @@ import com.etiya.ReCapProject.dataAccess.abstracts.CorporateCustomerDao;
 import com.etiya.ReCapProject.entities.concretes.ApplicationUser;
 import com.etiya.ReCapProject.entities.concretes.CorporateCustomer;
 import com.etiya.ReCapProject.entities.dtos.CorporateCustomerDetailDto;
-import com.etiya.ReCapProject.entities.requests.CreateCorporateCustomerRequest;
-import com.etiya.ReCapProject.entities.requests.DeleteCorporateCustomerRequest;
-import com.etiya.ReCapProject.entities.requests.UpdateCorporateCustomerRequest;
+import com.etiya.ReCapProject.entities.requests.create.CreateCorporateCustomerRequest;
+import com.etiya.ReCapProject.entities.requests.delete.DeleteCorporateCustomerRequest;
+import com.etiya.ReCapProject.entities.requests.update.UpdateCorporateCustomerRequest;
 
 @Service
 public class CorporateCustomerManager implements CorporateCustomerService {
@@ -99,6 +99,12 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		corporateCustomerDetailDto.setCompanyName(corporateCustomer.getCompanyName());
 
 		return new SuccessDataResult<CorporateCustomerDetailDto>(corporateCustomerDetailDto,"bireysel müşteri detayları");
+	}
+	
+	@Override
+	public DataResult<CorporateCustomer> getByApplicationUser_UserId(int applicationUserId) {
+
+		return new SuccessDataResult<CorporateCustomer>(this.corporateCustomerDao.getByApplicationUser_UserId(applicationUserId));
 	}
 
 }

@@ -15,9 +15,9 @@ import com.etiya.ReCapProject.business.abstracts.CarImageService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.CarImage;
-import com.etiya.ReCapProject.entities.requests.CreateCarImageRequest;
-import com.etiya.ReCapProject.entities.requests.DeleteCarImageRequest;
-import com.etiya.ReCapProject.entities.requests.UpdateCarImageRequest;
+import com.etiya.ReCapProject.entities.requests.create.CreateCarImageRequest;
+import com.etiya.ReCapProject.entities.requests.delete.DeleteCarImageRequest;
+import com.etiya.ReCapProject.entities.requests.update.UpdateCarImageRequest;
 
 @RestController
 @RequestMapping("api/carimages")

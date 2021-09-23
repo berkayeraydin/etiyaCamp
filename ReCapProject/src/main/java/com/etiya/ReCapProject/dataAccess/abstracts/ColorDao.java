@@ -6,5 +6,6 @@ import com.etiya.ReCapProject.entities.concretes.Color;
 
 
 public interface ColorDao extends JpaRepository<Color, Integer> {
-
+	
+	boolean existsByColorName(String colorName);
 }

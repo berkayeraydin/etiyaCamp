@@ -6,9 +6,9 @@ import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.etiya.ReCapProject.entities.dtos.RentalDetailDto;
-import com.etiya.ReCapProject.entities.requests.CreateRentalRequest;
-import com.etiya.ReCapProject.entities.requests.DeleteRentalRequest;
-import com.etiya.ReCapProject.entities.requests.UpdateRentalRequest;
+import com.etiya.ReCapProject.entities.requests.create.CreateRentalRequest;
+import com.etiya.ReCapProject.entities.requests.delete.DeleteRentalRequest;
+import com.etiya.ReCapProject.entities.requests.update.UpdateRentalRequest;
 
 public interface RentalService {
 	

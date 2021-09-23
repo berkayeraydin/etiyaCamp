@@ -17,9 +17,9 @@ import com.etiya.ReCapProject.dataAccess.abstracts.IndividualCustomerDao;
 import com.etiya.ReCapProject.entities.concretes.ApplicationUser;
 import com.etiya.ReCapProject.entities.concretes.IndividualCustomer;
 import com.etiya.ReCapProject.entities.dtos.IndividualCustomerDetailDto;
-import com.etiya.ReCapProject.entities.requests.CreateIndividualCustomerRequest;
-import com.etiya.ReCapProject.entities.requests.DeleteIndividualCustomerRequest;
-import com.etiya.ReCapProject.entities.requests.UpdateIndividualCustomerRequest;
+import com.etiya.ReCapProject.entities.requests.create.CreateIndividualCustomerRequest;
+import com.etiya.ReCapProject.entities.requests.delete.DeleteIndividualCustomerRequest;
+import com.etiya.ReCapProject.entities.requests.update.UpdateIndividualCustomerRequest;
 
 @Service
 public class IndividualCustomerManager implements IndividualCustomerService {
@@ -103,6 +103,12 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		individualCustomerDetailDto.setLastName(individualCustomer.getLastName());
 
 		return new SuccessDataResult<IndividualCustomerDetailDto>(individualCustomerDetailDto,"bireysel müşteri detayları");
+	}
+
+	@Override
+	public DataResult<IndividualCustomer> getByApplicationUser_UserId(int applicationUserId) {
+
+		return new SuccessDataResult<IndividualCustomer>(this.individualCustomerDao.getByApplicationUser_UserId(applicationUserId));
 	}
 
 }

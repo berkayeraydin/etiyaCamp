@@ -2,7 +2,7 @@ package com.etiya.ReCapProject.entities.dtos;
 
 import java.util.Date;
 
-import com.etiya.ReCapProject.entities.dtos.abstracts.CarDetailDto;
+import com.etiya.ReCapProject.entities.dtos.abstracts.CustomerDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

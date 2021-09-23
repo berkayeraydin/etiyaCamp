@@ -9,4 +9,6 @@ public interface IndividualCustomerDao extends JpaRepository<IndividualCustomer,
 	
 	boolean existsByApplicationUser_UserId(int applicationUserId);
 	
+	IndividualCustomer getByApplicationUser_UserId(int applicationUserId);
+	
 }

@@ -6,15 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.etiya.ReCapProject.business.abstracts.BrandService;
 import com.etiya.ReCapProject.business.constants.Messages;
+import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
+import com.etiya.ReCapProject.core.utilities.result.ErrorResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.core.utilities.result.SuccessDataResult;
 import com.etiya.ReCapProject.core.utilities.result.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.BrandDao;
 import com.etiya.ReCapProject.entities.concretes.Brand;
-import com.etiya.ReCapProject.entities.requests.CreateBrandRequest;
-import com.etiya.ReCapProject.entities.requests.DeleteBrandRequest;
-import com.etiya.ReCapProject.entities.requests.UpdateBrandRequest;
+import com.etiya.ReCapProject.entities.requests.create.CreateBrandRequest;
+import com.etiya.ReCapProject.entities.requests.delete.DeleteBrandRequest;
+import com.etiya.ReCapProject.entities.requests.update.UpdateBrandRequest;
 
 @Service
 public class BrandManager  implements BrandService{
@@ -41,6 +43,13 @@ public class BrandManager  implements BrandService{
 
 	@Override
 	public Result add( CreateBrandRequest createBrandRequest) {
+		
+		var result = BusinessRules.run(this.checkBrandByBrandName(createBrandRequest.getBrandName()));
+
+		if (result != null) {
+			return result;
+		}
+		
 		Brand brand = new Brand();
 		brand.setBrandName(createBrandRequest.getBrandName());
 		
@@ -51,6 +60,12 @@ public class BrandManager  implements BrandService{
 
 	@Override
 	public Result update(UpdateBrandRequest updateBrandRequest) {
+		
+		var result = BusinessRules.run(this.checkBrandByBrandName(updateBrandRequest.getBrandName()));
+
+		if (result != null) {
+			return result;
+		}
 		
 		Brand brand = this.brandDao.getById(updateBrandRequest.getBrandId());
 		brand.setBrandName(updateBrandRequest.getBrandName());
@@ -67,6 +82,13 @@ public class BrandManager  implements BrandService{
 		this.brandDao.delete(brand);
 		return new SuccessResult(Messages.BrandDeleted);
 		
+	}
+	
+	private Result checkBrandByBrandName(String brandName) {
+		if (this.brandDao.existsByBrandName(brandName)) {
+			return new ErrorResult("Bu isimde marka bulunuyor");
+		}
+		return new SuccessResult();
 	}
 
 }

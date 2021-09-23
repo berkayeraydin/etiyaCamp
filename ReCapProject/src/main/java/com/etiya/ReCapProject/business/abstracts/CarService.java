@@ -5,10 +5,10 @@ import java.util.List;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.Car;
-import com.etiya.ReCapProject.entities.dtos.abstracts.CarDetailDto;
-import com.etiya.ReCapProject.entities.requests.CreateCarRequest;
-import com.etiya.ReCapProject.entities.requests.DeleteCarRequest;
-import com.etiya.ReCapProject.entities.requests.UpdateCarRequest;
+import com.etiya.ReCapProject.entities.dtos.CarDetailDto;
+import com.etiya.ReCapProject.entities.requests.create.CreateCarRequest;
+import com.etiya.ReCapProject.entities.requests.delete.DeleteCarRequest;
+import com.etiya.ReCapProject.entities.requests.update.UpdateCarRequest;
 
 public interface CarService {
 	

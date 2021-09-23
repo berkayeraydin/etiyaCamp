@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.ReCapProject.business.abstracts.CarService;
 import com.etiya.ReCapProject.core.utilities.result.*;
 import com.etiya.ReCapProject.entities.concretes.Car;
-import com.etiya.ReCapProject.entities.dtos.abstracts.CarDetailDto;
-import com.etiya.ReCapProject.entities.requests.CreateCarRequest;
-import com.etiya.ReCapProject.entities.requests.DeleteCarRequest;
-import com.etiya.ReCapProject.entities.requests.UpdateCarRequest;
+import com.etiya.ReCapProject.entities.dtos.CarDetailDto;
+import com.etiya.ReCapProject.entities.requests.create.CreateCarRequest;
+import com.etiya.ReCapProject.entities.requests.delete.DeleteCarRequest;
+import com.etiya.ReCapProject.entities.requests.update.UpdateCarRequest;
 
 @RestController
 @RequestMapping("api/cars")
