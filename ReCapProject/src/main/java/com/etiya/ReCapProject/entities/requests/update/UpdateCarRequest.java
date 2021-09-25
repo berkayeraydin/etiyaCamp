@@ -35,6 +35,12 @@ public class UpdateCarRequest {
 	private String descripton; 
 	
 	@NotNull
+	private int minFindeksScore;
+	
+	@NotBlank
+	private boolean isListed;
+	
+	@NotNull
 	private int brandId;
 	
 	@NotNull

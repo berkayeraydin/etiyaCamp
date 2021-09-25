@@ -15,6 +15,7 @@ import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.adapters.CustomerFindeksScoreService;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
+import com.etiya.ReCapProject.core.utilities.result.ErrorDataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.core.utilities.result.ErrorResult;
 import com.etiya.ReCapProject.core.utilities.result.SuccessDataResult;
@@ -48,8 +49,8 @@ public class RentalManager implements RentalService {
 
 	@Autowired
 	public RentalManager(RentalDao rentalDao, CarService carService, UserService userService,
-			IndividualCustomerService individualCustomerService,CorporateCustomerService corporateCustomerService,
-			CustomerFindeksScoreService customerFindeksScoreService ,CardInformationService cardInformationService) {
+			IndividualCustomerService individualCustomerService, CorporateCustomerService corporateCustomerService,
+			CustomerFindeksScoreService customerFindeksScoreService, CardInformationService cardInformationService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.carService = carService;
@@ -58,7 +59,6 @@ public class RentalManager implements RentalService {
 		this.corporateCustomerService = corporateCustomerService;
 		this.customerFindeksScoreService = customerFindeksScoreService;
 		this.cardInformationService = cardInformationService;
-		
 	}
 
 	@Override
@@ -72,16 +72,60 @@ public class RentalManager implements RentalService {
 	}
 
 	@Override
+	public DataResult<RentalDetailDto> getRentalDetailsByRentalId(int rentalId) {
+
+		Rental rental = this.rentalDao.getById(rentalId);
+
+		RentalDetailDto rentalDetailDto = new RentalDetailDto();
+		CarDetailDto carDetailDto = this.carService.getCarDetailsByCarId(rental.getCar().getCarId()).getData();
+
+		if (this.individualCustomerService.existsByUserId(rental.getApplicationUser().getUserId()).isSuccess()) {
+
+			IndividualCustomerDetailDto individualCustomerDetailDto = this.individualCustomerService
+					.getIndividualCustomerDetailsById(
+							rental.getApplicationUser().getIndividualCustomer().getIndividualCustomerId())
+					.getData();
+
+			rentalDetailDto.setRentDate(rental.getRentDate());
+			rentalDetailDto.setReturnDate(rental.getReturnDate());
+			rentalDetailDto.setCarDetailDto(carDetailDto);
+			rentalDetailDto.setCustomerDto(individualCustomerDetailDto);
+
+			return new SuccessDataResult<RentalDetailDto>(rentalDetailDto, Messages.RentalDetail);
+		}
+		if (this.corporateCustomerService.existsByUserId(rental.getApplicationUser().getUserId()).isSuccess()) {
+
+			CorporateCustomerDetailDto corporateCustomerDetailDto = this.corporateCustomerService
+					.getCorporateCustomerDetailsById(
+							rental.getApplicationUser().getCorporateCustomer().getCorporateCustomerId())
+					.getData();
+
+			rentalDetailDto.setRentDate(rental.getRentDate());
+			rentalDetailDto.setReturnDate(rental.getReturnDate());
+			rentalDetailDto.setCarDetailDto(carDetailDto);
+			rentalDetailDto.setCustomerDto(corporateCustomerDetailDto);
+
+			return new SuccessDataResult<RentalDetailDto>(rentalDetailDto, Messages.RentalDetail);
+		}
+
+		return new ErrorDataResult<RentalDetailDto>();
+	}
+
+	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
-		
-		var result = BusinessRules.run(checkCarIsReturned(createRentalRequest.getCarId())
-				,checkCustomerFindeksScore(createRentalRequest.getUserId(),createRentalRequest.getCarId()));
+
+		var result = BusinessRules.run(checkCarIsReturned(createRentalRequest.getCarId()),
+				checkCustomerFindeksScore(createRentalRequest.getUserId(), createRentalRequest.getCarId()),
+				this.cardInformationService
+						.checkCardFormat(createRentalRequest.getCardInformationDto().getCardNumber()),
+				this.carService.checkCarIsInGallery(createRentalRequest.getCarId()));
 
 		if (result != null) {
 			return result;
 		}
 
 		Car car = this.carService.getById(createRentalRequest.getCarId()).getData();
+		this.carService.carListedIsFalse(car.getCarId());
 
 		ApplicationUser applicationUser = this.userService.getById(createRentalRequest.getUserId()).getData();
 
@@ -93,30 +137,39 @@ public class RentalManager implements RentalService {
 		rental.setApplicationUser(applicationUser);
 
 		this.rentalDao.save(rental);
-		if(createRentalRequest.isCardIsSaved()) {
-			carInformationSavedIfCardIsSavedIsTrue(createRentalRequest.getCardInformationDto() , createRentalRequest.getUserId());
+
+		if (createRentalRequest.isCardIsSaved()) {
+			this.cardInformationSavedIfCardIsSavedIsTrue(createRentalRequest.getCardInformationDto(),
+					createRentalRequest.getUserId());
 		}
+
 		return new SuccessResult(Messages.RentalAdded);
 	}
 
 	@Override
 	public Result update(UpdateRentalRequest updateRentalRequest) {
-		
-		var result = BusinessRules.run(checkCarIsReturned(updateRentalRequest.getCarId())
-				,checkCustomerFindeksScore(this.rentalDao.getById(updateRentalRequest.getRentalId()).getApplicationUser().getUserId(),updateRentalRequest.getCarId()));
+
+		var result = BusinessRules.run(checkCarIsReturned(updateRentalRequest.getCarId()),
+				checkCustomerFindeksScore(
+						this.rentalDao.getById(updateRentalRequest.getRentalId()).getApplicationUser().getUserId(),
+						updateRentalRequest.getCarId()));
 
 		if (result != null) {
 			return result;
 		}
-		
 
 		Car car = this.carService.getById(updateRentalRequest.getCarId()).getData();
 
 		Rental rental = this.rentalDao.getById(updateRentalRequest.getRentalId());
 		rental.setReturnDate(updateRentalRequest.getReturnDate());
-		rental.setRentalId(updateRentalRequest.getRentalId());
 
-		rental.setCar(car);
+		if (rental.getCar().getCarId() != car.getCarId()) {
+
+			this.carService.carListedIsTrue(rental.getCar().getCarId());
+
+			this.carService.carListedIsFalse(car.getCarId());
+			rental.setCar(car);
+		}
 
 		this.rentalDao.save(rental);
 		return new SuccessResult(Messages.RentalUpdated);
@@ -131,6 +184,19 @@ public class RentalManager implements RentalService {
 		return new SuccessResult(Messages.RentalDeleted);
 	}
 
+	@Override
+	public Result carAtRentalReturnedIsTrue(int rentalId) {
+
+		Rental rental = this.rentalDao.getById(rentalId);
+		rental.setCarReturned(true);
+
+		this.carService.carListedIsTrue(rental.getCar().getCarId());
+
+		this.rentalDao.save(rental);
+
+		return new SuccessResult(Messages.RentalCarIsReturned);
+	}
+
 	private Result checkCarIsReturned(int carId) {
 		if (this.rentalDao.existsByIsCarReturnedIsFalseAndCar_CarId(carId)) {
 			return new ErrorResult(Messages.RentalCarNotReturn);
@@ -138,81 +204,46 @@ public class RentalManager implements RentalService {
 		return new SuccessResult();
 	}
 
-	@Override
-	public DataResult<RentalDetailDto> getRentalDetailsByRentalId(int rentalId) {
-
-		Rental rental = this.rentalDao.getById(rentalId);
-
-		RentalDetailDto rentalDetailDto = new RentalDetailDto();
-		CarDetailDto carDetailDto = this.carService.getCarDetailsByCarId(rental.getCar().getCarId()).getData();
-
-		if (this.individualCustomerService.existsByUserId(rental.getApplicationUser().getUserId()).isSuccess()) {
-			
-			IndividualCustomerDetailDto individualCustomerDetailDto = this.individualCustomerService
-					.getIndividualCustomerDetailsById(rental.getApplicationUser().getIndividualCustomer().getIndividualCustomerId()).getData();
-			
-			rentalDetailDto.setRentDate(rental.getRentDate());
-			rentalDetailDto.setReturnDate(rental.getReturnDate());
-			rentalDetailDto.setCarDetailDto(carDetailDto);
-			rentalDetailDto.setCustomerDto(individualCustomerDetailDto);
-
-			return new SuccessDataResult<RentalDetailDto>(rentalDetailDto, "kiralama işlemi detayları");
-		}
-		
-		if (this.corporateCustomerService.existsByUserId(rental.getApplicationUser().getUserId()).isSuccess()) {
-			
-			CorporateCustomerDetailDto corporateCustomerDetailDto = this.corporateCustomerService
-					.getCorporateCustomerDetailsById(rental.getApplicationUser().getCorporateCustomer().getCorporateCustomerId()).getData();
-			
-			rentalDetailDto.setRentDate(rental.getRentDate());
-			rentalDetailDto.setReturnDate(rental.getReturnDate());
-			rentalDetailDto.setCarDetailDto(carDetailDto);
-			rentalDetailDto.setCustomerDto(corporateCustomerDetailDto);
-
-			return new SuccessDataResult<RentalDetailDto>(rentalDetailDto, "kiralama işlemi detayları");
-		}
-		
-		return null;
-	}
-	
 	private Result checkCustomerFindeksScore(int applicationUserId, int carId) {
-		
-		if(this.individualCustomerService.existsByUserId(applicationUserId).isSuccess()) {
-			IndividualCustomer individualCustomer = this.individualCustomerService.getByApplicationUser_UserId(applicationUserId).getData();
-			
-			if(this.carService.getById(carId).getData().getMinFindeksScore()  > 
-			this.customerFindeksScoreService.getIndividualFindeksScore(individualCustomer.getNationalIdentityNumber())) {
-				
-				return new ErrorResult("Findeks Puani Yetersiz.");
+
+		if (this.individualCustomerService.existsByUserId(applicationUserId).isSuccess()) {
+			IndividualCustomer individualCustomer = this.individualCustomerService
+					.getByApplicationUser_UserId(applicationUserId).getData();
+
+			if (this.carService.getById(carId).getData().getMinFindeksScore() > this.customerFindeksScoreService
+					.getIndividualFindeksScore(individualCustomer.getNationalIdentityNumber())) {
+
+				return new ErrorResult(Messages.FindeksScoreIsInsufficient);
 			}
-			
-	
-		}else if(this.corporateCustomerService.existsByUserId(applicationUserId).isSuccess()) {
-			CorporateCustomer corporateCustomer = this.corporateCustomerService.getByApplicationUser_UserId(applicationUserId).getData();
-			
-			if(this.carService.getById(carId).getData().getMinFindeksScore() > 
-			this.customerFindeksScoreService.getCorporateFindeksScore(corporateCustomer.getTaxNumber())) {
-				
-				return new ErrorResult("Findeks Puani Yetersiz.");
-			}
-			
+
 		}
-		
+
+		if (this.corporateCustomerService.existsByUserId(applicationUserId).isSuccess()) {
+
+			CorporateCustomer corporateCustomer = this.corporateCustomerService
+					.getByApplicationUser_UserId(applicationUserId).getData();
+
+			if (this.carService.getById(carId).getData().getMinFindeksScore() > this.customerFindeksScoreService
+					.getCorporateFindeksScore(corporateCustomer.getTaxNumber())) {
+
+				return new ErrorResult(Messages.FindeksScoreIsInsufficient);
+			}
+		}
+
 		return new SuccessResult();
+
 	}
-	
-	
-	private Result carInformationSavedIfCardIsSavedIsTrue(CardInformationDto cardInformationDto , int userId) {
-		
+
+	private Result cardInformationSavedIfCardIsSavedIsTrue(CardInformationDto cardInformationDto, int UserId) {
+
 		CreateCardInformationRequest cardInformationRequest = new CreateCardInformationRequest();
 		cardInformationRequest.setCardName(cardInformationDto.getCardName());
 		cardInformationRequest.setCardNumber(cardInformationDto.getCardNumber());
 		cardInformationRequest.setExpirationDate(cardInformationDto.getExpirationDate());
 		cardInformationRequest.setCvv(cardInformationDto.getCvv());
-		
-		cardInformationRequest.setUserId(userId);
-		
+		cardInformationRequest.setUserId(UserId);
+
 		return new SuccessResult(this.cardInformationService.add(cardInformationRequest).getMessage());
-		
 	}
+
 }

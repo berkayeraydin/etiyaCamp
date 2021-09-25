@@ -32,6 +32,9 @@ public class CreateCarRequest {
 	private String descripton; 
 	
 	@NotNull
+	private int minFindeksScore;
+	
+	@NotNull
 	private int brandId;
 	
 	@NotNull

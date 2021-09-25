@@ -15,11 +15,13 @@ public interface CardInformationService {
 
 	DataResult<CardInformation> getById(int cardInformationId); 
 	
-	DataResult<List<CardInformation>> getCardInformationByApplicationUser_UserId(int applicationUserId);
+	DataResult<List<CardInformation>> getCardInformationsByApplicationUser_UserId(int applicationUserId);
 
 	Result add(CreateCardInformationRequest createCardInformationRequest);
 
 	Result update(UpdateCardInformationRequest updateCardInformationRequest);
 
 	Result delete(DeleteCardInformationRequest deleteCardInformationRequest);
+
+	Result checkCardFormat(String cardNumber);
 }

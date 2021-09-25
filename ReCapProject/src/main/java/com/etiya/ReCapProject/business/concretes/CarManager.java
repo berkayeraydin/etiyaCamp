@@ -1,5 +1,6 @@
 package com.etiya.ReCapProject.business.concretes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.etiya.ReCapProject.business.abstracts.CarService;
 import com.etiya.ReCapProject.business.abstracts.ColorService;
 import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
+import com.etiya.ReCapProject.core.utilities.result.ErrorResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.core.utilities.result.SuccessDataResult;
 import com.etiya.ReCapProject.core.utilities.result.SuccessResult;
@@ -103,8 +105,24 @@ public class CarManager implements CarService {
 
 	@Override
 	public DataResult<List<CarDetailDto>> getAllCarsDetails() {
+		
+		List<Car> cars = this.carDao.getByIsListedIsTrue();
+		
+		List<CarDetailDto> carDetailDtos = new ArrayList<CarDetailDto>();
+		
+		for (Car car : cars) {
+			
+			CarDetailDto carDetailDto = new CarDetailDto();
+			carDetailDto.setCarName(car.getCarName());
+			carDetailDto.setColorName(car.getColor().getColorName());
+			carDetailDto.setBrandName(car.getBrand().getBrandName());
+			carDetailDto.setDailyPrice(car.getDailyPrice());
+			carDetailDto.setCarImages(car.getCarImages());
+			
+			carDetailDtos.add(carDetailDto);
+		}
 
-		return new SuccessDataResult<List<CarDetailDto>>(null,
+		return new SuccessDataResult<List<CarDetailDto>>(carDetailDtos,
 				Messages.CarDetailsListed);
 	}
 
@@ -135,6 +153,36 @@ public class CarManager implements CarService {
 	@Override
 	public DataResult<List<Car>> getCarsByBrandId(int brandId) {
 		return new SuccessDataResult<List<Car>>(this.carDao.getByBrand_BrandId(brandId), Messages.CarsListedByBrand);
+	}
+	
+	@Override
+	public Result checkCarIsInGallery(int carId) {
+
+		Car car = this.carDao.getById(carId);
+
+		if (!car.isListed()) {
+			return new ErrorResult(Messages.CarIsNotInGalery);
+		}
+
+		return new SuccessResult();
+	}
+
+	@Override
+	public Result carListedIsTrue(int carId) {
+		
+		Car car = this.carDao.getById(carId);
+		car.setListed(true);
+		
+		return new SuccessResult(Messages.CarCanListed);
+	}
+
+	@Override
+	public Result carListedIsFalse(int carId) {
+		
+		Car car = this.carDao.getById(carId);
+		car.setListed(false);
+		
+		return new SuccessResult(Messages.CarCantListed);
 	}
 
 }

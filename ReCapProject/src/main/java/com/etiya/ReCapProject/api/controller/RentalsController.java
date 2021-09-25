@@ -60,4 +60,9 @@ public class RentalsController {
 	public Result delte(DeleteRentalRequest deleteRentalRequest) {
 		return this.rentalService.delete(deleteRentalRequest);
 	}
+	
+	@PostMapping("/carReturnedIsTrue")
+	public Result carReturnedIsTrue(int rentalId) {
+		return this.rentalService.carAtRentalReturnedIsTrue(rentalId);
+	}
 }

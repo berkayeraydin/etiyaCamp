@@ -1,5 +1,6 @@
 package com.etiya.ReCapProject.entities.concretes;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class CorporateCustomer{
 	@Column(name = "tax_number")
 	private String taxNumber;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private ApplicationUser applicationUser;
 }

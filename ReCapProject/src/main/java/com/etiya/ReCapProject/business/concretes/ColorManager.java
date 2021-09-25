@@ -21,10 +21,10 @@ import com.etiya.ReCapProject.entities.requests.delete.DeleteColorRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateColorRequest;
 
 @Service
-public class ColorManager implements ColorService{
-	
+public class ColorManager implements ColorService {
+
 	private ColorDao colorDao;
-	
+
 	@Autowired
 	public ColorManager(ColorDao colorDao) {
 		super();
@@ -33,19 +33,17 @@ public class ColorManager implements ColorService{
 
 	@Override
 	public DataResult<List<Color>> getAll() {
-
-		return new SuccessDataResult<List<Color>>(this.colorDao.findAll(), Messages.ColorsListed) ;
+		return new SuccessDataResult<List<Color>>(this.colorDao.findAll(), Messages.ColorsListed);
 	}
 
 	@Override
 	public DataResult<Color> getById(int colorId) {
-
-		return new SuccessDataResult<Color>(this.colorDao.getById(colorId), Messages.ColorsListed) ;
+		return new SuccessDataResult<Color>(this.colorDao.getById(colorId), Messages.ColorListed);
 	}
 
 	@Override
 	public Result add(CreateColorRequest createColorRequest) {
-		
+
 		var result = BusinessRules.run(this.checkColorByColorName(createColorRequest.getColorName()));
 
 		if (result != null) {
@@ -54,14 +52,15 @@ public class ColorManager implements ColorService{
 		
 		Color color = new Color();
 		color.setColorName(createColorRequest.getColorName());
-		
+
 		this.colorDao.save(color);
 		return new SuccessResult(Messages.ColorAdded);
+
 	}
 
 	@Override
-	public Result update( UpdateColorRequest updateColorRequest) {
-		
+	public Result update(UpdateColorRequest updateColorRequest) {
+
 		var result = BusinessRules.run(this.checkColorByColorName(updateColorRequest.getColorName()));
 
 		if (result != null) {
@@ -70,24 +69,23 @@ public class ColorManager implements ColorService{
 		
 		Color color = this.colorDao.getById(updateColorRequest.getColorId());
 		color.setColorName(updateColorRequest.getColorName());
-		
+
 		this.colorDao.save(color);
 		return new SuccessResult(Messages.ColorUpdated);
-		
 	}
 
 	@Override
 	public Result delete(DeleteColorRequest deleteColorRequest) {
-		
+
 		Color color = this.colorDao.getById(deleteColorRequest.getColorId());
-		
+
 		this.colorDao.delete(color);
 		return new SuccessResult(Messages.ColorDeleted);
 	}
 	
 	private Result checkColorByColorName(String colorName) {
 		if (this.colorDao.existsByColorName(colorName)) {
-			return new ErrorResult("Bu isimde renk bulunuyor");
+			return new ErrorResult(Messages.ColorIsFount);
 		}
 		return new SuccessResult();
 	}

@@ -15,6 +15,10 @@ public class Messages {
     public static String CarNameAlreadyExists= "Bu isimde zaten başka araba var";
     public static String CarsListedByColor = "Arabalar seçilen renge göre listelendi";
 	public static String CarsListedByBrand = "Arabalar seçilen markaya göre listelendi";
+	public static String CarIsNotInGalery = "Araba galeride değil";
+	public static String CarCanListed= "Araba listelenebilir";
+	public static String CarCantListed = "Araba listelenebilir değil";
+	
 
     //Brand
     public static String BrandAdded = "Marka eklendi";
@@ -23,6 +27,7 @@ public class Messages {
     public static String BrandsListed = "Markalar listelendi";
     public static String BrandListed = "Marka listelendi";
     public static String BrandNameInvalid = "Marka ismi geçersiz";
+    public static String BrandIsFount = "Marka mevcut";
 
     //Color
     public static String ColorAdded = "Renk eklendi";
@@ -31,6 +36,7 @@ public class Messages {
     public static String ColorsListed = "Renkler listelendi";
     public static String ColorListed = "Renk listelendi";
     public static String ColorNameInvalid = "Renk ismi geçersiz";
+    public static String ColorIsFount = "Renk mevcut";
 
     //User
     public static String UserAdded = "Kullanıcı eklendi";
@@ -45,6 +51,8 @@ public class Messages {
     public static String CustomerUpdated = "Müşteri güncellendi";
     public static String CustomersListed = "Müşteriler listelendi";
     public static String CustomerListed = "Müşteri listelendi";
+    public static String CorporateCustomerDetail = "Kurumsal müşteri detayları";
+    public static String IndividualCustomerDetail = "Bireysel müşteri detayları";
 
     //Rental
     public static String RentalAdded = "Kiralama işlemi eklendi";
@@ -53,6 +61,9 @@ public class Messages {
     public static String RentalsListed = "Kiralama işlemleri listelendi";
     public static String RentalListed = "Kiralama işlemi listelendi";
     public static String RentalCarNotReturn = "Araç galeride değil. Kiralama işlemi başarısız";
+    public static String RentalDetail = "Kiralama işlemi detayları";
+    public static String RentalCarIsReturned = "Araç kiralanan müşteriden teslim alındı";
+    public static String FindeksScoreIsInsufficient= "Findeks puanı yetersiz";
 
     //CarImage
     public static String CarImageAdded = "Araba resmi eklendi";
@@ -71,4 +82,22 @@ public class Messages {
     public static String SuccessfulLogin = "Giriş başarılı";
     public static String UserAlreadyExists = "Kullanıcı mevcut";
     public static String AccessTokenCreated = "Token oluşturuldu";
+    public static String LoggedCustomer = "Giriş yapan customer bilgisi";
+    
+    //CardInformation
+    public static String CardInformationAdded = "Kart bilgisi eklendi";
+    public static String CardInformationDeleted = "Kart bilgisi silindi";
+    public static String CardInformationUpdated = "Kart bilgisi güncellendi";
+    public static String CardInformationsListed = "Kart bilgileri listelendi";
+    public static String CardInformationListed = "Kart bilgisi listelendi";
+    public static String CardInformationListedByUser = "Kullanıcının Kart bilgisi listelendi";
+    public static String CardNumberTypeIsNotValid= "Kart numarası geçerli değil";
+    
+    //CarMaintenance
+    public static String CarMaintenanceAdded = "Araba bakım bilgisi eklendi";
+    public static String CarMaintenanceDeleted = "Araba bakım bilgisi silindi";
+    public static String CarMaintenanceUpdated = "Araba bakım bilgisi güncellendi";
+    public static String CarMaintenancesListed = "Araba bakım bilgileri listelendi";
+    public static String CarMaintenanceListed = "Araba bakım bilgisi listelendi";
+    public static String CarAtMaintenanceReturned = "Araç bakımdan döndü";
 }

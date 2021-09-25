@@ -19,10 +19,10 @@ import com.etiya.ReCapProject.entities.requests.delete.DeleteBrandRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateBrandRequest;
 
 @Service
-public class BrandManager  implements BrandService{
-	
+public class BrandManager implements BrandService {
+
 	private BrandDao brandDao;
-	
+
 	@Autowired
 	public BrandManager(BrandDao brandDao) {
 		super();
@@ -31,19 +31,16 @@ public class BrandManager  implements BrandService{
 
 	@Override
 	public DataResult<List<Brand>> getAll() {
-
-		return new SuccessDataResult<List<Brand>>(this.brandDao.findAll(), Messages.BrandsListed) ;
+		return new SuccessDataResult<List<Brand>>(this.brandDao.findAll(), Messages.BrandsListed);
 	}
 
 	@Override
 	public DataResult<Brand> getById(int brandId) {
-
-		return new SuccessDataResult<Brand>(this.brandDao.getById(brandId),  Messages.BrandsListed) ;
+		return new SuccessDataResult<Brand>(this.brandDao.getById(brandId), Messages.BrandListed);
 	}
 
 	@Override
-	public Result add( CreateBrandRequest createBrandRequest) {
-		
+	public Result add(CreateBrandRequest createBrandRequest) {
 		var result = BusinessRules.run(this.checkBrandByBrandName(createBrandRequest.getBrandName()));
 
 		if (result != null) {
@@ -52,15 +49,14 @@ public class BrandManager  implements BrandService{
 		
 		Brand brand = new Brand();
 		brand.setBrandName(createBrandRequest.getBrandName());
-		
+
 		this.brandDao.save(brand);
-		
 		return new SuccessResult(Messages.BrandAdded);
+
 	}
 
 	@Override
 	public Result update(UpdateBrandRequest updateBrandRequest) {
-		
 		var result = BusinessRules.run(this.checkBrandByBrandName(updateBrandRequest.getBrandName()));
 
 		if (result != null) {
@@ -69,24 +65,22 @@ public class BrandManager  implements BrandService{
 		
 		Brand brand = this.brandDao.getById(updateBrandRequest.getBrandId());
 		brand.setBrandName(updateBrandRequest.getBrandName());
-		
-		this.brandDao.save(brand);	
+
+		this.brandDao.save(brand);
 		return new SuccessResult(Messages.BrandUpdated);
 	}
 
 	@Override
 	public Result delete(DeleteBrandRequest deleteBrandRequest) {
-		
 		Brand brand = this.brandDao.getById(deleteBrandRequest.getBrandId());
 		
 		this.brandDao.delete(brand);
 		return new SuccessResult(Messages.BrandDeleted);
-		
 	}
 	
 	private Result checkBrandByBrandName(String brandName) {
 		if (this.brandDao.existsByBrandName(brandName)) {
-			return new ErrorResult("Bu isimde marka bulunuyor");
+			return new ErrorResult(Messages.BrandIsFount);
 		}
 		return new SuccessResult();
 	}

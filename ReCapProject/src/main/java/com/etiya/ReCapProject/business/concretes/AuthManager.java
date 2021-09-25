@@ -127,7 +127,7 @@ public class AuthManager implements AuthService {
 			individualCustomerDetailDto.setFirstName(individualCustomer.getFirstName());
 			individualCustomerDetailDto.setLastName(individualCustomer.getLastName());
 
-			return new SuccessDataResult<CustomerDto>(individualCustomerDetailDto, "Giriş yapan customer bilgisi");
+			return new SuccessDataResult<CustomerDto>(individualCustomerDetailDto, Messages.LoggedCustomer);
 		}
 
 		if (this.corporateCustomerService.existsByUserId(this.userService.getByEmail(email).getData().getUserId())
@@ -139,7 +139,7 @@ public class AuthManager implements AuthService {
 			CorporateCustomerDetailDto corporateCustomerDetailDto = new CorporateCustomerDetailDto();
 			corporateCustomerDetailDto.setCompanyName(corporateCustomer.getCompanyName());
 
-			return new SuccessDataResult<CustomerDto>(corporateCustomerDetailDto, "Giriş yapan customer bilgisi");
+			return new SuccessDataResult<CustomerDto>(corporateCustomerDetailDto, Messages.LoggedCustomer);
 		}
 
 		return new ErrorDataResult<CustomerDto>("");
@@ -148,7 +148,7 @@ public class AuthManager implements AuthService {
 
 	private Result checkCustomerEmailByEmailIsMatched(LoginRequest loginRequest) {
 		if (!this.userService.existsByEmail(loginRequest.getEmail()).isSuccess()) {
-			return new ErrorResult("Bu email ile kayıtlı kullanıcı bulunamadı");
+			return new ErrorResult(Messages.UserNotFound);
 		}
 		return new SuccessResult();
 	}
@@ -158,7 +158,7 @@ public class AuthManager implements AuthService {
 
 			if (!this.userService.getByEmail(loginRequest.getEmail()).getData().getPassword()
 					.equals(loginRequest.getPassword())) {
-				return new ErrorResult("Girdiğiniz şifre yanlış");
+				return new ErrorResult(Messages.PasswordError);
 			}
 		}
 		return new SuccessResult();
@@ -166,14 +166,14 @@ public class AuthManager implements AuthService {
 
 	private Result checkCustomerByEmail(String email) {
 		if (this.userService.existsByEmail(email).isSuccess()) {
-			return new ErrorResult("Bu email kullanılmaktadır");
+			return new ErrorResult(Messages.UserAlreadyExists);
 		}
 		return new SuccessResult();
 	}
 
 	private Result checkPasswordByPasswordConfirm(String password, String passwordConfirm) {
 		if (!password.equals(passwordConfirm)) {
-			return new ErrorResult("Girdiğiniz şifreler uyuşmuyor");
+			return new ErrorResult(Messages.PasswordError);
 		}
 		return new SuccessResult();
 	}
