@@ -1,5 +1,6 @@
 package com.etiya.ReCapProject.entities.concretes;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler","rentals"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "applicationUser" })
 @Table(name = "individual_customers")
 public class IndividualCustomer {
 	@Id
@@ -36,7 +37,7 @@ public class IndividualCustomer {
 	@Column(name = "national_identity_number")
 	private String nationalIdentityNumber;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private ApplicationUser applicationUser;
 	

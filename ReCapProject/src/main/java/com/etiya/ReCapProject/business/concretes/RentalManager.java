@@ -9,6 +9,7 @@ import com.etiya.ReCapProject.business.abstracts.CarService;
 import com.etiya.ReCapProject.business.abstracts.CardInformationService;
 import com.etiya.ReCapProject.business.abstracts.CorporateCustomerService;
 import com.etiya.ReCapProject.business.abstracts.IndividualCustomerService;
+import com.etiya.ReCapProject.business.abstracts.InvoiceService;
 import com.etiya.ReCapProject.business.abstracts.RentalService;
 import com.etiya.ReCapProject.business.abstracts.UserService;
 import com.etiya.ReCapProject.business.constants.Messages;
@@ -32,6 +33,7 @@ import com.etiya.ReCapProject.entities.dtos.CorporateCustomerDetailDto;
 import com.etiya.ReCapProject.entities.dtos.IndividualCustomerDetailDto;
 import com.etiya.ReCapProject.entities.dtos.RentalDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCardInformationRequest;
+import com.etiya.ReCapProject.entities.requests.create.CreateInvoiceRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateRentalRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteRentalRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateRentalRequest;
@@ -46,11 +48,13 @@ public class RentalManager implements RentalService {
 	private CorporateCustomerService corporateCustomerService;
 	private CustomerFindeksScoreService customerFindeksScoreService;
 	private CardInformationService cardInformationService;
+	private InvoiceService invoiceService;
 
 	@Autowired
 	public RentalManager(RentalDao rentalDao, CarService carService, UserService userService,
 			IndividualCustomerService individualCustomerService, CorporateCustomerService corporateCustomerService,
-			CustomerFindeksScoreService customerFindeksScoreService, CardInformationService cardInformationService) {
+			CustomerFindeksScoreService customerFindeksScoreService, CardInformationService cardInformationService,
+			InvoiceService invoiceService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.carService = carService;
@@ -59,6 +63,7 @@ public class RentalManager implements RentalService {
 		this.corporateCustomerService = corporateCustomerService;
 		this.customerFindeksScoreService = customerFindeksScoreService;
 		this.cardInformationService = cardInformationService;
+		this.invoiceService = invoiceService;
 	}
 
 	@Override
@@ -142,6 +147,12 @@ public class RentalManager implements RentalService {
 			this.cardInformationSavedIfCardIsSavedIsTrue(createRentalRequest.getCardInformationDto(),
 					createRentalRequest.getUserId());
 		}
+
+		CreateInvoiceRequest createInvoiceRequest = new CreateInvoiceRequest();
+		createInvoiceRequest.setRentalId(this.rentalDao
+				.getTop1RentalByApplicationUser_UserIdOrderByRentDateDesc(applicationUser.getUserId()).getRentalId());
+
+		this.invoiceService.add(createInvoiceRequest);
 
 		return new SuccessResult(Messages.RentalAdded);
 	}
