@@ -35,9 +35,23 @@ public class Rental {
 
 	@Column(name = "return_date")
 	private Date returnDate;
+//	
+//	@Column(name = "take_city")
+//	private String takeCity;
+//	
+//	@Column(name = "return_city")
+//	private String returnCity;
 
 	@Column(name = "is_car_returned", columnDefinition = "boolean default false")
 	private boolean isCarReturned;
+	
+	@ManyToOne
+	@JoinColumn(name = "take_city_id")
+	private City takeCity;
+	
+	@ManyToOne
+	@JoinColumn(name = "return_city_id")
+	private City returnCity;
 
 	@ManyToOne
 	@JoinColumn(name = "car_id")

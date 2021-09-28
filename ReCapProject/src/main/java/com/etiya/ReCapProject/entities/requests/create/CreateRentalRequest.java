@@ -34,6 +34,9 @@ public class CreateRentalRequest {
 	private int userId;
 	
 	@NotNull
+	private int returnCityId;
+	
+	@NotNull
 	@Valid
 	private CardInformationDto cardInformationDto;
 }

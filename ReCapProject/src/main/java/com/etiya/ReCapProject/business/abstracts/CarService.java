@@ -30,6 +30,8 @@ public interface CarService {
 	
 	DataResult<List<Car>> getCarsByBrandId(int brandId);
 	
+	DataResult<List<Car>> getCarsCitys_CityId(int cityId);
+	
 	Result checkCarIsInGallery(int carId);
 	
 	Result carListedIsTrue(int carId);

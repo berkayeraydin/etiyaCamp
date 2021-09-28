@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.CarService;
 import com.etiya.ReCapProject.business.abstracts.CardInformationService;
+import com.etiya.ReCapProject.business.abstracts.CityService;
 import com.etiya.ReCapProject.business.abstracts.CorporateCustomerService;
 import com.etiya.ReCapProject.business.abstracts.IndividualCustomerService;
 import com.etiya.ReCapProject.business.abstracts.InvoiceService;
@@ -24,6 +25,7 @@ import com.etiya.ReCapProject.core.utilities.result.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.RentalDao;
 import com.etiya.ReCapProject.entities.concretes.ApplicationUser;
 import com.etiya.ReCapProject.entities.concretes.Car;
+import com.etiya.ReCapProject.entities.concretes.City;
 import com.etiya.ReCapProject.entities.concretes.CorporateCustomer;
 import com.etiya.ReCapProject.entities.concretes.IndividualCustomer;
 import com.etiya.ReCapProject.entities.concretes.Rental;
@@ -49,12 +51,13 @@ public class RentalManager implements RentalService {
 	private CustomerFindeksScoreService customerFindeksScoreService;
 	private CardInformationService cardInformationService;
 	private InvoiceService invoiceService;
+	private CityService cityService;
 
 	@Autowired
 	public RentalManager(RentalDao rentalDao, CarService carService, UserService userService,
 			IndividualCustomerService individualCustomerService, CorporateCustomerService corporateCustomerService,
 			CustomerFindeksScoreService customerFindeksScoreService, CardInformationService cardInformationService,
-			InvoiceService invoiceService) {
+			InvoiceService invoiceService, CityService cityService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.carService = carService;
@@ -64,6 +67,7 @@ public class RentalManager implements RentalService {
 		this.customerFindeksScoreService = customerFindeksScoreService;
 		this.cardInformationService = cardInformationService;
 		this.invoiceService = invoiceService;
+		this.cityService = cityService;
 	}
 
 	@Override
@@ -134,12 +138,18 @@ public class RentalManager implements RentalService {
 
 		ApplicationUser applicationUser = this.userService.getById(createRentalRequest.getUserId()).getData();
 
+		City takeCity = car.getCity();
+
+		City returnCity = this.cityService.getById(createRentalRequest.getReturnCityId()).getData();
+
 		Rental rental = new Rental();
 		rental.setRentDate(createRentalRequest.getRentDate());
 		rental.setReturnDate(createRentalRequest.getReturnDate());
 
 		rental.setCar(car);
 		rental.setApplicationUser(applicationUser);
+		rental.setTakeCity(takeCity);
+		rental.setReturnCity(returnCity);
 
 		this.rentalDao.save(rental);
 
@@ -160,10 +170,9 @@ public class RentalManager implements RentalService {
 	@Override
 	public Result update(UpdateRentalRequest updateRentalRequest) {
 
-		var result = BusinessRules.run(checkCarIsReturned(updateRentalRequest.getCarId()),
-				checkCustomerFindeksScore(
-						this.rentalDao.getById(updateRentalRequest.getRentalId()).getApplicationUser().getUserId(),
-						updateRentalRequest.getCarId()));
+		var result = BusinessRules.run(checkCustomerFindeksScore(
+				this.rentalDao.getById(updateRentalRequest.getRentalId()).getApplicationUser().getUserId(),
+				updateRentalRequest.getCarId()));
 
 		if (result != null) {
 			return result;
@@ -171,7 +180,16 @@ public class RentalManager implements RentalService {
 
 		Car car = this.carService.getById(updateRentalRequest.getCarId()).getData();
 
+		City takeCity = car.getCity();
+
+		City returnCity = this.cityService.getById(updateRentalRequest.getReturnCityId()).getData();
+
 		Rental rental = this.rentalDao.getById(updateRentalRequest.getRentalId());
+
+		if (this.checkCarIsReturned(updateRentalRequest.getCarId()).isSuccess()) {
+			rental.setRentDate(updateRentalRequest.getRentDate());
+		}
+
 		rental.setReturnDate(updateRentalRequest.getReturnDate());
 
 		if (rental.getCar().getCarId() != car.getCarId()) {
@@ -180,7 +198,10 @@ public class RentalManager implements RentalService {
 
 			this.carService.carListedIsFalse(car.getCarId());
 			rental.setCar(car);
+			rental.setTakeCity(takeCity);
 		}
+
+		rental.setReturnCity(returnCity);
 
 		this.rentalDao.save(rental);
 		return new SuccessResult(Messages.RentalUpdated);
@@ -201,7 +222,13 @@ public class RentalManager implements RentalService {
 		Rental rental = this.rentalDao.getById(rentalId);
 		rental.setCarReturned(true);
 
-		this.carService.carListedIsTrue(rental.getCar().getCarId());
+		Car car = this
+				.carCityUpdateIfReturnedDifferentCity(rental.getCar().getCarId(), rental.getReturnCity().getCityId())
+				.getData();
+
+		this.carService.carListedIsTrue(car.getCarId());
+
+		rental.setCar(car);
 
 		this.rentalDao.save(rental);
 
@@ -213,6 +240,19 @@ public class RentalManager implements RentalService {
 			return new ErrorResult(Messages.RentalCarNotReturn);
 		}
 		return new SuccessResult();
+	}
+
+	private DataResult<Car> carCityUpdateIfReturnedDifferentCity(int carId, int cityId) {
+
+		Car car = this.carService.getById(carId).getData();
+
+		if (car.getCity().getCityId() != cityId) {
+
+			City city = this.cityService.getById(cityId).getData();
+			car.setCity(city);
+		}
+
+		return new SuccessDataResult<Car>(car);
 	}
 
 	private Result checkCustomerFindeksScore(int applicationUserId, int carId) {

@@ -60,6 +60,11 @@ public class CarsController {
 		return this.carService.getCarsByBrandId(brandId);
 	}
 	
+	@GetMapping("/getcarsbycity")
+	public DataResult<List<Car>> getCarsCitys_CityId(int cityId){
+		return this.carService.getCarsCitys_CityId(cityId);
+	}
+	
 	@PostMapping("/add")
 	public Result add(@Valid @RequestBody CreateCarRequest createCarRequest) {
 		return this.carService.add(createCarRequest);
@@ -74,4 +79,6 @@ public class CarsController {
 	public Result delete(DeleteCarRequest deleteCarRequest) {
 		return this.carService.delete(deleteCarRequest);
 	}
+	
+	
 }
