@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.InvoiceService;
+import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.ErrorResult;
@@ -38,12 +39,12 @@ public class InvoiceManager implements InvoiceService{
 
 	@Override
 	public DataResult<List<Invoice>> getAll() {
-		return new SuccessDataResult<List<Invoice>>(this.invoiceDao.findAll(), "Faturalar listelendi");
+		return new SuccessDataResult<List<Invoice>>(this.invoiceDao.findAll(), Messages.InvoicesListed);
 	}
 
 	@Override
 	public DataResult<Invoice> getById(int invoiceId) {
-		return new SuccessDataResult<Invoice>(this.invoiceDao.getById(invoiceId), "Fatural listelendi");
+		return new SuccessDataResult<Invoice>(this.invoiceDao.getById(invoiceId), Messages.InvoiceListed);
 	}
 
 	@Override
@@ -89,7 +90,7 @@ public class InvoiceManager implements InvoiceService{
 
 		this.invoiceDao.save(invoice);
 
-		return new SuccessResult("Fatura oluşturuldu");
+		return new SuccessResult(Messages.InvoiceAdded);
 	}
 
 	@Override
@@ -104,12 +105,12 @@ public class InvoiceManager implements InvoiceService{
 		Invoice invoice = this.invoiceDao.getById(deleteInvoiceRequest.getInvoiceId());
 		this.invoiceDao.delete(invoice);
 
-		return new SuccessResult("Fatura silindi");
+		return new SuccessResult(Messages.InvoiceDeleted);
 	}
 
 	private Result checkInvoiceByRentalId(int rentalId) {
 		if (this.invoiceDao.existsByRental_RentalId(rentalId)) {
-			return new ErrorResult("Bu kiralama işlemine ait fatura bulunmaktadır");
+			return new ErrorResult(Messages.InvoiceIsNotFoundByRental);
 		}
 		return new SuccessResult();
 	}
@@ -117,7 +118,7 @@ public class InvoiceManager implements InvoiceService{
 	@Override
 	public DataResult<List<Invoice>> getByRental_ApplicationUser_UserId(int userId) {
 		return new SuccessDataResult<List<Invoice>>(this.invoiceDao.getByRental_ApplicationUser_UserId(userId),
-				"Müşteri faturaları listelendi");
+				Messages.InvoicesListedByCustomer);
 	}
 
 	@Override
@@ -125,7 +126,7 @@ public class InvoiceManager implements InvoiceService{
 		return new SuccessDataResult<List<Invoice>>(
 				this.invoiceDao.getByCreationDateBetween(invoiceBetweenDateRequest.getMinDate(),
 						invoiceBetweenDateRequest.getMaxDate()),
-				"Faturalar tarih aralığına göre listelendi");
+				Messages.InvoicesListedByBetweenDate);
 	}
 
 }

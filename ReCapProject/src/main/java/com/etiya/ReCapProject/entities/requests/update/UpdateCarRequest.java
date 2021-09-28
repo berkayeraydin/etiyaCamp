@@ -35,6 +35,9 @@ public class UpdateCarRequest {
 	private String descripton; 
 	
 	@NotNull
+	private long kilometer;
+	
+	@NotNull
 	private int minFindeksScore;
 	
 	@NotBlank

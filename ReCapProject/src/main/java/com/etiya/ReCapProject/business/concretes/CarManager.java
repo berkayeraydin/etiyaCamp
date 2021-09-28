@@ -70,6 +70,8 @@ public class CarManager implements CarService {
 		car.setDailyPrice(createCarRequest.getDailyPrice());
 		car.setModelYear(createCarRequest.getModelYear());
 		car.setDescription(createCarRequest.getDescripton());
+		car.setKilometer(createCarRequest.getKilometer());
+		car.setMinFindeksScore(createCarRequest.getMinFindeksScore());
 
 		car.setBrand(brand);
 		car.setColor(color);
@@ -94,6 +96,8 @@ public class CarManager implements CarService {
 		car.setDailyPrice(updateCarRequest.getDailyPrice());
 		car.setModelYear(updateCarRequest.getModelYear());
 		car.setDescription(updateCarRequest.getDescripton());
+		car.setKilometer(updateCarRequest.getKilometer());
+		car.setMinFindeksScore(updateCarRequest.getMinFindeksScore());
 
 		car.setBrand(brand);
 		car.setColor(color);
@@ -194,7 +198,7 @@ public class CarManager implements CarService {
 
 	@Override
 	public DataResult<List<Car>> getCarsCitys_CityId(int cityId) {
-		return new SuccessDataResult<List<Car>>(this.carDao.getByCity_CityId(cityId), "Şehire göre arabalar listelendi");
+		return new SuccessDataResult<List<Car>>(this.carDao.getByCity_CityId(cityId), Messages.CarsListedByCity);
 	}
 
 }

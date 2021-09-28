@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.CityService;
+import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.ErrorResult;
@@ -32,13 +33,13 @@ public class CityManager implements CityService{
 	@Override
 	public DataResult<List<City>> getAll() {
 
-		return new SuccessDataResult<List<City>>(this.cityDao.findAll(), "Sehirler listelendi.");
+		return new SuccessDataResult<List<City>>(this.cityDao.findAll(), Messages.CitiesListed);
 	}
 
 	@Override
 	public DataResult<City> getById(int cityId) {
 
-		return new SuccessDataResult<City>(this.cityDao.getById(cityId), "Sehir listelendi");
+		return new SuccessDataResult<City>(this.cityDao.getById(cityId), Messages.CityListed);
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class CityManager implements CityService{
 		city.setCityName(createCityRequest.getCityName());
 
 		this.cityDao.save(city);
-		return new SuccessResult("Sehir eklendi.");
+		return new SuccessResult(Messages.CityAdded);
 		
 	}
 
@@ -71,7 +72,7 @@ public class CityManager implements CityService{
 		city.setCityName(updateCityRequest.getCityName());
 
 		this.cityDao.save(city);
-		return new SuccessResult("Sehir Guncellendi");
+		return new SuccessResult(Messages.CityUpdated);
 	}
 
 	@Override
@@ -80,13 +81,13 @@ public class CityManager implements CityService{
 		City city = this.cityDao.getById(deleteCityRequest.getCityId());
 
 		this.cityDao.delete(city);
-		return new SuccessResult("Silindi");
+		return new SuccessResult(Messages.CityDeleted);
 	}
 	
 	
 	private Result checkCityByCityName(String cityName) {
 		if (this.cityDao.existsByCityName(cityName)) {
-			return new ErrorResult("Ayni sehir var");
+			return new ErrorResult(Messages.CityIsFound);
 		}
 		return new SuccessResult();
 	}

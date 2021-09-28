@@ -44,6 +44,9 @@ public class Car {
 	@Column(name = "description")
 	private String description;
 	
+	@Column(name = "kilometer")
+	private long kilometer;
+	
 	@Column(name = "min_findeks_score")
 	private int minFindeksScore;
 	
@@ -73,4 +76,8 @@ public class Car {
 	@JsonIgnore
 	@OneToMany(mappedBy = "car")
 	private List<CarMaintenance> carMaintenance;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "car")
+	private List<CarDamageInformation> CarDmageInformations;
 }

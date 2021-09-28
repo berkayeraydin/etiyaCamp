@@ -16,6 +16,7 @@ import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.etiya.ReCapProject.entities.dtos.RentalDetailDto;
+import com.etiya.ReCapProject.entities.requests.CarReturnedRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateRentalRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteRentalRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateRentalRequest;
@@ -57,12 +58,12 @@ public class RentalsController {
 	}
 
 	@PostMapping("/delete")
-	public Result delte(DeleteRentalRequest deleteRentalRequest) {
+	public Result delte(@Valid DeleteRentalRequest deleteRentalRequest) {
 		return this.rentalService.delete(deleteRentalRequest);
 	}
 	
 	@PostMapping("/carReturnedIsTrue")
-	public Result carReturnedIsTrue(int rentalId) {
-		return this.rentalService.carAtRentalReturnedIsTrue(rentalId);
+	public Result carReturnedIsTrue(@Valid @RequestBody CarReturnedRequest carReturnedRequest) {
+		return this.rentalService.carAtRentalReturnedIsTrue(carReturnedRequest);
 	}
 }

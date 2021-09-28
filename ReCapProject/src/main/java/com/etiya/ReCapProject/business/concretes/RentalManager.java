@@ -34,6 +34,7 @@ import com.etiya.ReCapProject.entities.dtos.CardInformationDto;
 import com.etiya.ReCapProject.entities.dtos.CorporateCustomerDetailDto;
 import com.etiya.ReCapProject.entities.dtos.IndividualCustomerDetailDto;
 import com.etiya.ReCapProject.entities.dtos.RentalDetailDto;
+import com.etiya.ReCapProject.entities.requests.CarReturnedRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateCardInformationRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateInvoiceRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateRentalRequest;
@@ -145,6 +146,7 @@ public class RentalManager implements RentalService {
 		Rental rental = new Rental();
 		rental.setRentDate(createRentalRequest.getRentDate());
 		rental.setReturnDate(createRentalRequest.getReturnDate());
+		rental.setRentKilometer(car.getKilometer());
 
 		rental.setCar(car);
 		rental.setApplicationUser(applicationUser);
@@ -199,6 +201,7 @@ public class RentalManager implements RentalService {
 			this.carService.carListedIsFalse(car.getCarId());
 			rental.setCar(car);
 			rental.setTakeCity(takeCity);
+			rental.setRentKilometer(car.getKilometer());
 		}
 
 		rental.setReturnCity(returnCity);
@@ -217,16 +220,18 @@ public class RentalManager implements RentalService {
 	}
 
 	@Override
-	public Result carAtRentalReturnedIsTrue(int rentalId) {
+	public Result carAtRentalReturnedIsTrue(CarReturnedRequest carReturnedRequest) {
 
-		Rental rental = this.rentalDao.getById(rentalId);
+		Rental rental = this.rentalDao.getById(carReturnedRequest.getRentalId());
 		rental.setCarReturned(true);
+		rental.setReturnKilometer(carReturnedRequest.getReturnKilometer());
 
 		Car car = this
 				.carCityUpdateIfReturnedDifferentCity(rental.getCar().getCarId(), rental.getReturnCity().getCityId())
 				.getData();
 
 		this.carService.carListedIsTrue(car.getCarId());
+		car.setKilometer(rental.getReturnKilometer());
 
 		rental.setCar(car);
 

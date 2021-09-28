@@ -110,7 +110,7 @@ public class AuthManager implements AuthService {
 		}
 
 		return new SuccessDataResult<CustomerDto>(this.returnLoginedCustomerDto(loginRequest.getEmail()).getData(),
-				"Giriş yapan customer bilgisi");
+				Messages.LoggedCustomer);
 	}
 
 	public DataResult<CustomerDto> returnLoginedCustomerDto(String email) {
@@ -142,7 +142,7 @@ public class AuthManager implements AuthService {
 			return new SuccessDataResult<CustomerDto>(corporateCustomerDetailDto, Messages.LoggedCustomer);
 		}
 
-		return new ErrorDataResult<CustomerDto>("");
+		return new ErrorDataResult<CustomerDto>();
 
 	}
 

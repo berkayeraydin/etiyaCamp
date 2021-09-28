@@ -18,6 +18,7 @@ public class Messages {
 	public static String CarIsNotInGalery = "Araba galeride değil";
 	public static String CarCanListed= "Araba listelenebilir";
 	public static String CarCantListed = "Araba listelenebilir değil";
+	public static String CarsListedByCity = "Şehire göre arabalar listelendi";
 	
 
     //Brand
@@ -27,7 +28,7 @@ public class Messages {
     public static String BrandsListed = "Markalar listelendi";
     public static String BrandListed = "Marka listelendi";
     public static String BrandNameInvalid = "Marka ismi geçersiz";
-    public static String BrandIsFount = "Marka mevcut";
+    public static String BrandIsFound = "Marka mevcut";
 
     //Color
     public static String ColorAdded = "Renk eklendi";
@@ -36,8 +37,34 @@ public class Messages {
     public static String ColorsListed = "Renkler listelendi";
     public static String ColorListed = "Renk listelendi";
     public static String ColorNameInvalid = "Renk ismi geçersiz";
-    public static String ColorIsFount = "Renk mevcut";
-
+    public static String ColorIsFound = "Renk mevcut";
+    
+    //City
+    public static String CityAdded = "Sehir eklendi";
+    public static String CityDeleted = "Sehir silindi";
+    public static String CityUpdated = "Sehir güncellendi";
+    public static String CitiesListed = "Sehirler listelendi";
+    public static String CityListed = "Sehir listelendi";
+    public static String CityIsFound = "Sehir mevcut";
+    
+    //Invoice
+    public static String InvoiceAdded = "Fatura eklendi";
+    public static String InvoiceDeleted = "Fatura silindi";
+    public static String InvoiceUpdated = "Fatura güncellendi";
+    public static String InvoicesListed = "Faturalar listelendi";
+    public static String InvoiceListed = "Fatura listelendi";
+    public static String InvoiceIsNotFoundByRental = "Bu kiralama işlemine ait fatura bulunmaktadır";
+    public static String InvoicesListedByCustomer = "Müşteri faturaları listelendi";
+    public static String InvoicesListedByBetweenDate = "Faturalar tarih aralığına göre listelendi";
+    
+    //CarDamageInformation
+    public static String CarDamageInformationAdded = "Araba hasar bilgisi eklendi";
+    public static String CarDamageInformationDeleted = "Araba hasar bilgisi silindi";
+    public static String CarDamageInformationUpdated = "Araba hasar bilgisi güncellendi";
+    public static String CarDamageInformationsListed = "Araba hasar bilgileri listelendi";
+    public static String CarDamageInformationListed = "Araba hasar bilgisi listelendi";
+    public static String CarDamageInformationsListedByCar = "Arabaya ait hasar bilgileri listelendi.";
+    
     //User
     public static String UserAdded = "Kullanıcı eklendi";
     public static String UserDeleted = "Kullanıcı silindi";

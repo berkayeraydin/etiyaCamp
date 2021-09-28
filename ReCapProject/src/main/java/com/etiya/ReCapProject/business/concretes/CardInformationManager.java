@@ -95,7 +95,7 @@ public class CardInformationManager implements CardInformationService {
 		cardInformation.setExpirationDate(updateCardInformationRequest.getExpirationDate());
 
 		this.cardInformationDao.save(cardInformation);
-		return new SuccessResult("Kart başariyla güncellendi.");
+		return new SuccessResult(Messages.CarImageUpdated);
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class CardInformationManager implements CardInformationService {
 				.getById(deleteCardInformationRequest.getCardInformationId());
 
 		this.cardInformationDao.delete(cardInformation);
-		return new SuccessResult(Messages.CardInformationUpdated);
+		return new SuccessResult(Messages.CardInformationDeleted);
 	}
 
 	@Override
