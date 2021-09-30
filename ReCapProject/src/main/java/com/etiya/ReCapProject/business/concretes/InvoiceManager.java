@@ -41,7 +41,7 @@ public class InvoiceManager implements InvoiceService{
 	public DataResult<List<Invoice>> getAll() {
 		return new SuccessDataResult<List<Invoice>>(this.invoiceDao.findAll(), Messages.InvoicesListed);
 	}
-
+	
 	@Override
 	public DataResult<Invoice> getById(int invoiceId) {
 		return new SuccessDataResult<Invoice>(this.invoiceDao.getById(invoiceId), Messages.InvoiceListed);

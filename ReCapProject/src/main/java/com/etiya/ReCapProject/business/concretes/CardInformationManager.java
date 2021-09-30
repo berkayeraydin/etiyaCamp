@@ -126,7 +126,5 @@ public class CardInformationManager implements CardInformationService {
 		return new SuccessResult();
 		
 	}
-
-	
 	
 }

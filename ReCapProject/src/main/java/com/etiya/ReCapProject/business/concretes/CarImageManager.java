@@ -37,7 +37,7 @@ public class CarImageManager implements CarImageService {
 
 	@Autowired
 	public CarImageManager(CarImageDao carImageDao, CarService carService) {
-		super(); 
+		super();
 		this.carImageDao = carImageDao;
 		this.carService = carService;
 	}
@@ -185,11 +185,7 @@ public class CarImageManager implements CarImageService {
 		String mainPath = FilePathConfiguration.mainPath;
 		String newCarFolder = willBeDeletedCarImagePath.substring(0, willBeDeletedCarImagePath.indexOf("\\"));
 
-		if (!willBeDeletedCarImagePath.isEmpty() && !willBeDeletedCarImagePath.isBlank()) {
-			
-			File willBeDeletedImage = new File(mainPath + willBeDeletedCarImagePath);
-			willBeDeletedImage.delete();
-		}
+		this.deleteCarImage(willBeDeletedCarImagePath);
 
 		String imageRandomName = java.util.UUID.randomUUID().toString();
 
