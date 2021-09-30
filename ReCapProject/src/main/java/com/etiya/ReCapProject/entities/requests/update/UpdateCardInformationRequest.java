@@ -26,6 +26,10 @@ public class UpdateCardInformationRequest {
 	@Size(min = 16, max = 16 , message = "16 haneli Olmalidir.")
 	private String cardNumber;
 	
+	@NotNull 
+	@Size(max = 25)
+	private String cardHolderName;
+	
 	@NotNull
 	@Size(min = 5, max = 5 , message = "5 haneli Olmalidir.")
 	private String expirationDate;

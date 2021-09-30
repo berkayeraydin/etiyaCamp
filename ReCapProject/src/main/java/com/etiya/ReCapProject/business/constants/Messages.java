@@ -19,7 +19,6 @@ public class Messages {
 	public static String CarCanListed= "Araba listelenebilir";
 	public static String CarCantListed = "Araba listelenebilir değil";
 	public static String CarsListedByCity = "Şehire göre arabalar listelendi";
-	
 
     //Brand
     public static String BrandAdded = "Marka eklendi";

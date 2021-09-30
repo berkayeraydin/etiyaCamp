@@ -32,7 +32,7 @@ public class UpdateCarRequest {
 	private double dailyPrice; 
 	
 	@Size(max= 100)
-	private String descripton; 
+	private String description; 
 	
 	@NotNull
 	private long kilometer;

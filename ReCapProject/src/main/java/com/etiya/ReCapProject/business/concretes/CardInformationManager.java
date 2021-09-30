@@ -71,6 +71,7 @@ public class CardInformationManager implements CardInformationService {
 		cardInformation.setCardNumber(createCardInformationRequest.getCardNumber());
 		cardInformation.setCvv(createCardInformationRequest.getCvv());
 		cardInformation.setExpirationDate(createCardInformationRequest.getExpirationDate());
+		cardInformation.setCardHolderName(createCardInformationRequest.getCardHolderName());
 
 		cardInformation.setApplicationUser(applicationUser);
 
@@ -93,6 +94,7 @@ public class CardInformationManager implements CardInformationService {
 		cardInformation.setCardNumber(updateCardInformationRequest.getCardNumber());
 		cardInformation.setCvv(updateCardInformationRequest.getCvv());
 		cardInformation.setExpirationDate(updateCardInformationRequest.getExpirationDate());
+		cardInformation.setCardHolderName(updateCardInformationRequest.getCardHolderName());
 
 		this.cardInformationDao.save(cardInformation);
 		return new SuccessResult(Messages.CarImageUpdated);

@@ -34,6 +34,9 @@ public class CardInformation {
 	@Column(name = "card_number")
 	private String cardNumber;
 	
+	@Column(name = "card_holder_name")
+	private String cardHolderName;
+	
 	@Column(name = "expirationDate")
 	private String expirationDate;
 	

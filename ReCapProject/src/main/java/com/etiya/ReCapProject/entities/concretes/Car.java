@@ -50,8 +50,8 @@ public class Car {
 	@Column(name = "min_findeks_score")
 	private int minFindeksScore;
 	
-	@Column(name = "is_listed", columnDefinition = "boolean default true")
-	private boolean isListed;
+	@Column(name = "is_listed")
+	private boolean isListed = true;
 	
 
 	@ManyToOne

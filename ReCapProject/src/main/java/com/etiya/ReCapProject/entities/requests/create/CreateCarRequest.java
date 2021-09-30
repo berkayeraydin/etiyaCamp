@@ -29,7 +29,7 @@ public class CreateCarRequest {
 	
 	@NotBlank
 	@Size(max= 100)
-	private String descripton; 
+	private String description; 
 	
 	@NotNull
 	private long kilometer;

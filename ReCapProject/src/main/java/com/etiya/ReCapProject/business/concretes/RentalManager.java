@@ -1,5 +1,11 @@
 package com.etiya.ReCapProject.business.concretes;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +21,7 @@ import com.etiya.ReCapProject.business.abstracts.RentalService;
 import com.etiya.ReCapProject.business.abstracts.UserService;
 import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.adapters.CustomerFindeksScoreService;
+import com.etiya.ReCapProject.core.adapters.PaymentService;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.ErrorDataResult;
@@ -35,6 +42,7 @@ import com.etiya.ReCapProject.entities.dtos.CorporateCustomerDetailDto;
 import com.etiya.ReCapProject.entities.dtos.IndividualCustomerDetailDto;
 import com.etiya.ReCapProject.entities.dtos.RentalDetailDto;
 import com.etiya.ReCapProject.entities.requests.CarReturnedRequest;
+import com.etiya.ReCapProject.entities.requests.FakePosServiceRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateCardInformationRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateInvoiceRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateRentalRequest;
@@ -53,12 +61,13 @@ public class RentalManager implements RentalService {
 	private CardInformationService cardInformationService;
 	private InvoiceService invoiceService;
 	private CityService cityService;
+	private PaymentService paymentService;
 
 	@Autowired
 	public RentalManager(RentalDao rentalDao, CarService carService, UserService userService,
 			IndividualCustomerService individualCustomerService, CorporateCustomerService corporateCustomerService,
 			CustomerFindeksScoreService customerFindeksScoreService, CardInformationService cardInformationService,
-			InvoiceService invoiceService, CityService cityService) {
+			InvoiceService invoiceService, CityService cityService,PaymentService paymentService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.carService = carService;
@@ -69,6 +78,7 @@ public class RentalManager implements RentalService {
 		this.cardInformationService = cardInformationService;
 		this.invoiceService = invoiceService;
 		this.cityService = cityService;
+		this.paymentService=paymentService;
 	}
 
 	@Override
@@ -123,20 +133,36 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
-
+		
+		Car car = this.carService.getById(createRentalRequest.getCarId()).getData();
+		
+		Date currentDate = createRentalRequest.getRentDate();
+		Instant instant = currentDate.toInstant();
+		ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+		LocalDate rentDate = zonedDateTime.toLocalDate();
+		
+		Date currentDate2 = createRentalRequest.getReturnDate();
+		Instant instant2 = currentDate2.toInstant();
+		ZonedDateTime zonedDateTime2 = instant2.atZone(ZoneId.systemDefault());
+		LocalDate returnDate = zonedDateTime2.toLocalDate();
+		
+		Period totalRentDate = Period.between(rentDate,returnDate);
+		
+		double totalPrice = car.getDailyPrice()*totalRentDate.getDays();
+		
 		var result = BusinessRules.run(checkCarIsReturned(createRentalRequest.getCarId()),
 				checkCustomerFindeksScore(createRentalRequest.getUserId(), createRentalRequest.getCarId()),
 				this.cardInformationService
 						.checkCardFormat(createRentalRequest.getCardInformationDto().getCardNumber()),
-				this.carService.checkCarIsInGallery(createRentalRequest.getCarId()));
+				this.carService.checkCarIsInGallery(createRentalRequest.getCarId()) // car.getcarId()
+				,checkPaymentService(createRentalRequest.getCardInformationDto(),totalPrice));
 
 		if (result != null) {
 			return result;
 		}
 
-		Car car = this.carService.getById(createRentalRequest.getCarId()).getData();
 		this.carService.carListedIsFalse(car.getCarId());
-
+		
 		ApplicationUser applicationUser = this.userService.getById(createRentalRequest.getUserId()).getData();
 
 		City takeCity = car.getCity();
@@ -159,12 +185,6 @@ public class RentalManager implements RentalService {
 			this.cardInformationSavedIfCardIsSavedIsTrue(createRentalRequest.getCardInformationDto(),
 					createRentalRequest.getUserId());
 		}
-
-		CreateInvoiceRequest createInvoiceRequest = new CreateInvoiceRequest();
-		createInvoiceRequest.setRentalId(this.rentalDao
-				.getTop1RentalByApplicationUser_UserIdOrderByRentDateDesc(applicationUser.getUserId()).getRentalId());
-
-		this.invoiceService.add(createInvoiceRequest);
 
 		return new SuccessResult(Messages.RentalAdded);
 	}
@@ -236,6 +256,11 @@ public class RentalManager implements RentalService {
 		rental.setCar(car);
 
 		this.rentalDao.save(rental);
+		
+		CreateInvoiceRequest createInvoiceRequest = new CreateInvoiceRequest();
+		createInvoiceRequest.setRentalId(rental.getRentalId());
+
+		this.invoiceService.add(createInvoiceRequest);
 
 		return new SuccessResult(Messages.RentalCarIsReturned);
 	}
@@ -300,6 +325,24 @@ public class RentalManager implements RentalService {
 		cardInformationRequest.setUserId(UserId);
 
 		return new SuccessResult(this.cardInformationService.add(cardInformationRequest).getMessage());
+	}
+	
+	private Result checkPaymentService(CardInformationDto cardInformationDto,double price) {
+		
+		FakePosServiceRequest fakePosServiceRequest = new FakePosServiceRequest();
+		fakePosServiceRequest.setCardNumber(cardInformationDto.getCardNumber());
+		fakePosServiceRequest.setCardHolderName(cardInformationDto.getCardHolderName());
+		fakePosServiceRequest.setCvv(cardInformationDto.getCvv());
+		fakePosServiceRequest.setExpirationDate(cardInformationDto.getExpirationDate());
+		fakePosServiceRequest.setPrice(price);
+		
+		if(!this.paymentService.pos(fakePosServiceRequest)) {
+			
+			return new ErrorResult("Odeme işlemi basarisiz.");
+		}
+		
+		return new SuccessResult();
+		
 	}
 
 }

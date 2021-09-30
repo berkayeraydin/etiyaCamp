@@ -1,4 +1,4 @@
-package com.etiya.ReCapProject.entities.dtos;
+package com.etiya.ReCapProject.entities.requests;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,13 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CardInformationDto {
+public class FakePosServiceRequest {
 	
-	@NotBlank
-	@NotNull
-	@Size(max = 25)
-	private String cardName;
-
 	@NotBlank
 	@NotNull
 	@Size(min = 16, max = 16)
@@ -37,4 +32,9 @@ public class CardInformationDto {
 	@NotNull
 	@Size(min = 3, max = 3)
 	private String cvv;
+	
+	@NotBlank
+	@NotNull
+	double price;
+	
 }

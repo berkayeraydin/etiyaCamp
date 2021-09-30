@@ -42,8 +42,8 @@ public class Rental {
 	@Column(name = "return_kilometer")
 	private long returnKilometer;
 
-	@Column(name = "is_car_returned", columnDefinition = "boolean default false")
-	private boolean isCarReturned;
+	@Column(name = "is_car_returned" )
+	private boolean isCarReturned = false;
 	
 	@ManyToOne
 	@JoinColumn(name = "take_city_id")
