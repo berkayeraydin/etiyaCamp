@@ -1,5 +1,6 @@
-package com.etiya.ReCapProject.entities.requests;
+package com.etiya.ReCapProject.entities.dtos;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -9,14 +10,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarReturnedRequest {
-	
-	@NotNull
-	private int rentalId;
+public class CityDetailDto {
 
+	@NotBlank
 	@NotNull
-	private long returnKilometer;
-	
-	
-	
+	private String cityName;
+
 }

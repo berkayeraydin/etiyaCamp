@@ -20,4 +20,6 @@ public interface InvoiceDao extends JpaRepository<Invoice, Integer>{
 	// List<Invoice> getByCreationDateAfter(Date minDate);
 
 	List<Invoice> getByCreationDateBetween(Date minDate, Date maxDate);
+	
+	Invoice getByRental_RentalId(int rentalId);
 }

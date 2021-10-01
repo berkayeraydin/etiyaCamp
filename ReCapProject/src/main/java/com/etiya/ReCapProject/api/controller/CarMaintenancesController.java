@@ -22,7 +22,6 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateCarMaintenanceReque
 @RestController
 @RequestMapping("api/carmaintenances")
 public class CarMaintenancesController {
-	
 	private CarMaintenanceService carMaintenanceService;
 
 	@Autowired

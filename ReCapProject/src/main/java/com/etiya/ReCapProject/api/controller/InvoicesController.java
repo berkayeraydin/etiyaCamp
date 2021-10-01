@@ -20,6 +20,7 @@ import com.etiya.ReCapProject.business.abstracts.InvoiceService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.Invoice;
+import com.etiya.ReCapProject.entities.dtos.InvoiceDetailDto;
 import com.etiya.ReCapProject.entities.requests.InvoiceBetweenDateRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateInvoiceRequest;
 
@@ -39,7 +40,7 @@ public class InvoicesController {
 	Result add(@Valid @RequestBody CreateInvoiceRequest createInvoiceRequest) {
 		return this.invoiceService.add(createInvoiceRequest);
 	}
-	
+
 	@GetMapping("/getall")
 	public DataResult<List<Invoice>> getAll() {
 		return this.invoiceService.getAll();
@@ -48,6 +49,11 @@ public class InvoicesController {
 	@GetMapping("/getByRental_ApplicationUser_UserId")
 	public DataResult<List<Invoice>> getByRental_ApplicationUser_UserId(@RequestParam("userId") int userId) {
 		return this.invoiceService.getByRental_ApplicationUser_UserId(userId);
+	}
+
+	@GetMapping("/getInvoiceDetailByRentalId")
+	public DataResult<InvoiceDetailDto> getInvoiceDetailByRentalId(int rentalId) {
+		return this.invoiceService.getInvoiceDetailByRentalId(rentalId);
 	}
 
 	@GetMapping("/getByCreationDateBetween")

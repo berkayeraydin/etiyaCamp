@@ -15,7 +15,6 @@ import com.etiya.ReCapProject.business.abstracts.IndividualCustomerService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.IndividualCustomer;
-import com.etiya.ReCapProject.entities.requests.create.CreateIndividualCustomerRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteIndividualCustomerRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateIndividualCustomerRequest;
 
@@ -40,10 +39,10 @@ public class IndividualCustomersController {
 		return this.individualCustomerService.getById(customerId);
 	}
 	
-	@PostMapping("/add")
-    public Result add(@Valid @RequestBody CreateIndividualCustomerRequest createIndividualCustomerRequest) {
-        return this.individualCustomerService.add(createIndividualCustomerRequest);
-    }
+//	@PostMapping("/add")
+//    public Result add(@Valid @RequestBody CreateIndividualCustomerRequest createIndividualCustomerRequest) {
+//        return this.individualCustomerService.add(createIndividualCustomerRequest);
+//    }
 	
 	@PostMapping("/update")
 	public Result update(@Valid @RequestBody UpdateIndividualCustomerRequest updateIndividualCustomerRequest) {

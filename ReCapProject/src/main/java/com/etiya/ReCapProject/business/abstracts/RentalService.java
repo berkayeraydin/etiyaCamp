@@ -1,5 +1,6 @@
 package com.etiya.ReCapProject.business.abstracts;
 
+import java.util.Date;
 import java.util.List;
 
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
@@ -16,7 +17,7 @@ public interface RentalService {
 	DataResult<List<Rental>> getAll();
 
 	DataResult<Rental> getById(int rentalId);
-	
+
 	DataResult<RentalDetailDto> getRentalDetailsByRentalId(int rentalId);
 
 	Result add(CreateRentalRequest createRentalRequest);
@@ -24,8 +25,10 @@ public interface RentalService {
 	Result update(UpdateRentalRequest updateRentalRequest);
 
 	Result delete(DeleteRentalRequest deleteRentalRequest);
-	
+
 	Result carAtRentalReturnedIsTrue(CarReturnedRequest carReturnedRequest);
+	
+	DataResult<Double> getRentalAdditionalTotalPrice(int rentalAdditionalId, Date minDate, Date maxDate);
 	
 	
 }

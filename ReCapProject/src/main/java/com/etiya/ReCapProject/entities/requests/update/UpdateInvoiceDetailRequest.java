@@ -1,6 +1,5 @@
-package com.etiya.ReCapProject.entities.requests.create;
+package com.etiya.ReCapProject.entities.requests.update;
 
-import javax.validation.constraints.NotBlank;
 
 import com.sun.istack.NotNull;
 
@@ -13,11 +12,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateColorRequest {
+public class UpdateInvoiceDetailRequest {
 	
 	@NotNull
-	@NotBlank
-	private String colorName;
-	
-	
+	private int invoiceDetailId;
 }

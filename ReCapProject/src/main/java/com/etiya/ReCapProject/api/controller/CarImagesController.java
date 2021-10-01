@@ -22,7 +22,7 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateCarImageRequest;
 @RestController
 @RequestMapping("api/carimages")
 public class CarImagesController {
-	CarImageService carImageService;
+	private CarImageService carImageService;
 
 	@Autowired
 	public CarImagesController(CarImageService carImageService) {

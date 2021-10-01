@@ -1,7 +1,7 @@
 package com.etiya.ReCapProject.entities.requests.create;
 
-import javax.validation.constraints.NotBlank;
 
+import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -13,11 +13,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateColorRequest {
+public class CreateInvoiceDetailRequest {
 	
 	@NotNull
-	@NotBlank
-	private String colorName;
-	
-	
+	private int invoiceId;
+
+	@NotNull
+	private Rental rental;
 }

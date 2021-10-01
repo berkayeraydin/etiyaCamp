@@ -25,6 +25,4 @@ public interface CardInformationService {
 
 	Result checkCardFormat(String cardNumber);
 	
-	
-	
 }

@@ -70,8 +70,8 @@ public class CarManager implements CarService {
 		car.setDailyPrice(createCarRequest.getDailyPrice());
 		car.setModelYear(createCarRequest.getModelYear());
 		car.setDescription(createCarRequest.getDescription());
-		car.setKilometer(createCarRequest.getKilometer());
 		car.setMinFindeksScore(createCarRequest.getMinFindeksScore());
+		car.setKilometer(createCarRequest.getKilometer());
 
 		car.setBrand(brand);
 		car.setColor(color);
@@ -88,7 +88,7 @@ public class CarManager implements CarService {
 		Brand brand = this.brandService.getById(updateCarRequest.getBrandId()).getData();
 
 		Color color = this.colorService.getById(updateCarRequest.getColorId()).getData();
-		
+
 		City city = this.cityService.getById(updateCarRequest.getCityId()).getData();
 
 		Car car = this.carDao.getById(updateCarRequest.getCarId());
@@ -96,8 +96,8 @@ public class CarManager implements CarService {
 		car.setDailyPrice(updateCarRequest.getDailyPrice());
 		car.setModelYear(updateCarRequest.getModelYear());
 		car.setDescription(updateCarRequest.getDescription());
-		car.setKilometer(updateCarRequest.getKilometer());
 		car.setMinFindeksScore(updateCarRequest.getMinFindeksScore());
+		car.setKilometer(updateCarRequest.getKilometer());
 
 		car.setBrand(brand);
 		car.setColor(color);
@@ -197,7 +197,7 @@ public class CarManager implements CarService {
 	}
 
 	@Override
-	public DataResult<List<Car>> getCarsCitys_CityId(int cityId) {
+	public DataResult<List<Car>> getCarsByCity_CityId(int cityId) {
 		return new SuccessDataResult<List<Car>>(this.carDao.getByCity_CityId(cityId), Messages.CarsListedByCity);
 	}
 

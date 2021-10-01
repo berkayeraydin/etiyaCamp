@@ -20,45 +20,45 @@ import com.etiya.ReCapProject.entities.requests.delete.DeleteCardInformationRequ
 import com.etiya.ReCapProject.entities.requests.update.UpdateCardInformationRequest;
 
 @RestController
-@RequestMapping("api/cardsInformation")
+@RequestMapping("api/cardsinformation")
 public class CardsInformationController {
-	
+
 	private CardInformationService cardInformationService;
-	
+
 	@Autowired
 	public CardsInformationController(CardInformationService cardInformationService) {
 		super();
 		this.cardInformationService = cardInformationService;
 	}
-	
+
 	@GetMapping("/getAll")
 	public DataResult<List<CardInformation>> getAll() {
 		return this.cardInformationService.getAll();
 	}
-	
-	@GetMapping("/getById")
-	public DataResult<CardInformation> getById(int brandId) {
-		return this.cardInformationService.getById(brandId);
+
+	@GetMapping("/getbyid")
+	public DataResult<CardInformation> getById(int carInformationId) {
+		return this.cardInformationService.getById(carInformationId);
 	}
-	
+
+	@GetMapping("/getCardInformationsByApplicationUser_UserId")
+	DataResult<List<CardInformation>> getCardInformationsByApplicationUser_UserId(int applicationUserId) {
+		return this.cardInformationService.getCardInformationsByApplicationUser_UserId(applicationUserId);
+	}
+
 	@PostMapping("/add")
 	public Result add(@Valid @RequestBody CreateCardInformationRequest createCardInformationRequest) {
 		return this.cardInformationService.add(createCardInformationRequest);
 	}
-	
+
 	@PostMapping("/update")
 	public Result update(@Valid @RequestBody UpdateCardInformationRequest updateCardInformationRequest) {
 		return this.cardInformationService.update(updateCardInformationRequest);
 	}
-	
+
 	@PostMapping("/delete")
-	public Result delete(DeleteCardInformationRequest deleteCardInformationRequest) {
+	public Result delte(DeleteCardInformationRequest deleteCardInformationRequest) {
 		return this.cardInformationService.delete(deleteCardInformationRequest);
 	}
-	
-	@GetMapping("/getCardInformationByApplicationUser_UserId")
-	public DataResult<List<CardInformation>> getCardInformationByApplicationUser_UserId(int applicationUserId) {
-		
-		return this.cardInformationService.getCardInformationByApplicationUser_UserId(applicationUserId);
-	}
+
 }

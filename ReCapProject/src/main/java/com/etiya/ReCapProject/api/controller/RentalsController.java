@@ -24,7 +24,7 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateRentalRequest;
 @RestController
 @RequestMapping("api/rentals")
 public class RentalsController {
-	RentalService rentalService;
+	private RentalService rentalService;
 
 	@Autowired
 	public RentalsController(RentalService rentalService) {
@@ -61,7 +61,7 @@ public class RentalsController {
 	public Result delte(@Valid DeleteRentalRequest deleteRentalRequest) {
 		return this.rentalService.delete(deleteRentalRequest);
 	}
-	
+
 	@PostMapping("/carReturnedIsTrue")
 	public Result carReturnedIsTrue(@Valid @RequestBody CarReturnedRequest carReturnedRequest) {
 		return this.rentalService.carAtRentalReturnedIsTrue(carReturnedRequest);

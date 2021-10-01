@@ -15,7 +15,6 @@ import com.etiya.ReCapProject.business.abstracts.CorporateCustomerService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.CorporateCustomer;
-import com.etiya.ReCapProject.entities.requests.create.CreateCorporateCustomerRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCorporateCustomerRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateCorporateCustomerRequest;
 
@@ -41,10 +40,10 @@ public class CorporateCustomersController {
 		return this.corporateCustomerService.getById(customerId);
 	}
 	
-	@PostMapping("/add")
-    public Result add(@Valid @RequestBody CreateCorporateCustomerRequest createCorporateCustomerRequest) {
-        return this.corporateCustomerService.add(createCorporateCustomerRequest);
-    }
+//	@PostMapping("/add")
+//    public Result add(@Valid @RequestBody CreateCorporateCustomerRequest createCorporateCustomerRequest) {
+//        return this.corporateCustomerService.add(createCorporateCustomerRequest);
+//    }
 	
 	@PostMapping("/update")
 	public Result update(@Valid @RequestBody UpdateCorporateCustomerRequest updateCorporateCustomerRequest) {

@@ -21,7 +21,7 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateBrandRequest;
 @RestController
 @RequestMapping("api/brands")
 public class BrandsController {
-	BrandService brandService;
+	private BrandService brandService;
 
 	@Autowired
 	public BrandsController(BrandService brandService) {

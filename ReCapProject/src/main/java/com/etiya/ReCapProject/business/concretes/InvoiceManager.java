@@ -10,6 +10,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.etiya.ReCapProject.business.abstracts.AuthService;
+import com.etiya.ReCapProject.business.abstracts.InvoiceDetailService;
 import com.etiya.ReCapProject.business.abstracts.InvoiceService;
 import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
@@ -19,38 +21,75 @@ import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.core.utilities.result.SuccessDataResult;
 import com.etiya.ReCapProject.core.utilities.result.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.InvoiceDao;
+import com.etiya.ReCapProject.entities.concretes.Car;
 import com.etiya.ReCapProject.entities.concretes.Invoice;
+import com.etiya.ReCapProject.entities.concretes.InvoiceDetail;
 import com.etiya.ReCapProject.entities.concretes.Rental;
+import com.etiya.ReCapProject.entities.dtos.InvoiceDetailDto;
 import com.etiya.ReCapProject.entities.requests.InvoiceBetweenDateRequest;
+import com.etiya.ReCapProject.entities.requests.create.CreateInvoiceDetailRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateInvoiceRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteInvoiceRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateInvoiceRequest;
 
 @Service
-public class InvoiceManager implements InvoiceService{
+public class InvoiceManager implements InvoiceService {
 
 	private InvoiceDao invoiceDao;
+	private InvoiceDetailService invoiceDetailService;
+	private AuthService authService;
 
 	@Autowired
-	public InvoiceManager(InvoiceDao invoiceDao) {
+	public InvoiceManager(InvoiceDao invoiceDao, InvoiceDetailService invoiceDetailService, AuthService authService) {
 		super();
 		this.invoiceDao = invoiceDao;
+		this.invoiceDetailService = invoiceDetailService;
+		this.authService = authService;
 	}
 
 	@Override
 	public DataResult<List<Invoice>> getAll() {
 		return new SuccessDataResult<List<Invoice>>(this.invoiceDao.findAll(), Messages.InvoicesListed);
 	}
-	
+
 	@Override
 	public DataResult<Invoice> getById(int invoiceId) {
 		return new SuccessDataResult<Invoice>(this.invoiceDao.getById(invoiceId), Messages.InvoiceListed);
 	}
 
 	@Override
+	public DataResult<InvoiceDetailDto> getInvoiceDetailByRentalId(int rentalId) {
+		Invoice invoice = this.invoiceDao.getByRental_RentalId(rentalId);
+
+		InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
+		invoiceDetailDto.setInvoiceNo(invoice.getInvoiceNo());
+		invoiceDetailDto.setCreationDate(invoice.getCreationDate());
+
+		Rental rental = invoice.getRental();
+		invoiceDetailDto.setCustomerDto(
+				this.authService.returnLoginedCustomerDto(rental.getApplicationUser().getEmail()).getData());
+		invoiceDetailDto.setRentDate(rental.getRentDate());
+		invoiceDetailDto.setReturnDate(rental.getReturnDate());
+
+		Car car = invoice.getRental().getCar();
+		invoiceDetailDto.setCarName(car.getCarName());
+		invoiceDetailDto.setBrandName(car.getBrand().getBrandName());
+		invoiceDetailDto.setColorName(car.getColor().getColorName());
+		invoiceDetailDto.setDailyPrice(car.getDailyPrice());
+
+		List<InvoiceDetail> invoiceDetail = invoice.getInvoiceDetails();
+		invoiceDetailDto.setInvoiceDetails(invoiceDetail);
+
+		invoiceDetailDto.setTotalPrice(
+				this.invoiceDetailService.getSumtotalPriceByInvoice_InvoiceId(invoice.getInvoiceId()).getData());
+
+		return new SuccessDataResult<InvoiceDetailDto>(invoiceDetailDto,"Kirama işleminin fatura detayı");
+	}
+
+	@Override
 	public Result add(CreateInvoiceRequest createInvoiceRequest) {
 
-		var result = BusinessRules.run(this.checkInvoiceByRentalId(createInvoiceRequest.getRentalId()));
+		var result = BusinessRules.run(this.checkInvoiceByRentalId(createInvoiceRequest.getRental().getRentalId()));
 
 		if (result != null) {
 			return result;
@@ -80,8 +119,7 @@ public class InvoiceManager implements InvoiceService{
 
 		String invoiceNo = "REV" + dateYear + numberFormat.format(newInvoiceOrder);
 
-		Rental rental = new Rental();
-		rental.setRentalId(createInvoiceRequest.getRentalId());
+		Rental rental = createInvoiceRequest.getRental();
 
 		Invoice invoice = new Invoice();
 		invoice.setCreationDate(dateNow);
@@ -89,6 +127,14 @@ public class InvoiceManager implements InvoiceService{
 		invoice.setRental(rental);
 
 		this.invoiceDao.save(invoice);
+
+		Invoice invoice2 = this.invoiceDao.getByRental_RentalId(rental.getRentalId());
+
+		CreateInvoiceDetailRequest createInvoiceDetailRequest = new CreateInvoiceDetailRequest();
+		createInvoiceDetailRequest.setInvoiceId(invoice2.getInvoiceId());
+		createInvoiceDetailRequest.setRental(createInvoiceRequest.getRental());
+
+		this.invoiceDetailService.add(createInvoiceDetailRequest);
 
 		return new SuccessResult(Messages.InvoiceAdded);
 	}

@@ -22,7 +22,7 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateCarRequest;
 @RestController
 @RequestMapping("api/cars")
 public class CarsController {
-	CarService carService;
+	private CarService carService;
 
 	@Autowired
 	public CarsController(CarService carService) {
@@ -44,7 +44,6 @@ public class CarsController {
 	public DataResult<List<CarDetailDto>> getCarsDetails() {
 		return this.carService.getAllCarsDetails();
 	}
-	
 	@GetMapping("/getcarDetails")
 	DataResult<CarDetailDto> getCarDetailsByCarId(int carId){
 		return this.carService.getCarDetailsByCarId(carId);
@@ -60,9 +59,9 @@ public class CarsController {
 		return this.carService.getCarsByBrandId(brandId);
 	}
 	
-	@GetMapping("/getcarsbycity")
-	public DataResult<List<Car>> getCarsCitys_CityId(int cityId){
-		return this.carService.getCarsCitys_CityId(cityId);
+	@GetMapping("/getcarsbycityid")
+	public DataResult<List<Car>> getCarsByCity_CityId(int cityId) {
+		return this.carService.getCarsByCity_CityId(cityId);
 	}
 	
 	@PostMapping("/add")
@@ -79,6 +78,4 @@ public class CarsController {
 	public Result delete(DeleteCarRequest deleteCarRequest) {
 		return this.carService.delete(deleteCarRequest);
 	}
-	
-	
 }

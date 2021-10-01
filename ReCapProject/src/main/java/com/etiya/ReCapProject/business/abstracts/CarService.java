@@ -21,22 +21,22 @@ public interface CarService {
 	Result update(UpdateCarRequest updateCarRequest);
 
 	Result delete(DeleteCarRequest deleteCarRequest);
-	
+
 	DataResult<List<CarDetailDto>> getAllCarsDetails();
-	
+
 	DataResult<CarDetailDto> getCarDetailsByCarId(int carId);
-	
+
 	DataResult<List<Car>> getCarsByColorId(int colorId);
-	
+
 	DataResult<List<Car>> getCarsByBrandId(int brandId);
-	
-	DataResult<List<Car>> getCarsCitys_CityId(int cityId);
-	
+
 	Result checkCarIsInGallery(int carId);
-	
+
 	Result carListedIsTrue(int carId);
-	
+
 	Result carListedIsFalse(int carId);
+
+	DataResult<List<Car>> getCarsByCity_CityId(int cityId);
 	
 	
 }

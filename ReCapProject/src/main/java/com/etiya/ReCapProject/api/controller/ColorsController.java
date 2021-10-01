@@ -21,7 +21,7 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateColorRequest;
 @RestController
 @RequestMapping("api/colors")
 public class ColorsController {
-	ColorService colorService;
+	private ColorService colorService;
 
 	@Autowired
 	public ColorsController(ColorService colorService) {

@@ -5,6 +5,7 @@ import java.util.List;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.Invoice;
+import com.etiya.ReCapProject.entities.dtos.InvoiceDetailDto;
 import com.etiya.ReCapProject.entities.requests.InvoiceBetweenDateRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateInvoiceRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteInvoiceRequest;
@@ -15,8 +16,8 @@ public interface InvoiceService {
 	DataResult<List<Invoice>> getAll();
 
 	DataResult<Invoice> getById(int invoiceId);
-
-	// DataResult<InvoiceDetailDto> getRentalDetailsByRentalId(int rentalId);
+	
+	DataResult<InvoiceDetailDto> getInvoiceDetailByRentalId(int rentalId);
 
 	Result add(CreateInvoiceRequest createInvoiceRequest);
 

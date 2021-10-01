@@ -113,6 +113,7 @@ public class AuthManager implements AuthService {
 				Messages.LoggedCustomer);
 	}
 
+	@Override
 	public DataResult<CustomerDto> returnLoginedCustomerDto(String email) {
 
 		ApplicationUser applicationUser = this.userService.getByEmail(email).getData();
@@ -142,7 +143,7 @@ public class AuthManager implements AuthService {
 			return new SuccessDataResult<CustomerDto>(corporateCustomerDetailDto, Messages.LoggedCustomer);
 		}
 
-		return new ErrorDataResult<CustomerDto>();
+		return new ErrorDataResult<CustomerDto>("");
 
 	}
 

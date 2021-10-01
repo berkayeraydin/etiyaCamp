@@ -20,14 +20,13 @@ import com.etiya.ReCapProject.entities.requests.delete.DeleteCarDamageInformatio
 import com.etiya.ReCapProject.entities.requests.update.UpdateCarDamageInformationRequest;
 
 @Service
-public class CarDamageInformationManager implements CarDamageInformationService{
-	
-	private CarDamageInformationDao carDamageInformationDao; 
+public class CarDamageInformationManager implements CarDamageInformationService {
+
+	private CarDamageInformationDao carDamageInformationDao;
 	private CarService carService;
-	
+
 	@Autowired
-	public CarDamageInformationManager(CarDamageInformationDao carDamageInformationDao,
-			CarService carService) {
+	public CarDamageInformationManager(CarDamageInformationDao carDamageInformationDao, CarService carService) {
 		super();
 		this.carDamageInformationDao = carDamageInformationDao;
 		this.carService = carService;
@@ -35,61 +34,57 @@ public class CarDamageInformationManager implements CarDamageInformationService{
 
 	@Override
 	public DataResult<List<CarDamageInformation>> getAll() {
-
-		return new SuccessDataResult<List<CarDamageInformation>>(this.carDamageInformationDao.findAll()
-				, Messages.CarDamageInformationsListed);
+		return new SuccessDataResult<List<CarDamageInformation>>(this.carDamageInformationDao.findAll(),
+				Messages.CarDamageInformationsListed);
 	}
 
 	@Override
 	public DataResult<CarDamageInformation> getById(int carDamageInformationId) {
-
-		return new SuccessDataResult<CarDamageInformation>(this.carDamageInformationDao.getById(carDamageInformationId)
-				, Messages.CarDamageInformationListed);
+		return new SuccessDataResult<CarDamageInformation>(this.carDamageInformationDao.getById(carDamageInformationId),
+				Messages.CarDamageInformationListed);
 	}
 
 	@Override
 	public Result add(CreateCarDamageInformationRequest createCarDamageInformationRequest) {
 
 		Car car = this.carService.getById(createCarDamageInformationRequest.getCarId()).getData();
-		
+
 		CarDamageInformation carDamageInformation = new CarDamageInformation();
 		carDamageInformation.setDescription(createCarDamageInformationRequest.getDescription());
-		
+
 		carDamageInformation.setCar(car);
-		
+
 		this.carDamageInformationDao.save(carDamageInformation);
-		
+
 		return new SuccessResult(Messages.CarDamageInformationAdded);
 	}
 
 	@Override
 	public Result update(UpdateCarDamageInformationRequest updateCarDamageInformationRequest) {
-		
+
 		CarDamageInformation carDamageInformation = this.carDamageInformationDao
 				.getById(updateCarDamageInformationRequest.getCarDamageInformationId());
 		carDamageInformation.setDescription(updateCarDamageInformationRequest.getDescription());
-		
+
 		this.carDamageInformationDao.save(carDamageInformation);
-		
+
 		return new SuccessResult(Messages.CarDamageInformationUpdated);
 	}
 
 	@Override
-	public Result delete(DeleteCarDamageInformationRequest DeleteCarDamageInformationRequest) {
-		
+	public Result delete(DeleteCarDamageInformationRequest deleteCarDamageInformationRequest) {
+
 		CarDamageInformation carDamageInformation = this.carDamageInformationDao
-				.getById(DeleteCarDamageInformationRequest.getCarDamageInformationId());
-		
-		this.carDamageInformationDao.save(carDamageInformation);
-		
+				.getById(deleteCarDamageInformationRequest.getCarDamageInformationId());
+		this.carDamageInformationDao.delete(carDamageInformation);
+
 		return new SuccessResult(Messages.CarDamageInformationDeleted);
 	}
 
 	@Override
-	public DataResult<List<CarDamageInformation>> getCarDmageInformationsByCarId(int carId) {
-
-		return new SuccessDataResult<List<CarDamageInformation>>(this.carDamageInformationDao.getByCar_CarId(carId)
-				, Messages.CarDamageInformationsListedByCar);
+	public DataResult<List<CarDamageInformation>> getCarDamageInformationsByCarId(int carId) {
+		return new SuccessDataResult<List<CarDamageInformation>>(this.carDamageInformationDao.getByCar_CarId(carId),
+				Messages.CarDamageInformationsListedByCar);
 	}
 
 }

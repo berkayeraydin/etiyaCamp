@@ -19,8 +19,8 @@ public interface CarDamageInformationService {
 
 	Result update(UpdateCarDamageInformationRequest updateCarDamageInformationRequest);
 
-	Result delete(DeleteCarDamageInformationRequest DeleteCarDamageInformationRequest);
-	
-	DataResult<List<CarDamageInformation>> getCarDmageInformationsByCarId(int carId);
+	Result delete(DeleteCarDamageInformationRequest deleteCarDamageInformationRequest);
+
+	DataResult<List<CarDamageInformation>> getCarDamageInformationsByCarId(int carId);
 
 }

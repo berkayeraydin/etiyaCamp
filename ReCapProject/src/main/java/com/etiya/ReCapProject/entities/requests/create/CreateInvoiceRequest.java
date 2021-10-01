@@ -1,21 +1,18 @@
 package com.etiya.ReCapProject.entities.requests.create;
 
+import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class CreateInvoiceRequest {
-	
-	
+
 	@NotNull
-	private int rentalId;
+	private Rental rental;
+
 }
