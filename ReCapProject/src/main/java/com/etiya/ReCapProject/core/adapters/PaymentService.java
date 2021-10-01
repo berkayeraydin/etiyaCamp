@@ -1,8 +1,8 @@
 package com.etiya.ReCapProject.core.adapters;
 
-import com.etiya.ReCapProject.entities.requests.FakePosServiceRequest;
+import com.etiya.ReCapProject.entities.requests.PosServiceRequest;
 
 public interface PaymentService {
 	
-	public boolean pos(FakePosServiceRequest fakePosServiceRequest);
+	public boolean withdraw(PosServiceRequest fakePosServiceRequest);
 }

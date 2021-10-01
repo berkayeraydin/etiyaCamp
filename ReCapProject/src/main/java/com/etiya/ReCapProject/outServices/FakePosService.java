@@ -6,7 +6,7 @@ public class FakePosService {
 		
 		double limit = 3500;
 		
-		if (price < limit) {
+		if (price <= limit) {
 			return true;
 		}
 		return false;
