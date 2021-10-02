@@ -4,6 +4,8 @@
 
 💡 [Technologies](#technologies)
 
+💡 [Linkedin](#linkedin)
+
 ## 🖍 General info
 #### Backend of a car rental website for Etiya academy.
 -->  We designed the project of the `backend service of a simple car rental site` and tried to comply with `SOLID rules` in the project. Using `SpringBoot`, we performed `database operations with API's`. We have associated our tables with `JpaRepository`, which is part of the Spring framework.
@@ -24,3 +26,9 @@ Technologies that used in this project are:
 
 #### 💻 IDE
 ![](https://img.shields.io/badge/Eclipse-2C2255?style=for-the-badge&logo=eclipse&logoColor=white)
+
+
+## 🖍 linkedin
+![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)
+* [Eren Aydın](https://www.linkedin.com/in/eerenaydin/)
+* [Doğancan Nurlu](https://www.linkedin.com/in/do%C4%9Fancan-nurlu-67a699156/)
