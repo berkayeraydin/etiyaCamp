@@ -28,7 +28,7 @@ Technologies that used in this project are:
 ![](https://img.shields.io/badge/Eclipse-2C2255?style=for-the-badge&logo=eclipse&logoColor=white)
 
 
-## 🖍 linkedin
+## 🖍 Linkedin
 ![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)
-* [Eren Aydın](https://www.linkedin.com/in/eerenaydin/)
-* [Doğancan Nurlu](https://www.linkedin.com/in/do%C4%9Fancan-nurlu-67a699156/)
+* [Berkay ERAYDIN](https://www.linkedin.com/in/berkayeraydin/)
+* [İbrahin GEZER](https://www.linkedin.com/search/results/all/?keywords=i%CC%87brahim%20gezer&origin=RICH_QUERY_SUGGESTION&position=1&searchId=c8475868-826a-4622-856b-fd388ff69533&sid=~E*)
