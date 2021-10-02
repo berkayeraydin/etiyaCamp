@@ -15,10 +15,7 @@
 <img align="left" alt="PostGreSQL" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/postgresql/postgresql.png" />
 <img align="left" alt="Swagger" width="26px" src="https://www.form.io/sites/default/files/2018-08/swagger-300.jpg" />
 <img align="left" alt="SpringBoot" width="26px" src="https://www.instana.com/media/spring_boot_logo.png" />
-<img align="left" alt="GitHub" width="26px" src="https://raw.githubusercontent.com/github/explore/78df643247d429f6cc873026c0622819ad797942/topics/github/github.png" />
-
-
-
+<img align="left" alt="GitHub" width="26px" src="https://raw.githubusercontent.com/github/explore/78df643247d429f6cc873026c0622819ad797942/topics/github/github.png" /><br/><br/>
 
 ## Technologies
 Technologies that used in this project are:
