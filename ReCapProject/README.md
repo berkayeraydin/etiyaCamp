@@ -19,10 +19,23 @@
 <img align="left" alt="SpringBoot" width="26px" src="https://www.instana.com/media/spring_boot_logo.png" /><br/><br/>
 
 ## About
-### Entities
+### 🖍 Entities
 - It is the layer where `Objects`, `Dto's` and `Requests` are defined. [Entities kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/entities)
 
+### 🖍 Data Access
+- It is the layer that connects with the database. Tables are created using JpaRepository. [DataAccess kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/dataAccess)
 
+### 🖍 Business
+-It is the layer where `business rules` are defined and controlled. When a command is received by the program, what operations it should do and which set of rules it should go through are defined here.[Business kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/business)
+
+### 🖍 API
+-It is the layer where we run our codes with `Spring boot`. [Api kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/api)
+
+### 🖍 Core
+-It is the layer that `connects with external  services`.Generally we used this layer to use some `rules` or `utilities`. [Core kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/core)
+
+### 🖍 Out Services
+-External services [Out Service kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/outServices)
 
 
 
