@@ -72,7 +72,7 @@
 21. Ek hizmetler `eklenebilmeli`, `güncellenebilmeli`, `listelenebilmelidir`. Ek hizmetler isim olarak tekrar edemez.
 
 
-## 📍 Technologies
+## Technologies
 Technologies that used in this project are:
 
 #### Frameworks 
@@ -90,7 +90,7 @@ Technologies that used in this project are:
 ![](https://img.shields.io/badge/Eclipse-2C2255?style=for-the-badge&logo=eclipse&logoColor=white)
 
 
-## 📍 Linkedin
+## Linkedin
 ![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)
 * [Berkay ERAYDIN](https://www.linkedin.com/in/berkayeraydin/)
 * [İbrahin GEZER](https://www.linkedin.com/in/ibrahimgezer92/)
