@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.RentalAdditionalService;
+import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.ErrorResult;
@@ -32,13 +33,13 @@ public class RentalAdditionalManager implements RentalAdditionalService {
 	@Override
 	public DataResult<List<RentalAdditional>> getAll() {
 		return new SuccessDataResult<List<RentalAdditional>>(this.rentalAdditionalDao.findAll(),
-				"Ek hizmetler listelendi");
+				Messages.RentalAdditionalsListed);
 	}
 
 	@Override
 	public DataResult<RentalAdditional> getById(int rentalAdditionalId) {
 		return new SuccessDataResult<RentalAdditional>(this.rentalAdditionalDao.getById(rentalAdditionalId),
-				"Ek hizmet listelendi");
+				Messages.RentalAdditionalListed);
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class RentalAdditionalManager implements RentalAdditionalService {
 
 		this.rentalAdditionalDao.save(rentalAdditional);
 
-		return new SuccessResult("Ek hizmet eklendi");
+		return new SuccessResult(Messages.RentalAdditionalAdded);
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class RentalAdditionalManager implements RentalAdditionalService {
 
 		this.rentalAdditionalDao.save(rentalAdditional);
 
-		return new SuccessResult("Ek hizmet güncellendi");
+		return new SuccessResult(Messages.RentalAdditionalUpdated);
 	}
 
 	@Override
@@ -87,12 +88,12 @@ public class RentalAdditionalManager implements RentalAdditionalService {
 				.getById(deleteRentalAdditionalRequest.getRentalAdditionalId());
 		this.rentalAdditionalDao.delete(rentalAdditional);
 
-		return new SuccessResult("Ek hizmet silindi");
+		return new SuccessResult(Messages.RentalAdditionalDeleted);
 	}
 
 	private Result checkRentalAdditionalByRentalAdditionalName(String rentalAdditionalName) {
 		if (this.rentalAdditionalDao.existsByRentalAdditionalName(rentalAdditionalName)) {
-			return new ErrorResult("bu isimde ek hizmet mevcut");
+			return new ErrorResult(Messages.RentalAdditionalIsFound);
 		}
 		return new SuccessResult();
 	}

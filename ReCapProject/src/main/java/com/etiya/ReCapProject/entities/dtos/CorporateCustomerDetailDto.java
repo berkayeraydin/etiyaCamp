@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CorporateCustomerDetailDto implements CustomerDto{
 
-	private String companyName;;
+	private String companyName;
+	
+	private String taxNumber;
 
 }

@@ -29,51 +29,52 @@ public class CarsController {
 		super();
 		this.carService = carService;
 	}
-	
+
 	@GetMapping("/getAll")
 	public DataResult<List<Car>> getAll() {
 		return this.carService.getAll();
 	}
-	
+
 	@GetMapping("/getbyid")
 	public DataResult<Car> getById(int carId) {
 		return this.carService.getById(carId);
 	}
-	
+
 	@GetMapping("/getcarsDetails")
 	public DataResult<List<CarDetailDto>> getCarsDetails() {
 		return this.carService.getAllCarsDetails();
 	}
+
 	@GetMapping("/getcarDetails")
-	DataResult<CarDetailDto> getCarDetailsByCarId(int carId){
+	DataResult<CarDetailDto> getCarDetailsByCarId(int carId) {
 		return this.carService.getCarDetailsByCarId(carId);
 	}
-	
+
 	@GetMapping("/getcarsbycolor")
-	public DataResult<List<Car>> getCarsByColorId(int colorId) {
+	public DataResult<List<CarDetailDto>> getCarsByColorId(int colorId) {
 		return this.carService.getCarsByColorId(colorId);
 	}
 
 	@GetMapping("/getcarsbybrand")
-	public DataResult<List<Car>> getCarsByBrandId(int brandId) {
+	public DataResult<List<CarDetailDto>> getCarsByBrandId(int brandId) {
 		return this.carService.getCarsByBrandId(brandId);
 	}
-	
+
 	@GetMapping("/getcarsbycityid")
-	public DataResult<List<Car>> getCarsByCity_CityId(int cityId) {
+	public DataResult<List<CarDetailDto>> getCarsByCity_CityId(int cityId) {
 		return this.carService.getCarsByCity_CityId(cityId);
 	}
-	
+
 	@PostMapping("/add")
 	public Result add(@Valid @RequestBody CreateCarRequest createCarRequest) {
 		return this.carService.add(createCarRequest);
 	}
-	
+
 	@PostMapping("/update")
 	public Result update(@Valid @RequestBody UpdateCarRequest updateCarRequest) {
 		return this.carService.update(updateCarRequest);
 	}
-	
+
 	@PostMapping("/delete")
 	public Result delete(DeleteCarRequest deleteCarRequest) {
 		return this.carService.delete(deleteCarRequest);

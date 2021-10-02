@@ -98,6 +98,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 		return new SuccessResult(Messages.CarMaintenanceDeleted);
 	}
 
+	// Arabanın servisten dönüş işlemi
 	@Override
 	public Result CarAtMaintenanceReturnedIsTrue(int carMaintenanceId) {
 
@@ -109,7 +110,6 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 		this.carMaintenanceDao.save(carMaintenance);
 
 		return new SuccessResult(Messages.CarAtMaintenanceReturned);
-	} 
-	
+	}
 
 }

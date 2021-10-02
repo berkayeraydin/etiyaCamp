@@ -47,6 +47,11 @@ public class RentalsController {
 		return this.rentalService.getRentalDetailsByRentalId(rentalId);
 	}
 
+	@GetMapping("/getRentalsDetailByApplicationUserId")
+	DataResult<List<RentalDetailDto>> getRentalsDetailByApplicationUserId(int applicationUserId) {
+		return this.rentalService.getRentalsDetailByApplicationUserId(applicationUserId);
+	}
+
 	@PostMapping("/add")
 	public Result add(@Valid @RequestBody CreateRentalRequest createRentalRequest) {
 		return this.rentalService.add(createRentalRequest);

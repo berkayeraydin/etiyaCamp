@@ -127,6 +127,7 @@ public class AuthManager implements AuthService {
 			IndividualCustomerDetailDto individualCustomerDetailDto = new IndividualCustomerDetailDto();
 			individualCustomerDetailDto.setFirstName(individualCustomer.getFirstName());
 			individualCustomerDetailDto.setLastName(individualCustomer.getLastName());
+			individualCustomerDetailDto.setNationalIdentityNumber(individualCustomer.getNationalIdentityNumber());
 
 			return new SuccessDataResult<CustomerDto>(individualCustomerDetailDto, Messages.LoggedCustomer);
 		}
@@ -139,6 +140,7 @@ public class AuthManager implements AuthService {
 
 			CorporateCustomerDetailDto corporateCustomerDetailDto = new CorporateCustomerDetailDto();
 			corporateCustomerDetailDto.setCompanyName(corporateCustomer.getCompanyName());
+			corporateCustomerDetailDto.setTaxNumber(corporateCustomer.getTaxNumber());
 
 			return new SuccessDataResult<CustomerDto>(corporateCustomerDetailDto, Messages.LoggedCustomer);
 		}

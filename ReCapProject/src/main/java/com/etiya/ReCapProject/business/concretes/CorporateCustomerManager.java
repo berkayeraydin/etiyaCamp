@@ -47,8 +47,27 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	}
 
 	@Override
+	public DataResult<CorporateCustomerDetailDto> getCorporateCustomerDetailsById(int corporateCustomerId) {
+
+		CorporateCustomer corporateCustomer = this.corporateCustomerDao.getById(corporateCustomerId);
+
+		CorporateCustomerDetailDto corporateCustomerDetailDto = new CorporateCustomerDetailDto();
+		corporateCustomerDetailDto.setCompanyName(corporateCustomer.getCompanyName());
+		corporateCustomerDetailDto.setTaxNumber(corporateCustomer.getTaxNumber());
+
+		return new SuccessDataResult<CorporateCustomerDetailDto>(corporateCustomerDetailDto,
+				Messages.CorporateCustomerDetail);
+	}
+
+	@Override
+	public DataResult<CorporateCustomer> getByApplicationUser_UserId(int applicationUserId) {
+		return new SuccessDataResult<CorporateCustomer>(
+				this.corporateCustomerDao.getByApplicationUser_UserId(applicationUserId));
+	}
+
+	@Override
 	public Result add(CreateCorporateCustomerRequest createCorporateCustomerRequest) {
-		
+
 		ApplicationUser applicationUser = this.userService.getById(createCorporateCustomerRequest.getUserId())
 				.getData();
 
@@ -64,15 +83,12 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 	@Override
 	public Result update(UpdateCorporateCustomerRequest updateCorporateCustomerRequest) {
-		
-		ApplicationUser applicationUser = this.userService.getById(updateCorporateCustomerRequest.getUserId())
-				.getData();
 
-		CorporateCustomer corporateCustomer = new CorporateCustomer();
+		CorporateCustomer corporateCustomer = this.corporateCustomerDao
+				.getById(updateCorporateCustomerRequest.getCorporateCustomerId());
+
 		corporateCustomer.setCompanyName(updateCorporateCustomerRequest.getCompanyName());
 		corporateCustomer.setTaxNumber(updateCorporateCustomerRequest.getTaxNumber());
-
-		corporateCustomer.setApplicationUser(applicationUser);
 
 		this.corporateCustomerDao.save(corporateCustomer);
 		return new SuccessResult(Messages.CustomerAdded);
@@ -80,7 +96,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 	@Override
 	public Result delete(DeleteCorporateCustomerRequest deleteCorporateCustomerRequest) {
-		
+
 		CorporateCustomer corporateCustomer = this.corporateCustomerDao
 				.getById(deleteCorporateCustomerRequest.getCorporateCustomerId());
 
@@ -90,30 +106,11 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 	@Override
 	public Result existsByUserId(int applicationUserId) {
-		
+
 		if (this.corporateCustomerDao.existsByApplicationUser_UserId(applicationUserId)) {
 			return new SuccessResult();
 		}
 		return new ErrorResult();
 	}
-
-	@Override
-	public DataResult<CorporateCustomerDetailDto> getCorporateCustomerDetailsById(int corporateCustomerId) {
-		
-		CorporateCustomer corporateCustomer = this.corporateCustomerDao.getById(corporateCustomerId);
-
-		CorporateCustomerDetailDto corporateCustomerDetailDto = new CorporateCustomerDetailDto();
-		corporateCustomerDetailDto.setCompanyName(corporateCustomer.getCompanyName());
-
-		return new SuccessDataResult<CorporateCustomerDetailDto>(corporateCustomerDetailDto,
-				Messages.CorporateCustomerDetail);
-	}
-	
-	@Override
-	public DataResult<CorporateCustomer> getByApplicationUser_UserId(int applicationUserId) {
-		return new SuccessDataResult<CorporateCustomer>(
-				this.corporateCustomerDao.getByApplicationUser_UserId(applicationUserId));
-	}
-
 
 }

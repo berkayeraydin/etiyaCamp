@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.UserService;
 import com.etiya.ReCapProject.business.constants.Messages;
+import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.ErrorResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
@@ -33,7 +34,7 @@ public class UserManager implements UserService {
 	public DataResult<List<ApplicationUser>> getAll() {
 		return new SuccessDataResult<List<ApplicationUser>>(this.applicationUserDao.findAll(), Messages.UsersListed);
 	}
-	
+
 	@Override
 	public DataResult<ApplicationUser> getById(int applicationUserId) {
 		return new SuccessDataResult<ApplicationUser>(this.applicationUserDao.getById(applicationUserId));
@@ -41,6 +42,12 @@ public class UserManager implements UserService {
 
 	@Override
 	public Result add(CreateApplicationUserRequest createApplicationUserRequest) {
+
+		var result = BusinessRules.run(this.existsByEmail(createApplicationUserRequest.getEmail()));
+
+		if (result != null) {
+			return result;
+		}
 
 		ApplicationUser applicationUser = new ApplicationUser();
 		applicationUser.setEmail(createApplicationUserRequest.getEmail());
@@ -53,6 +60,11 @@ public class UserManager implements UserService {
 	@Override
 	public Result update(UpdateApplicationUserRequest updateApplicationUserRequest) {
 
+		var result = BusinessRules.run(this.existsByEmail(updateApplicationUserRequest.getEmail()));
+
+		if (result != null) {
+			return result;
+		}
 		ApplicationUser applicationUser = this.applicationUserDao.getById(updateApplicationUserRequest.getUserId());
 		applicationUser.setEmail(updateApplicationUserRequest.getEmail());
 		applicationUser.setPassword(updateApplicationUserRequest.getPassword());
@@ -78,12 +90,9 @@ public class UserManager implements UserService {
 	@Override
 	public Result existsByEmail(String email) {
 		if (!this.applicationUserDao.existsByEmail(email)) {
-			return new ErrorResult();
+			return new ErrorResult(Messages.EmailAlreadyExists);
 		}
 		return new SuccessResult();
 	}
 
-	
-
 }
-

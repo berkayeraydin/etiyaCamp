@@ -45,6 +45,12 @@ public class CarDamageInformationManager implements CarDamageInformationService 
 	}
 
 	@Override
+	public DataResult<List<CarDamageInformation>> getCarDamageInformationsByCarId(int carId) {
+		return new SuccessDataResult<List<CarDamageInformation>>(this.carDamageInformationDao.getByCar_CarId(carId),
+				Messages.CarDamageInformationsListedByCar);
+	}
+
+	@Override
 	public Result add(CreateCarDamageInformationRequest createCarDamageInformationRequest) {
 
 		Car car = this.carService.getById(createCarDamageInformationRequest.getCarId()).getData();
@@ -79,12 +85,6 @@ public class CarDamageInformationManager implements CarDamageInformationService 
 		this.carDamageInformationDao.delete(carDamageInformation);
 
 		return new SuccessResult(Messages.CarDamageInformationDeleted);
-	}
-
-	@Override
-	public DataResult<List<CarDamageInformation>> getCarDamageInformationsByCarId(int carId) {
-		return new SuccessDataResult<List<CarDamageInformation>>(this.carDamageInformationDao.getByCar_CarId(carId),
-				Messages.CarDamageInformationsListedByCar);
 	}
 
 }

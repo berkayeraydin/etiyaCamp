@@ -1,6 +1,7 @@
 package com.etiya.ReCapProject.business.concretes;
 
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,6 @@ import com.etiya.ReCapProject.core.adapters.CustomerFindeksScoreService;
 import com.etiya.ReCapProject.core.adapters.PaymentService;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
-import com.etiya.ReCapProject.core.utilities.result.ErrorDataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.core.utilities.result.ErrorResult;
 import com.etiya.ReCapProject.core.utilities.result.SuccessDataResult;
@@ -36,8 +36,7 @@ import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.etiya.ReCapProject.entities.concretes.RentalAdditional;
 import com.etiya.ReCapProject.entities.dtos.CarDetailDto;
 import com.etiya.ReCapProject.entities.dtos.CardInformationDto;
-import com.etiya.ReCapProject.entities.dtos.CorporateCustomerDetailDto;
-import com.etiya.ReCapProject.entities.dtos.IndividualCustomerDetailDto;
+import com.etiya.ReCapProject.entities.dtos.RentalAdditionalDetailDto;
 import com.etiya.ReCapProject.entities.dtos.RentalDetailDto;
 import com.etiya.ReCapProject.entities.requests.CarReturnedRequest;
 import com.etiya.ReCapProject.entities.requests.PosServiceRequest;
@@ -100,36 +99,68 @@ public class RentalManager implements RentalService {
 		RentalDetailDto rentalDetailDto = new RentalDetailDto();
 		CarDetailDto carDetailDto = this.carService.getCarDetailsByCarId(rental.getCar().getCarId()).getData();
 
-		if (this.individualCustomerService.existsByUserId(rental.getApplicationUser().getUserId()).isSuccess()) {
+		rentalDetailDto.setRentDate(rental.getRentDate());
+		rentalDetailDto.setReturnDate(rental.getReturnDate());
+		rentalDetailDto.setCarDetailDto(carDetailDto);
+		rentalDetailDto.setRentKilometer(rental.getRentKilometer());
+		rentalDetailDto.setReturnKilometer(rental.getReturnKilometer());
+		rentalDetailDto.setRentCityName(rental.getTakeCity().getCityName());
+		rentalDetailDto.setReturnCityName(rental.getReturnCity().getCityName());
 
-			IndividualCustomerDetailDto individualCustomerDetailDto = this.individualCustomerService
-					.getIndividualCustomerDetailsById(
-							rental.getApplicationUser().getIndividualCustomer().getIndividualCustomerId())
-					.getData();
+		List<RentalAdditionalDetailDto> rentalAdditionalDetailDtos = new ArrayList<RentalAdditionalDetailDto>();
+
+		for (RentalAdditional rentalAdditional : rental.getRentalAdditionals()) {
+
+			RentalAdditionalDetailDto rentalAdditionalDetailDto = new RentalAdditionalDetailDto();
+			rentalAdditionalDetailDto.setRentalAdditionalName(rentalAdditional.getRentalAdditionalName());
+			rentalAdditionalDetailDto.setDailyPrice(rentalAdditional.getDailyPrice());
+
+			rentalAdditionalDetailDtos.add(rentalAdditionalDetailDto);
+		}
+
+		rentalDetailDto.setRentalAdditionalDetailDtos(rentalAdditionalDetailDtos);
+
+		return new SuccessDataResult<RentalDetailDto>(rentalDetailDto, Messages.RentalDetail);
+
+	}
+
+	@Override
+	public DataResult<List<RentalDetailDto>> getRentalsDetailByApplicationUserId(int applicationUserId) {
+
+		List<Rental> rentals = this.rentalDao.getByApplicationUser_UserId(applicationUserId);
+
+		List<RentalDetailDto> rentalDetailDtos = new ArrayList<RentalDetailDto>();
+
+		for (Rental rental : rentals) {
+
+			RentalDetailDto rentalDetailDto = new RentalDetailDto();
+			CarDetailDto carDetailDto = this.carService.getCarDetailsByCarId(rental.getCar().getCarId()).getData();
 
 			rentalDetailDto.setRentDate(rental.getRentDate());
 			rentalDetailDto.setReturnDate(rental.getReturnDate());
 			rentalDetailDto.setCarDetailDto(carDetailDto);
-			rentalDetailDto.setCustomerDto(individualCustomerDetailDto);
+			rentalDetailDto.setRentKilometer(rental.getRentKilometer());
+			rentalDetailDto.setReturnKilometer(rental.getReturnKilometer());
+			rentalDetailDto.setRentCityName(rental.getTakeCity().getCityName());
+			rentalDetailDto.setReturnCityName(rental.getReturnCity().getCityName());
 
-			return new SuccessDataResult<RentalDetailDto>(rentalDetailDto, Messages.RentalDetail);
+			List<RentalAdditionalDetailDto> rentalAdditionalDetailDtos = new ArrayList<RentalAdditionalDetailDto>();
+
+			for (RentalAdditional rentalAdditional : rental.getRentalAdditionals()) {
+
+				RentalAdditionalDetailDto rentalAdditionalDetailDto = new RentalAdditionalDetailDto();
+				rentalAdditionalDetailDto.setRentalAdditionalName(rentalAdditional.getRentalAdditionalName());
+				rentalAdditionalDetailDto.setDailyPrice(rentalAdditional.getDailyPrice());
+
+				rentalAdditionalDetailDtos.add(rentalAdditionalDetailDto);
+			}
+
+			rentalDetailDto.setRentalAdditionalDetailDtos(rentalAdditionalDetailDtos);
+
+			rentalDetailDtos.add(rentalDetailDto);
 		}
-		if (this.corporateCustomerService.existsByUserId(rental.getApplicationUser().getUserId()).isSuccess()) {
 
-			CorporateCustomerDetailDto corporateCustomerDetailDto = this.corporateCustomerService
-					.getCorporateCustomerDetailsById(
-							rental.getApplicationUser().getCorporateCustomer().getCorporateCustomerId())
-					.getData();
-
-			rentalDetailDto.setRentDate(rental.getRentDate());
-			rentalDetailDto.setReturnDate(rental.getReturnDate());
-			rentalDetailDto.setCarDetailDto(carDetailDto);
-			rentalDetailDto.setCustomerDto(corporateCustomerDetailDto);
-
-			return new SuccessDataResult<RentalDetailDto>(rentalDetailDto, Messages.RentalDetail);
-		}
-
-		return new ErrorDataResult<RentalDetailDto>();
+		return new SuccessDataResult<List<RentalDetailDto>>(rentalDetailDtos, Messages.RentalDetails);
 	}
 
 	@Override
@@ -227,6 +258,7 @@ public class RentalManager implements RentalService {
 		return new SuccessResult(Messages.RentalDeleted);
 	}
 
+	// Kiralama işlemi arabanın müşteriden teslim alınmasıyla bitirilir
 	@Override
 	public Result carAtRentalReturnedIsTrue(CarReturnedRequest carReturnedRequest) {
 
@@ -253,6 +285,19 @@ public class RentalManager implements RentalService {
 		return new SuccessResult(Messages.RentalCarIsReturned);
 	}
 
+	// Hizmetin toplam turarını hesaplar
+	@Override
+	public DataResult<Double> getRentalAdditionalTotalPrice(int rentalAdditionalId, Date minDate, Date maxDate) {
+
+		long totalRentalDay = ChronoUnit.DAYS.between(minDate.toInstant(), maxDate.toInstant());
+
+		RentalAdditional rentalAdditional = this.rentalAdditionalService.getById(rentalAdditionalId).getData();
+		double rentalAdditionalTotalPrice = rentalAdditional.getDailyPrice() * totalRentalDay;
+
+		return new SuccessDataResult<Double>(rentalAdditionalTotalPrice);
+	}
+
+	// Arabanın galeride olup olmadığını kontrol eder
 	private Result checkCarIsReturned(int carId) {
 		if (this.rentalDao.existsByIsCarReturnedIsFalseAndCar_CarId(carId)) {
 			return new ErrorResult(Messages.RentalCarNotReturn);
@@ -260,6 +305,7 @@ public class RentalManager implements RentalService {
 		return new SuccessResult();
 	}
 
+	// Arabanın teslim edildiği şehir farklıysa arabanın şehir bilgisi günceller
 	private DataResult<Car> carCityUpdateIfReturnedDifferentCity(int carId, int cityId) {
 
 		Car car = this.carService.getById(carId).getData();
@@ -273,6 +319,7 @@ public class RentalManager implements RentalService {
 		return new SuccessDataResult<Car>(car);
 	}
 
+	// Müşterinin findeks puanın yeterli olup olmadığını kontrol eder
 	private Result checkCustomerFindeksScore(int applicationUserId, int carId) {
 
 		if (this.individualCustomerService.existsByUserId(applicationUserId).isSuccess()) {
@@ -303,6 +350,8 @@ public class RentalManager implements RentalService {
 
 	}
 
+	// Müşteri kiralama sırasında kart bilgilerini kaydetmek isterse kart
+	// bilgilerini kayıt eder
 	private Result cardInformationSavedIfCardIsSavedIsTrue(CardInformationDto cardInformationDto, int UserId) {
 
 		CreateCardInformationRequest createCardInformationRequest = new CreateCardInformationRequest();
@@ -315,6 +364,7 @@ public class RentalManager implements RentalService {
 		return new SuccessResult(this.cardInformationService.add(createCardInformationRequest).getMessage());
 	}
 
+	// Kiralama sırasında kart limitini kontrol eder
 	private Result checkPaymentService(CardInformationDto cardInformationDto, double price) {
 
 		PosServiceRequest fakePosServiceRequest = new PosServiceRequest();
@@ -325,23 +375,13 @@ public class RentalManager implements RentalService {
 		fakePosServiceRequest.setPrice(price);
 
 		if (!this.paymentService.withdraw(fakePosServiceRequest)) {
-			return new ErrorResult("Ödeme işlemi başarısız");
+			return new ErrorResult(Messages.PaymentError);
 		}
 
 		return new SuccessResult();
 	}
 
-	@Override
-	public DataResult<Double> getRentalAdditionalTotalPrice(int rentalAdditionalId, Date minDate, Date maxDate) {
-
-		long totalRentalDay = ChronoUnit.DAYS.between(minDate.toInstant(), maxDate.toInstant());
-
-		RentalAdditional rentalAdditional = this.rentalAdditionalService.getById(rentalAdditionalId).getData();
-		double rentalAdditionalTotalPrice = rentalAdditional.getDailyPrice() * totalRentalDay;
-
-		return new SuccessDataResult<Double>(rentalAdditionalTotalPrice);
-	}
-
+	// Kiralama işlem alınan bütün hizmetlerin toplam tutarını hesaplar
 	private DataResult<Double> getRentalTotalPrice(CreateRentalRequest createRentalRequest) {
 
 		long totalRentalDay = ChronoUnit.DAYS.between(createRentalRequest.getRentDate().toInstant(),
@@ -367,4 +407,5 @@ public class RentalManager implements RentalService {
 
 		return new SuccessDataResult<Double>(totalPrice);
 	}
+
 }

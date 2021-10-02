@@ -26,9 +26,9 @@ public interface CarService {
 
 	DataResult<CarDetailDto> getCarDetailsByCarId(int carId);
 
-	DataResult<List<Car>> getCarsByColorId(int colorId);
+	DataResult<List<CarDetailDto>> getCarsByColorId(int colorId);
 
-	DataResult<List<Car>> getCarsByBrandId(int brandId);
+	DataResult<List<CarDetailDto>> getCarsByBrandId(int brandId);
 
 	Result checkCarIsInGallery(int carId);
 
@@ -36,7 +36,7 @@ public interface CarService {
 
 	Result carListedIsFalse(int carId);
 
-	DataResult<List<Car>> getCarsByCity_CityId(int cityId);
+	DataResult<List<CarDetailDto>> getCarsByCity_CityId(int cityId);
 	
 	
 }

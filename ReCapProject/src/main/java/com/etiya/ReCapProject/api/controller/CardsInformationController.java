@@ -15,6 +15,7 @@ import com.etiya.ReCapProject.business.abstracts.CardInformationService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.CardInformation;
+import com.etiya.ReCapProject.entities.dtos.CardInformationDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCardInformationRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCardInformationRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateCardInformationRequest;
@@ -42,7 +43,7 @@ public class CardsInformationController {
 	}
 
 	@GetMapping("/getCardInformationsByApplicationUser_UserId")
-	DataResult<List<CardInformation>> getCardInformationsByApplicationUser_UserId(int applicationUserId) {
+	DataResult<List<CardInformationDto>> getCardInformationsByApplicationUser_UserId(int applicationUserId) {
 		return this.cardInformationService.getCardInformationsByApplicationUser_UserId(applicationUserId);
 	}
 

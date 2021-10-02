@@ -21,11 +21,11 @@ public interface CarDao extends JpaRepository<Car, Integer> {
 //	+ " Where c.carId=:carId")
 //CarDetailDto getCarWithBrandAndColorDetail(int carId);
 
-	List<Car> getByColor_ColorId(int colorId);
+	List<Car> getByColor_ColorIdAndIsListedIsTrue(int colorId);
 
-	List<Car> getByBrand_BrandId(int brandId);
+	List<Car> getByBrand_BrandIdAndIsListedIsTrue(int brandId);
 	
-	List<Car> getByCity_CityId(int cityId);
+	List<Car> getByCity_CityIdAndIsListedIsTrue(int cityId);
 
 	List<Car> getByIsListedIsTrue();
 

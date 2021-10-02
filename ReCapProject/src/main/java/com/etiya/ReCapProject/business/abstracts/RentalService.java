@@ -19,6 +19,8 @@ public interface RentalService {
 	DataResult<Rental> getById(int rentalId);
 
 	DataResult<RentalDetailDto> getRentalDetailsByRentalId(int rentalId);
+	
+	DataResult<List<RentalDetailDto>> getRentalsDetailByApplicationUserId(int applicationUserId);
 
 	Result add(CreateRentalRequest createRentalRequest);
 

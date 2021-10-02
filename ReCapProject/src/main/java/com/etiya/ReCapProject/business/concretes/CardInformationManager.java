@@ -1,5 +1,6 @@
 package com.etiya.ReCapProject.business.concretes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +20,7 @@ import com.etiya.ReCapProject.core.utilities.result.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.CardInformationDao;
 import com.etiya.ReCapProject.entities.concretes.ApplicationUser;
 import com.etiya.ReCapProject.entities.concretes.CardInformation;
+import com.etiya.ReCapProject.entities.dtos.CardInformationDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCardInformationRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCardInformationRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateCardInformationRequest;
@@ -49,29 +51,46 @@ public class CardInformationManager implements CardInformationService {
 	}
 
 	@Override
-	public DataResult<List<CardInformation>> getCardInformationsByApplicationUser_UserId(int applicationUserId) {
-		return new SuccessDataResult<List<CardInformation>>(
-				this.cardInformationDao.getCardInformationByApplicationUser_UserId(applicationUserId),
+	public DataResult<List<CardInformationDto>> getCardInformationsByApplicationUser_UserId(int applicationUserId) {
+
+		List<CardInformation> cardInformations = this.cardInformationDao
+				.getCardInformationByApplicationUser_UserId(applicationUserId);
+
+		List<CardInformationDto> cardInformationDtos = new ArrayList<CardInformationDto>();
+
+		for (CardInformation cardInformation : cardInformations) {
+
+			CardInformationDto cardInformationDto = new CardInformationDto();
+			cardInformationDto.setCardName(cardInformation.getCardName());
+			cardInformationDto.setCardHolderName(cardInformation.getCardHolderName());
+			cardInformationDto.setCardNumber(cardInformation.getCardNumber());
+			cardInformationDto.setExpirationDate(cardInformation.getExpirationDate());
+			cardInformationDto.setCvv(cardInformation.getCvv());
+
+			cardInformationDtos.add(cardInformationDto);
+		}
+
+		return new SuccessDataResult<List<CardInformationDto>>(cardInformationDtos,
 				Messages.CardInformationListedByUser);
 	}
 
 	@Override
 	public Result add(CreateCardInformationRequest createCardInformationRequest) {
-		
+
 		var result = BusinessRules.run(this.checkCardFormat(createCardInformationRequest.getCardNumber()));
 
 		if (result != null) {
 			return result;
 		}
-		
+
 		ApplicationUser applicationUser = this.userService.getById(createCardInformationRequest.getUserId()).getData();
 
 		CardInformation cardInformation = new CardInformation();
 		cardInformation.setCardName(createCardInformationRequest.getCardName());
 		cardInformation.setCardNumber(createCardInformationRequest.getCardNumber());
+		cardInformation.setCardHolderName(createCardInformationRequest.getCardHolderName());
 		cardInformation.setCvv(createCardInformationRequest.getCvv());
 		cardInformation.setExpirationDate(createCardInformationRequest.getExpirationDate());
-		cardInformation.setCardHolderName(createCardInformationRequest.getCardHolderName());
 
 		cardInformation.setApplicationUser(applicationUser);
 
@@ -81,7 +100,7 @@ public class CardInformationManager implements CardInformationService {
 
 	@Override
 	public Result update(UpdateCardInformationRequest updateCardInformationRequest) {
-		
+
 		var result = BusinessRules.run(this.checkCardFormat(updateCardInformationRequest.getCardNumber()));
 
 		if (result != null) {
@@ -92,12 +111,12 @@ public class CardInformationManager implements CardInformationService {
 				.getById(updateCardInformationRequest.getCardInformationId());
 		cardInformation.setCardName(updateCardInformationRequest.getCardName());
 		cardInformation.setCardNumber(updateCardInformationRequest.getCardNumber());
+		cardInformation.setCardHolderName(updateCardInformationRequest.getCardHolderName());
 		cardInformation.setCvv(updateCardInformationRequest.getCvv());
 		cardInformation.setExpirationDate(updateCardInformationRequest.getExpirationDate());
-		cardInformation.setCardHolderName(updateCardInformationRequest.getCardHolderName());
 
 		this.cardInformationDao.save(cardInformation);
-		return new SuccessResult(Messages.CarImageUpdated);
+		return new SuccessResult(Messages.CardInformationUpdated);
 	}
 
 	@Override
@@ -109,6 +128,7 @@ public class CardInformationManager implements CardInformationService {
 		return new SuccessResult(Messages.CardInformationDeleted);
 	}
 
+	// Kart numara kontrolünü yapar
 	@Override
 	public Result checkCardFormat(String cardNumber) {
 
@@ -122,9 +142,9 @@ public class CardInformationManager implements CardInformationService {
 		if (!matcher.find()) {
 			return new ErrorResult(Messages.CardNumberTypeIsNotValid);
 		}
-		
+
 		return new SuccessResult();
-		
+
 	}
-	
+
 }

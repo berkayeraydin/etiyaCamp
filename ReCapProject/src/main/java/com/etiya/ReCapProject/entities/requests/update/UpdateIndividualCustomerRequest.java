@@ -25,6 +25,4 @@ public class UpdateIndividualCustomerRequest {
 	@NotNull
 	private String nationalIdentityNumber;;
 	
-	@NotNull
-	private int userId;
 }

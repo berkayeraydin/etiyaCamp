@@ -47,6 +47,26 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	}
 
 	@Override
+	public DataResult<IndividualCustomerDetailDto> getIndividualCustomerDetailsById(int individualCustomerId) {
+
+		IndividualCustomer individualCustomer = this.individualCustomerDao.getById(individualCustomerId);
+
+		IndividualCustomerDetailDto individualCustomerDetailDto = new IndividualCustomerDetailDto();
+		individualCustomerDetailDto.setFirstName(individualCustomer.getFirstName());
+		individualCustomerDetailDto.setLastName(individualCustomer.getLastName());
+		individualCustomerDetailDto.setNationalIdentityNumber(individualCustomer.getNationalIdentityNumber());
+
+		return new SuccessDataResult<IndividualCustomerDetailDto>(individualCustomerDetailDto,
+				Messages.IndividualCustomerDetail);
+	}
+
+	@Override
+	public DataResult<IndividualCustomer> getByApplicationUser_UserId(int applicationUserId) {
+		return new SuccessDataResult<IndividualCustomer>(
+				this.individualCustomerDao.getByApplicationUser_UserId(applicationUserId));
+	}
+
+	@Override
 	public Result add(CreateIndividualCustomerRequest createIndividualCustomerRequest) {
 
 		ApplicationUser applicationUser = this.userService.getById(createIndividualCustomerRequest.getUserId())
@@ -66,18 +86,15 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	@Override
 	public Result update(UpdateIndividualCustomerRequest updateIndividualCustomerRequest) {
 
-		ApplicationUser applicationUser = this.userService.getById(updateIndividualCustomerRequest.getUserId())
-				.getData();
-
 		IndividualCustomer individualCustomer = this.individualCustomerDao
 				.getById(updateIndividualCustomerRequest.getIndividualCustomerId());
+		
 		individualCustomer.setFirstName(updateIndividualCustomerRequest.getFirstName());
 		individualCustomer.setLastName(updateIndividualCustomerRequest.getLastName());
 		individualCustomer.setNationalIdentityNumber(updateIndividualCustomerRequest.getNationalIdentityNumber());
 
-		individualCustomer.setApplicationUser(applicationUser);
-
 		this.individualCustomerDao.save(individualCustomer);
+		
 		return new SuccessResult(Messages.CustomerUpdated);
 	}
 
@@ -97,25 +114,6 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 			return new SuccessResult();
 		}
 		return new ErrorResult();
-	}
-
-	@Override
-	public DataResult<IndividualCustomerDetailDto> getIndividualCustomerDetailsById(int individualCustomerId) {
-
-		IndividualCustomer individualCustomer = this.individualCustomerDao.getById(individualCustomerId);
-
-		IndividualCustomerDetailDto individualCustomerDetailDto = new IndividualCustomerDetailDto();
-		individualCustomerDetailDto.setFirstName(individualCustomer.getFirstName());
-		individualCustomerDetailDto.setLastName(individualCustomer.getLastName());
-
-		return new SuccessDataResult<IndividualCustomerDetailDto>(individualCustomerDetailDto,
-				Messages.IndividualCustomerDetail);
-	}
-
-	@Override
-	public DataResult<IndividualCustomer> getByApplicationUser_UserId(int applicationUserId) {
-		return new SuccessDataResult<IndividualCustomer>(
-				this.individualCustomerDao.getByApplicationUser_UserId(applicationUserId));
 	}
 
 }

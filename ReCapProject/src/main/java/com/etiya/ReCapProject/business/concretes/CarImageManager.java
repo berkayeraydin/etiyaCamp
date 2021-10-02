@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.etiya.ReCapProject.business.abstracts.CarImageService;
-import com.etiya.ReCapProject.business.abstracts.CarService;
 import com.etiya.ReCapProject.business.constants.FilePathConfiguration;
 import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
@@ -33,13 +32,11 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateCarImageRequest;
 public class CarImageManager implements CarImageService {
 
 	private CarImageDao carImageDao;
-	private CarService carService;
 
 	@Autowired
-	public CarImageManager(CarImageDao carImageDao, CarService carService) {
+	public CarImageManager(CarImageDao carImageDao) {
 		super();
 		this.carImageDao = carImageDao;
-		this.carService = carService;
 	}
 
 	@Override
@@ -58,7 +55,8 @@ public class CarImageManager implements CarImageService {
 
 		Date dateNow = new java.sql.Date(new java.util.Date().getTime());
 
-		Car car = this.carService.getById(createCarImageRequest.getCarId()).getData();
+		Car car = new Car();
+		car.setCarId(createCarImageRequest.getCarId());
 
 		CarImage carImage = new CarImage();
 		carImage.setImagePath(this.createCarImagePathAndreturnCarImagePath(createCarImageRequest));
@@ -103,7 +101,7 @@ public class CarImageManager implements CarImageService {
 
 		this.carImageDao.delete(carImage);
 		this.deleteCarImage(carImage.getImagePath());
-		
+
 		return new SuccessResult(Messages.CarImageDeleted);
 	}
 
@@ -206,10 +204,9 @@ public class CarImageManager implements CarImageService {
 		String mainPath = FilePathConfiguration.mainPath;
 
 		if (!willBeDeletedCarImagePath.isEmpty() && !willBeDeletedCarImagePath.isBlank()) {
-			
+
 			File willBeDeletedImage = new File(mainPath + willBeDeletedCarImagePath);
 			willBeDeletedImage.delete();
 		}
 	}
 }
-

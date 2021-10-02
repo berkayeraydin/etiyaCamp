@@ -14,5 +14,7 @@ public class IndividualCustomerDetailDto implements CustomerDto{
 	private String firstName;
 
 	private String lastName;
+	
+	private String nationalIdentityNumber;
 
 }
