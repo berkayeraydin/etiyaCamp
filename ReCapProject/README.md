@@ -42,7 +42,7 @@
 - External services <br/>[Out Service kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/outServices)
 
 ## Entity Relationship Diagram
-<img src="./1.png" width="200"  />
+<img src="./Entity Relationship Diagram.png" width="200"  />
 
 ## Requirements
 #### 👩‍🔧 Çözüm Adımları
