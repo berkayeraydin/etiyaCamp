@@ -4,7 +4,7 @@
 
 💡 [About](#about)
 
-💡 [Akış Şeması](#akıs_semasi)
+💡 [Entity Relationship Diagram](#entity-relationship-diagram)
 
 💡 [Requirements](#requirements)
 
@@ -41,7 +41,7 @@
 ### 🖍 Out Services
 - External services <br/>[Out Service kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/outServices)
 
-## Akış Şeması
+## Entity Relationship Diagram
 <img src="./1.png" width="200"  />
 
 ## Requirements
