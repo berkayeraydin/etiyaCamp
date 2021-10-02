@@ -13,8 +13,8 @@
 💡 [Linkedin](#linkedin)
 
 ## General info
-#### Backend of a car rental website for Etiya academy.
--->  We designed the project of the `backend service of a simple car rental site` and tried to comply with `SOLID rules` in the project. Using `SpringBoot`, we performed `database operations with API's`. We have associated our tables with `JpaRepository`, which is part of the Spring framework.
+#### 🖍 Backend of a car rental website for Etiya academy.
+- We designed the project of the `backend service of a simple car rental site` and tried to comply with `SOLID rules` in the project. Using `SpringBoot`, we performed `database operations with API's`. We have associated our tables with `JpaRepository`, which is part of the Spring framework.
 
 <img align="left" alt="Java" width="26px" src="https://classes.engineering.wustl.edu/cse231/core/images/2/26/Java.png" />
 <img align="left" alt="SQL" width="26px" src="https://uploads.toptal.io/blog/category/logo/60/sql.png" />
