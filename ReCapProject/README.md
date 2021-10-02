@@ -2,6 +2,8 @@
   ## Table of contents 
 💡 [General info](#general-info)
 
+💡 [About](#about)
+
 💡 [Technologies](#technologies)
 
 💡 [Linkedin](#linkedin)
@@ -15,6 +17,14 @@
 <img align="left" alt="PostGreSQL" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/postgresql/postgresql.png" />
 <img align="left" alt="Swagger" width="26px" src="https://www.form.io/sites/default/files/2018-08/swagger-300.jpg" />
 <img align="left" alt="SpringBoot" width="26px" src="https://www.instana.com/media/spring_boot_logo.png" /><br/><br/>
+
+## About
+### Entities
+- It is the layer where `Objects`, `Dto's` and `Requests` are defined. [Entities kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/entities)
+
+
+
+
 
 ## Technologies
 Technologies that used in this project are:
