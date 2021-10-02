@@ -1,8 +1,8 @@
 # ReCapProject <img align="left" alt="GitHub" width="26px" src="https://raw.githubusercontent.com/github/explore/78df643247d429f6cc873026c0622819ad797942/topics/github/github.png" />
   ## Table of contents 
-💡 [📍 General info](#general-info)
+💡 [General info](#general-info)
 
-💡 [📍 About](#about)
+💡 [About](#about)
 
 💡 [Entity Relationship Diagram](#entity-relationship-diagram)
 
@@ -12,7 +12,7 @@
 
 💡 [Linkedin](#linkedin)
 
-## 📍 General info
+## General info
 #### Backend of a car rental website for Etiya academy.
 -->  We designed the project of the `backend service of a simple car rental site` and tried to comply with `SOLID rules` in the project. Using `SpringBoot`, we performed `database operations with API's`. We have associated our tables with `JpaRepository`, which is part of the Spring framework.
 
@@ -22,7 +22,7 @@
 <img align="left" alt="Swagger" width="26px" src="https://www.form.io/sites/default/files/2018-08/swagger-300.jpg" />
 <img align="left" alt="SpringBoot" width="26px" src="https://www.instana.com/media/spring_boot_logo.png" /><br/><br/>
 
-## 📍 About
+## About
 ### 🖍 Entities
 - It is the layer where `Objects`, `Dto's` and `Requests` are defined.<br/> [Entities kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/entities)
 
@@ -41,12 +41,12 @@
 ### 🖍 Out Services
 - External services <br/>[Out Service kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/outServices)
 
-## 📍 Entity Relationship Diagram
+## Entity Relationship Diagram
 <p align="center">
 <img src="./Entity Relationship Diagram.png" width="1000"  />
 
 
-## 📍 Requirements
+## Requirements
   
 #### ⚙ Çözüm Adımları
 1. Yepyeni bir proje oluşturunuz. Adı `ReCapProject` olacak. (Tekrar ve geliştirme projesi) `Entities`, `DataAccess`, `Business` oluşturunuz. Bir araba nesnesi oluşturunuz. `"Car"`, `"Brand"` ve `"Color"` nesnelerini oluşturunuz.(`BrandId,BrandName… Özellik olarak : Id, BrandId, ColorId, ModelYear, DailyPrice, Description` alanlarını ekleyiniz. (Brand = Marka)
