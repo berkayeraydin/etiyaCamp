@@ -41,7 +41,7 @@
 ### 🖍 Out Services
 - External services <br/>[Out Service kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/outServices)
 
-## Entity Relationship Diagram
+## 📍 Entity Relationship Diagram
 <p align="center">
 <img src="./Entity Relationship Diagram.png" width="1000"  />
 
