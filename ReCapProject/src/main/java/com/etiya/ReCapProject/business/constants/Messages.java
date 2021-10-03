@@ -2,7 +2,7 @@ package com.etiya.ReCapProject.business.constants;
 
 public class Messages {
 	
-	// Car
+		// Car
 		public static String CarAdded = "Araba eklendi";
 		public static String CarDeleted = "Araba silindi";
 		public static String CarUpdated = "Araba güncellendi";
@@ -129,6 +129,13 @@ public class Messages {
 		public static String InvoiceIsNotFoundByRental = "Bu kiralama işlemine ait fatura bulunmaktadır";
 		public static String InvoicesListedByCustomer = "Müşteri Faturaları listelendi";
 		public static String InvoicesListedByBetweenDate = "Faturalar tarih aralığına göre listelendi";
+
+		// InvoiceDetail
+		public static String InvoiceDetailAdded = "Fatura detayı eklendi";
+		public static String InvoiceDetailDeleted = "Fatura detayı silindi";
+		public static String InvoiceDetailUpdated = "Fatura detayı güncellendi";
+		public static String InvoiceDetailsListed = "Fatura detayları listelendi";
+		public static String InvoiceDetailListed = "Fatura detayı listelendi";
 
 		// CarDamageInformation
 		public static String CarDamageInformationAdded = "Araba hasar bilgisi eklendi";

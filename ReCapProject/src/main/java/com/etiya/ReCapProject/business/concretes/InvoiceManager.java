@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class InvoiceManager implements InvoiceService {
 		invoiceDetailDto.setRentDate(rental.getRentDate());
 		invoiceDetailDto.setReturnDate(rental.getReturnDate());
 
-		Car car = invoice.getRental().getCar();
+		Car car = rental.getCar();
 		invoiceDetailDto.setCarName(car.getCarName());
 		invoiceDetailDto.setBrandName(car.getBrand().getBrandName());
 		invoiceDetailDto.setColorName(car.getColor().getColorName());
@@ -83,7 +84,45 @@ public class InvoiceManager implements InvoiceService {
 		invoiceDetailDto.setTotalPrice(
 				this.invoiceDetailService.getSumtotalPriceByInvoice_InvoiceId(invoice.getInvoiceId()).getData());
 
-		return new SuccessDataResult<InvoiceDetailDto>(invoiceDetailDto,"Kirama işleminin fatura detayı");
+		return new SuccessDataResult<InvoiceDetailDto>(invoiceDetailDto, "Kirama işleminin fatura detayı");
+	}
+
+	@Override
+	public DataResult<List<InvoiceDetailDto>> getByRental_ApplicationUser_UserId(int userId) {
+
+		List<Invoice> invoices = this.invoiceDao.getByRental_ApplicationUser_UserId(userId);
+
+		List<InvoiceDetailDto> invoiceDetailDtos = new ArrayList<InvoiceDetailDto>();
+
+		for (Invoice invoice : invoices) {
+
+			InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
+
+			invoiceDetailDto.setInvoiceNo(invoice.getInvoiceNo());
+			invoiceDetailDto.setCreationDate(invoice.getCreationDate());
+
+			Rental rental = invoice.getRental();
+			invoiceDetailDto.setCustomerDto(
+					this.authService.returnLoginedCustomerDto(rental.getApplicationUser().getEmail()).getData());
+			invoiceDetailDto.setRentDate(rental.getRentDate());
+			invoiceDetailDto.setReturnDate(rental.getReturnDate());
+
+			Car car = rental.getCar();
+			invoiceDetailDto.setCarName(car.getCarName());
+			invoiceDetailDto.setBrandName(car.getBrand().getBrandName());
+			invoiceDetailDto.setColorName(car.getColor().getColorName());
+			invoiceDetailDto.setDailyPrice(car.getDailyPrice());
+
+			List<InvoiceDetail> invoiceDetail = invoice.getInvoiceDetails();
+			invoiceDetailDto.setInvoiceDetails(invoiceDetail);
+
+			invoiceDetailDto.setTotalPrice(
+					this.invoiceDetailService.getSumtotalPriceByInvoice_InvoiceId(invoice.getInvoiceId()).getData());
+
+			invoiceDetailDtos.add(invoiceDetailDto);
+		}
+
+		return new SuccessDataResult<List<InvoiceDetailDto>>(invoiceDetailDtos, Messages.InvoicesListedByCustomer);
 	}
 
 	@Override
@@ -96,6 +135,61 @@ public class InvoiceManager implements InvoiceService {
 		}
 
 		Date dateNow = new java.sql.Date(new java.util.Date().getTime());
+
+		Rental rental = createInvoiceRequest.getRental();
+
+		Invoice invoice = new Invoice();
+		invoice.setCreationDate(dateNow);
+		invoice.setInvoiceNo(returnInvoiceNo(dateNow).getData());
+		invoice.setRental(rental);
+
+		this.invoiceDao.save(invoice);
+
+		invoice = this.invoiceDao.getByRental_RentalId(rental.getRentalId());
+
+		CreateInvoiceDetailRequest createInvoiceDetailRequest = new CreateInvoiceDetailRequest();
+		createInvoiceDetailRequest.setInvoiceId(invoice.getInvoiceId());
+		createInvoiceDetailRequest.setRental(createInvoiceRequest.getRental());
+
+		this.invoiceDetailService.add(createInvoiceDetailRequest);
+
+		return new SuccessResult(Messages.InvoiceAdded);
+	}
+
+	@Override
+	public Result update(UpdateInvoiceRequest updateInvoiceRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result delete(DeleteInvoiceRequest deleteInvoiceRequest) {
+
+		Invoice invoice = this.invoiceDao.getById(deleteInvoiceRequest.getInvoiceId());
+		this.invoiceDao.delete(invoice);
+
+		return new SuccessResult(Messages.InvoiceDeleted);
+	}
+
+	@Override
+	public DataResult<List<Invoice>> getByCreationDateBetween(InvoiceBetweenDateRequest invoiceBetweenDateRequest) {
+		return new SuccessDataResult<List<Invoice>>(
+				this.invoiceDao.getByCreationDateBetween(invoiceBetweenDateRequest.getMinDate(),
+						invoiceBetweenDateRequest.getMaxDate()),
+				Messages.InvoicesListedByBetweenDate);
+	}
+
+	// Kiralama işlemine ait faturanın olup olmadığının kontrolünü yapar
+	private Result checkInvoiceByRentalId(int rentalId) {
+		if (this.invoiceDao.existsByRental_RentalId(rentalId)) {
+			return new ErrorResult(Messages.InvoiceIsNotFoundByRental);
+		}
+		return new SuccessResult();
+	}
+
+	// Verilen tarih parametresine göre faturano olusturur
+	private DataResult<String> returnInvoiceNo(Date dateNow) {
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy");
 		String dateYear = dateFormat.format(dateNow);
 
@@ -119,60 +213,7 @@ public class InvoiceManager implements InvoiceService {
 
 		String invoiceNo = "REV" + dateYear + numberFormat.format(newInvoiceOrder);
 
-		Rental rental = createInvoiceRequest.getRental();
-
-		Invoice invoice = new Invoice();
-		invoice.setCreationDate(dateNow);
-		invoice.setInvoiceNo(invoiceNo);
-		invoice.setRental(rental);
-
-		this.invoiceDao.save(invoice);
-
-		Invoice invoice2 = this.invoiceDao.getByRental_RentalId(rental.getRentalId());
-
-		CreateInvoiceDetailRequest createInvoiceDetailRequest = new CreateInvoiceDetailRequest();
-		createInvoiceDetailRequest.setInvoiceId(invoice2.getInvoiceId());
-		createInvoiceDetailRequest.setRental(createInvoiceRequest.getRental());
-
-		this.invoiceDetailService.add(createInvoiceDetailRequest);
-
-		return new SuccessResult(Messages.InvoiceAdded);
-	}
-
-	@Override
-	public Result update(UpdateInvoiceRequest updateInvoiceRequest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Result delete(DeleteInvoiceRequest deleteInvoiceRequest) {
-
-		Invoice invoice = this.invoiceDao.getById(deleteInvoiceRequest.getInvoiceId());
-		this.invoiceDao.delete(invoice);
-
-		return new SuccessResult(Messages.InvoiceDeleted);
-	}
-
-	private Result checkInvoiceByRentalId(int rentalId) {
-		if (this.invoiceDao.existsByRental_RentalId(rentalId)) {
-			return new ErrorResult(Messages.InvoiceIsNotFoundByRental);
-		}
-		return new SuccessResult();
-	}
-
-	@Override
-	public DataResult<List<Invoice>> getByRental_ApplicationUser_UserId(int userId) {
-		return new SuccessDataResult<List<Invoice>>(this.invoiceDao.getByRental_ApplicationUser_UserId(userId),
-				Messages.InvoicesListedByCustomer);
-	}
-
-	@Override
-	public DataResult<List<Invoice>> getByCreationDateBetween(InvoiceBetweenDateRequest invoiceBetweenDateRequest) {
-		return new SuccessDataResult<List<Invoice>>(
-				this.invoiceDao.getByCreationDateBetween(invoiceBetweenDateRequest.getMinDate(),
-						invoiceBetweenDateRequest.getMaxDate()),
-				Messages.InvoicesListedByBetweenDate);
+		return new SuccessDataResult<String>(invoiceNo, "");
 	}
 
 }

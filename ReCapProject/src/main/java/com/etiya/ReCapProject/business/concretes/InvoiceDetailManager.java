@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.InvoiceDetailService;
+import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.core.utilities.result.SuccessDataResult;
@@ -34,19 +35,19 @@ public class InvoiceDetailManager implements InvoiceDetailService {
 	@Override
 	public DataResult<List<InvoiceDetail>> getAll() {
 		return new SuccessDataResult<List<InvoiceDetail>>(this.invoiceDetailDao.findAll(),
-				"Faturaların detayları listelendi");
+				Messages.InvoiceDetailsListed);
 	}
 
 	@Override
 	public DataResult<InvoiceDetail> getById(int invoiceDetaillId) {
 		return new SuccessDataResult<InvoiceDetail>(this.invoiceDetailDao.getById(invoiceDetaillId),
-				"Fatura detayı listelendi");
+				Messages.InvoiceDetailListed);
 	}
 
 	@Override
 	public DataResult<List<InvoiceDetail>> getInvoiceDetailsByInvoiceId(int invoiceId) {
 		return new SuccessDataResult<List<InvoiceDetail>>(this.invoiceDetailDao.getByInvoice_InvoiceId(invoiceId),
-				"Faturanın detayları listelendi");
+				Messages.InvoiceDetailsListed);
 	}
 
 	@Override
@@ -92,10 +93,10 @@ public class InvoiceDetailManager implements InvoiceDetailService {
 		invoiceDetail.setTotalPrice(rental.getCar().getDailyPrice() * (int) totalRentalDay);
 
 		invoiceDetail.setInvoice(invoice);
-		
+
 		this.invoiceDetailDao.save(invoiceDetail);
 
-		return new SuccessResult("Fatura detayı eklendi");
+		return new SuccessResult(Messages.InvoiceDetailAdded);
 	}
 
 	@Override
@@ -110,13 +111,13 @@ public class InvoiceDetailManager implements InvoiceDetailService {
 		InvoiceDetail invoiceDetail = this.invoiceDetailDao.getById(deleteInvoiceDetailRequest.getInvoiceDetailId());
 		this.invoiceDetailDao.delete(invoiceDetail);
 
-		return new SuccessResult("Fatura detayı silindi");
+		return new SuccessResult(Messages.InvoiceDetailDeleted);
 	}
 
+	// Faturaya ait detaların genel toplam tutarını hesaplar
 	@Override
 	public DataResult<Double> getSumtotalPriceByInvoice_InvoiceId(int invoiceId) {
 		return new SuccessDataResult<Double>(this.invoiceDetailDao.SumTotalPriceByInvoice_InvoiceId(invoiceId));
 	}
 
-	
 }

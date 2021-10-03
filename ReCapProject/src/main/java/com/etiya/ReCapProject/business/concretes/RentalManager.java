@@ -196,7 +196,18 @@ public class RentalManager implements RentalService {
 		rental.setApplicationUser(applicationUser);
 		rental.setTakeCity(takeCity);
 		rental.setReturnCity(returnCity);
-		rental.setRentalAdditionals(createRentalRequest.getRentalAdditionals());
+
+		List<RentalAdditional> rentalAdditionals = new ArrayList<RentalAdditional>();
+
+		for (int rentalAdditionalId : createRentalRequest.getRentalAdditionalsId()) {
+
+			RentalAdditional rentalAdditional = new RentalAdditional();
+			rentalAdditional.setRentalAdditionalId(rentalAdditionalId);
+
+			rentalAdditionals.add(rentalAdditional);
+		}
+
+		rental.setRentalAdditionals(rentalAdditionals);
 
 		this.rentalDao.save(rental);
 
@@ -391,17 +402,17 @@ public class RentalManager implements RentalService {
 
 		double totalPrice = car.getDailyPrice() * totalRentalDay;
 
-		List<RentalAdditional> rentalAdditionals = createRentalRequest.getRentalAdditionals();
+		List<Integer> rentalAdditionalsId = createRentalRequest.getRentalAdditionalsId();
 
-		for (RentalAdditional rentalAdditional : rentalAdditionals) {
-			totalPrice += this.getRentalAdditionalTotalPrice(rentalAdditional.getRentalAdditionalId(),
-					createRentalRequest.getRentDate(), createRentalRequest.getReturnDate()).getData();
+		for (int rentalAdditionalId : rentalAdditionalsId) {
+			totalPrice += this.getRentalAdditionalTotalPrice(rentalAdditionalId, createRentalRequest.getRentDate(),
+					createRentalRequest.getReturnDate()).getData();
 		}
 
 		if (car.getCity().getCityId() != createRentalRequest.getReturnCityId()) {
 
 			RentalAdditional rentalAdditional = this.rentalAdditionalService.getById(1).getData();
-			rentalAdditionals.add(rentalAdditional);
+			rentalAdditionalsId.add(rentalAdditional.getRentalAdditionalId());
 			totalPrice += rentalAdditional.getDailyPrice();
 		}
 

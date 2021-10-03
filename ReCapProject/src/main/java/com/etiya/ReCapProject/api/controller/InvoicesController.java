@@ -47,7 +47,7 @@ public class InvoicesController {
 	}
 
 	@GetMapping("/getByRental_ApplicationUser_UserId")
-	public DataResult<List<Invoice>> getByRental_ApplicationUser_UserId(@RequestParam("userId") int userId) {
+	public DataResult<List<InvoiceDetailDto>> getByRental_ApplicationUser_UserId(@RequestParam("userId") int userId) {
 		return this.invoiceService.getByRental_ApplicationUser_UserId(userId);
 	}
 

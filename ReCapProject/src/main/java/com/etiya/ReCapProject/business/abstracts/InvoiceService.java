@@ -12,20 +12,20 @@ import com.etiya.ReCapProject.entities.requests.delete.DeleteInvoiceRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateInvoiceRequest;
 
 public interface InvoiceService {
-	
 	DataResult<List<Invoice>> getAll();
 
 	DataResult<Invoice> getById(int invoiceId);
-	
+
 	DataResult<InvoiceDetailDto> getInvoiceDetailByRentalId(int rentalId);
+
+	DataResult<List<InvoiceDetailDto>> getByRental_ApplicationUser_UserId(int userId);
 
 	Result add(CreateInvoiceRequest createInvoiceRequest);
 
 	Result update(UpdateInvoiceRequest updateInvoiceRequest);
 
 	Result delete(DeleteInvoiceRequest deleteInvoiceRequest);
-	
-	DataResult<List<Invoice>> getByRental_ApplicationUser_UserId(int userId);
 
 	DataResult<List<Invoice>> getByCreationDateBetween(InvoiceBetweenDateRequest invoiceBetweenDateRequest);
+
 }
