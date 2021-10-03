@@ -7,4 +7,5 @@ import com.etiya.ReCapProject.entities.concretes.City;
 public interface CityDao extends JpaRepository<City, Integer>{
 
 	boolean existsByCityName(String cityName);
+	
 }
