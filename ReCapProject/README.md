@@ -13,8 +13,8 @@
 💡 [Linkedin](#linkedin)
 
 ## General info
-#### Backend of a car rental website for Etiya academy.
--->  We designed the project of the `backend service of a simple car rental site` and tried to comply with `SOLID rules` in the project. Using `SpringBoot`, we performed `database operations with API's`. We have associated our tables with `JpaRepository`, which is part of the Spring framework.
+#### 🖍 Backend of a car rental website for Etiya academy.
+- We designed the project of the `backend service of a simple car rental site` and tried to comply with `SOLID rules` in the project. Using `SpringBoot`, we performed `database operations with API's`. We have associated our tables with `JpaRepository`, which is part of the Spring framework.
 
 <img align="left" alt="Java" width="26px" src="https://classes.engineering.wustl.edu/cse231/core/images/2/26/Java.png" />
 <img align="left" alt="SQL" width="26px" src="https://uploads.toptal.io/blog/category/logo/60/sql.png" />
@@ -42,10 +42,13 @@
 - External services <br/>[Out Service kısmı için tıklayınız.](https://github.com/eraydin61/etiyaCamp/tree/main/ReCapProject/src/main/java/com/etiya/ReCapProject/outServices)
 
 ## Entity Relationship Diagram
-<img src="./1.png" width="200"  />
+<p align="center">
+<img src="./Entity Relationship Diagram.png" width="1000"  />
+
 
 ## Requirements
-#### 👩‍🔧 Çözüm Adımları
+  
+#### ⚙ Steps
 1. Yepyeni bir proje oluşturunuz. Adı `ReCapProject` olacak. (Tekrar ve geliştirme projesi) `Entities`, `DataAccess`, `Business` oluşturunuz. Bir araba nesnesi oluşturunuz. `"Car"`, `"Brand"` ve `"Color"` nesnelerini oluşturunuz.(`BrandId,BrandName… Özellik olarak : Id, BrandId, ColorId, ModelYear, DailyPrice, Description` alanlarını ekleyiniz. (Brand = Marka)
 2. `Car`, `Brand`, `Color` sınıflarınız için tüm `CRUD` operasyonlarını hazır hale getiriniz. Console'da Tüm CRUD operasyonlarınızı Car, Brand, Model nesneleriniz için `test ediniz`. `GetAll`, `GetById`, `Insert`, `Update`, `Delete`. Arabaları şu bilgiler olacak şekilde listeleyiniz. CarName, BrandName, ColorName, DailyPrice. (İpucu : Dto oluşturup 3 tabloya join yazınız)
 3. Core katmanında `Results yapılandırması` yapınız.
@@ -70,17 +73,17 @@
 
 
 ## Technologies
-Technologies that used in this project are:
+- Technologies that used in this project are:
 
-#### Frameworks 
+#### 💻 Frameworks 
 ![SpringBoot](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white)
 ![Maven](https://img.shields.io/badge/apache_maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
 
-#### Code Language
+#### 💻 Code Language
 ![](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
 
-#### Database
+#### 🛢 Database
 ![](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
 #### 💻 IDE
