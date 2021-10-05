@@ -5,6 +5,7 @@ import java.util.List;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.entities.concretes.CarMaintenance;
+import com.etiya.ReCapProject.entities.dtos.CarMaintenanceDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCarMaintenanceRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCarMaintenanceRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateCarMaintenanceRequest;
@@ -15,7 +16,9 @@ public interface CarMaintenanceService {
 
 	DataResult<CarMaintenance> getById(int carMaintenanceId);
 	
-	//DataResult<RentalDetailDto> getRentalDetailsByRentalId(int rentalId);
+	DataResult<List<CarMaintenanceDetailDto>> getCarMaintenancesDetail();
+	
+	DataResult<CarMaintenanceDetailDto> getCarMaintenanceDetailById(int carMaintenanceId);
 
 	Result add(CreateCarMaintenanceRequest createCarMaintenanceRequest);
 

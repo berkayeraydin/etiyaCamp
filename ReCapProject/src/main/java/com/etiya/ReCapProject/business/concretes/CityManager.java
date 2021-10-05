@@ -1,7 +1,9 @@
 package com.etiya.ReCapProject.business.concretes;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import com.etiya.ReCapProject.core.utilities.result.SuccessDataResult;
 import com.etiya.ReCapProject.core.utilities.result.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.CityDao;
 import com.etiya.ReCapProject.entities.concretes.City;
+import com.etiya.ReCapProject.entities.dtos.CityDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCityRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCityRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateCityRequest;
@@ -23,11 +26,13 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateCityRequest;
 public class CityManager implements CityService{
 	
 	private CityDao cityDao;
+	private ModelMapper modelMapper;
 	
 	@Autowired
-	public CityManager(CityDao cityDao) {
+	public CityManager(CityDao cityDao,ModelMapper modelMapper) {
 		super();
 		this.cityDao = cityDao;
+		this.modelMapper =modelMapper;
 	}
 
 	@Override
@@ -40,6 +45,24 @@ public class CityManager implements CityService{
 	public DataResult<City> getById(int cityId) {
 
 		return new SuccessDataResult<City>(this.cityDao.getById(cityId), Messages.CityListed);
+	}
+	
+	@Override
+	public DataResult<List<CityDetailDto>> getCitysDetail() {
+		
+		List<City> citys = this.cityDao.findAll();
+		
+		List<CityDetailDto> cityDetailDto = citys.stream().map(city -> modelMapper.map(city, CityDetailDto.class)).collect(Collectors.toList());
+		
+		return new SuccessDataResult<List<CityDetailDto>>(cityDetailDto, Messages.CitiesListed);
+	}
+
+	@Override
+	public DataResult<CityDetailDto> getCityDetailId(int cityId) {
+		
+		City city = this.cityDao.getById(cityId);
+		
+		return new SuccessDataResult<CityDetailDto>(modelMapper.map(city, CityDetailDto.class),  Messages.CityListed);
 	}
 
 	@Override
@@ -86,6 +109,7 @@ public class CityManager implements CityService{
 	
 	
 	private Result checkCityByCityName(String cityName) {
+		
 		if (this.cityDao.existsByCityName(cityName)) {
 			return new ErrorResult(Messages.CityIsFound);
 		}

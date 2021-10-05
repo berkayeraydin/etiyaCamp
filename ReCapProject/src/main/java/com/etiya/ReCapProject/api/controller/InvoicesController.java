@@ -45,19 +45,24 @@ public class InvoicesController {
 	public DataResult<List<Invoice>> getAll() {
 		return this.invoiceService.getAll();
 	}
+	
+	@GetMapping("/getById")
+	public DataResult<Invoice> getById(@RequestParam("invoiceId") int invoiceId){
+		return this.invoiceService.getById(invoiceId);
+	}
 
-	@GetMapping("/getByRental_ApplicationUser_UserId")
+	@GetMapping("/getByUserId")
 	public DataResult<List<InvoiceDetailDto>> getByRental_ApplicationUser_UserId(@RequestParam("userId") int userId) {
 		return this.invoiceService.getByRental_ApplicationUser_UserId(userId);
 	}
 
 	@GetMapping("/getInvoiceDetailByRentalId")
-	public DataResult<InvoiceDetailDto> getInvoiceDetailByRentalId(int rentalId) {
+	public DataResult<InvoiceDetailDto> getInvoiceDetailByRentalId(@RequestParam("rentalId") int rentalId) {
 		return this.invoiceService.getInvoiceDetailByRentalId(rentalId);
 	}
 
 	@GetMapping("/getByCreationDateBetween")
-	public DataResult<List<Invoice>> getByCreationDateBetween(String minDate, String maxDate) throws ParseException {
+	public DataResult<List<Invoice>> getByCreationDateBetween(@RequestParam("minDate")String minDate,@RequestParam("maxDate") String maxDate) throws ParseException {
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date minDate1 = dateFormat.parse(minDate);

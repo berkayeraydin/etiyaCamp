@@ -13,5 +13,7 @@ public interface FileHelper{
 	Result updateImage(MultipartFile file, String imagePath) throws IOException;
 
 	Result deleteImage( String imagePath);
+	
+	Result checkImageType(MultipartFile file) ;
 
 }

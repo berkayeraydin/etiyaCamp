@@ -126,6 +126,7 @@ public class Messages {
 		public static String InvoiceUpdated = "Fatura güncellendi";
 		public static String InvoicesListed = "Faturalar listelendi";
 		public static String InvoiceListed = "Fatura listelendi";
+		public static String InvoiceDetailsByRentalId = "Kirama işleminin fatura detayı";
 		public static String InvoiceIsNotFoundByRental = "Bu kiralama işlemine ait fatura bulunmaktadır";
 		public static String InvoicesListedByCustomer = "Müşteri Faturaları listelendi";
 		public static String InvoicesListedByBetweenDate = "Faturalar tarih aralığına göre listelendi";

@@ -5,10 +5,12 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.ReCapProject.business.abstracts.CarService;
@@ -36,7 +38,7 @@ public class CarsController {
 	}
 
 	@GetMapping("/getbyid")
-	public DataResult<Car> getById(int carId) {
+	public DataResult<Car> getById(@RequestParam("carId") int carId) {
 		return this.carService.getById(carId);
 	}
 
@@ -46,22 +48,22 @@ public class CarsController {
 	}
 
 	@GetMapping("/getcarDetails")
-	DataResult<CarDetailDto> getCarDetailsByCarId(int carId) {
+	DataResult<CarDetailDto> getCarDetailsByCarId(@RequestParam("carId") int carId) {
 		return this.carService.getCarDetailsByCarId(carId);
 	}
 
 	@GetMapping("/getcarsbycolor")
-	public DataResult<List<CarDetailDto>> getCarsByColorId(int colorId) {
+	public DataResult<List<CarDetailDto>> getCarsByColorId(@RequestParam("colorId") int colorId) {
 		return this.carService.getCarsByColorId(colorId);
 	}
 
 	@GetMapping("/getcarsbybrand")
-	public DataResult<List<CarDetailDto>> getCarsByBrandId(int brandId) {
+	public DataResult<List<CarDetailDto>> getCarsByBrandId(@RequestParam("brandId") int brandId) {
 		return this.carService.getCarsByBrandId(brandId);
 	}
 
 	@GetMapping("/getcarsbycityid")
-	public DataResult<List<CarDetailDto>> getCarsByCity_CityId(int cityId) {
+	public DataResult<List<CarDetailDto>> getCarsByCity_CityId(@RequestParam("cityId") int cityId) {
 		return this.carService.getCarsByCity_CityId(cityId);
 	}
 
@@ -75,7 +77,7 @@ public class CarsController {
 		return this.carService.update(updateCarRequest);
 	}
 
-	@PostMapping("/delete")
+	@DeleteMapping("/delete")
 	public Result delete(DeleteCarRequest deleteCarRequest) {
 		return this.carService.delete(deleteCarRequest);
 	}

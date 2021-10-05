@@ -3,6 +3,7 @@ package com.etiya.ReCapProject.entities.concretes;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Invoice {
 	@Column(name = "creation_date")
 	private Date creationDate;
 	
-	@OneToMany(mappedBy = "invoice")
+	@OneToMany(mappedBy = "invoice",cascade = CascadeType.ALL)
 	private List<InvoiceDetail> invoiceDetails;
 	
 	@OneToOne

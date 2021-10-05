@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CityDetailDto {
+public class ColorDetailDto {
 	
-	private String cityName;
+	private String colorName;
 }
 

@@ -84,7 +84,8 @@ public class ImageFileHelper implements FileHelper {
 	}
 
 	// Dosya türünü kontrol eder
-	private Result checkImageType(MultipartFile file) {
+	@Override
+	public Result checkImageType(MultipartFile file) {
 		if (!checkImageIsNull(file).isSuccess()) {
 			return new ErrorResult(checkImageIsNull(file).getMessage());
 		}

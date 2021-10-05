@@ -36,12 +36,14 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 	@Override
 	public DataResult<List<CorporateCustomer>> getAll() {
+		
 		return new SuccessDataResult<List<CorporateCustomer>>(this.corporateCustomerDao.findAll(),
 				Messages.CustomersListed);
 	}
 
 	@Override
 	public DataResult<CorporateCustomer> getById(int corporateCustomerId) {
+		
 		return new SuccessDataResult<CorporateCustomer>(this.corporateCustomerDao.getById(corporateCustomerId),
 				Messages.CustomerListed);
 	}
@@ -54,6 +56,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		CorporateCustomerDetailDto corporateCustomerDetailDto = new CorporateCustomerDetailDto();
 		corporateCustomerDetailDto.setCompanyName(corporateCustomer.getCompanyName());
 		corporateCustomerDetailDto.setTaxNumber(corporateCustomer.getTaxNumber());
+		corporateCustomerDetailDto.setEmail(corporateCustomer.getApplicationUser().getEmail());
 
 		return new SuccessDataResult<CorporateCustomerDetailDto>(corporateCustomerDetailDto,
 				Messages.CorporateCustomerDetail);
@@ -61,6 +64,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 	@Override
 	public DataResult<CorporateCustomer> getByApplicationUser_UserId(int applicationUserId) {
+		
 		return new SuccessDataResult<CorporateCustomer>(
 				this.corporateCustomerDao.getByApplicationUser_UserId(applicationUserId));
 	}

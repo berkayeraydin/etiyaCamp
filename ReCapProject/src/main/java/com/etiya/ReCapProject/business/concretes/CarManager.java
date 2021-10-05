@@ -3,6 +3,7 @@ package com.etiya.ReCapProject.business.concretes;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,28 +36,30 @@ public class CarManager implements CarService {
 	private BrandService brandService;
 	private CityService cityService;
 	private CarImageService carImageService;
+	private ModelMapper modelMapper;
 
 	@Autowired
 	public CarManager(CarDao carDao, ColorService colorService, BrandService brandService, CityService cityService,
-			CarImageService carImageService) {
+			CarImageService carImageService, ModelMapper modelMapper) {
 		super();
 		this.carDao = carDao;
 		this.colorService = colorService;
 		this.brandService = brandService;
 		this.cityService = cityService;
 		this.carImageService = carImageService;
+		this.modelMapper = modelMapper;
 	}
 
 	@Override
 	public DataResult<List<Car>> getAll() {
-		return new SuccessDataResult<List<Car>>(this.carDao.findAll(), Messages.CarsListed);
 
+		return new SuccessDataResult<List<Car>>(this.carDao.findAll(), Messages.CarsListed);
 	}
 
 	@Override
 	public DataResult<Car> getById(int carId) {
-		return new SuccessDataResult<Car>(this.carDao.getById(carId), Messages.CarListed);
 
+		return new SuccessDataResult<Car>(this.carDao.getById(carId), Messages.CarListed);
 	}
 
 	@Override
@@ -68,12 +71,11 @@ public class CarManager implements CarService {
 
 		for (Car car : cars) {
 
-			CarDetailDto carDetailDto = new CarDetailDto();
-			carDetailDto.setCarName(car.getCarName());
-			carDetailDto.setColorName(car.getColor().getColorName());
-			carDetailDto.setBrandName(car.getBrand().getBrandName());
-			carDetailDto.setDailyPrice(car.getDailyPrice());
-			carDetailDto.setCarImages(this.carImageService.getCarImagesByCarId(car.getCarId()).getData());
+			CarDetailDto carDetailDto = modelMapper.map(car, CarDetailDto.class);
+			carDetailDto.setBrandDetailDto(this.brandService.getBrandDetailId(car.getBrand().getBrandId()).getData());
+			carDetailDto.setColorDetailDto(this.colorService.getColorDetailId(car.getColor().getColorId()).getData());
+			carDetailDto.setCityDetailDto(this.cityService.getCityDetailId(car.getCity().getCityId()).getData());
+			carDetailDto.setCarImageDetailDto(this.carImageService.getCarImageDetailByCarId(car.getCarId()).getData());
 
 			carDetailDtos.add(carDetailDto);
 		}
@@ -90,12 +92,11 @@ public class CarManager implements CarService {
 
 		for (Car car : cars) {
 
-			CarDetailDto carDetailDto = new CarDetailDto();
-			carDetailDto.setCarName(car.getCarName());
-			carDetailDto.setColorName(car.getColor().getColorName());
-			carDetailDto.setBrandName(car.getBrand().getBrandName());
-			carDetailDto.setDailyPrice(car.getDailyPrice());
-			carDetailDto.setCarImages(this.carImageService.getCarImagesByCarId(car.getCarId()).getData());
+			CarDetailDto carDetailDto = modelMapper.map(car, CarDetailDto.class);
+			carDetailDto.setBrandDetailDto(this.brandService.getBrandDetailId(car.getBrand().getBrandId()).getData());
+			carDetailDto.setColorDetailDto(this.colorService.getColorDetailId(car.getColor().getColorId()).getData());
+			carDetailDto.setCityDetailDto(this.cityService.getCityDetailId(car.getCity().getCityId()).getData());
+			carDetailDto.setCarImageDetailDto(this.carImageService.getCarImageDetailByCarId(car.getCarId()).getData());
 
 			carDetailDtos.add(carDetailDto);
 		}
@@ -112,12 +113,11 @@ public class CarManager implements CarService {
 
 		for (Car car : cars) {
 
-			CarDetailDto carDetailDto = new CarDetailDto();
-			carDetailDto.setCarName(car.getCarName());
-			carDetailDto.setColorName(car.getColor().getColorName());
-			carDetailDto.setBrandName(car.getBrand().getBrandName());
-			carDetailDto.setDailyPrice(car.getDailyPrice());
-			carDetailDto.setCarImages(this.carImageService.getCarImagesByCarId(car.getCarId()).getData());
+			CarDetailDto carDetailDto = modelMapper.map(car, CarDetailDto.class);
+			carDetailDto.setBrandDetailDto(this.brandService.getBrandDetailId(car.getBrand().getBrandId()).getData());
+			carDetailDto.setColorDetailDto(this.colorService.getColorDetailId(car.getColor().getColorId()).getData());
+			carDetailDto.setCityDetailDto(this.cityService.getCityDetailId(car.getCity().getCityId()).getData());
+			carDetailDto.setCarImageDetailDto(this.carImageService.getCarImageDetailByCarId(car.getCarId()).getData());
 
 			carDetailDtos.add(carDetailDto);
 		}
@@ -134,12 +134,11 @@ public class CarManager implements CarService {
 
 		for (Car car : cars) {
 
-			CarDetailDto carDetailDto = new CarDetailDto();
-			carDetailDto.setCarName(car.getCarName());
-			carDetailDto.setColorName(car.getColor().getColorName());
-			carDetailDto.setBrandName(car.getBrand().getBrandName());
-			carDetailDto.setDailyPrice(car.getDailyPrice());
-			carDetailDto.setCarImages(this.carImageService.getCarImagesByCarId(car.getCarId()).getData());
+			CarDetailDto carDetailDto = modelMapper.map(car, CarDetailDto.class);
+			carDetailDto.setBrandDetailDto(this.brandService.getBrandDetailId(car.getBrand().getBrandId()).getData());
+			carDetailDto.setColorDetailDto(this.colorService.getColorDetailId(car.getColor().getColorId()).getData());
+			carDetailDto.setCityDetailDto(this.cityService.getCityDetailId(car.getCity().getCityId()).getData());
+			carDetailDto.setCarImageDetailDto(this.carImageService.getCarImageDetailByCarId(car.getCarId()).getData());
 
 			carDetailDtos.add(carDetailDto);
 		}
@@ -152,13 +151,12 @@ public class CarManager implements CarService {
 
 		Car car = this.carDao.getById(carId);
 
-		CarDetailDto carDetailDto = new CarDetailDto();
-		carDetailDto.setCarName(car.getCarName());
-		carDetailDto.setDailyPrice(car.getDailyPrice());
-		carDetailDto.setBrandName(car.getBrand().getBrandName());
-		carDetailDto.setColorName(car.getColor().getColorName());
+		CarDetailDto carDetailDto = modelMapper.map(car, CarDetailDto.class);
 
-		carDetailDto.setCarImages(this.carImageService.getCarImagesByCarId(car.getCarId()).getData());
+		carDetailDto.setBrandDetailDto(this.brandService.getBrandDetailId(car.getBrand().getBrandId()).getData());
+		carDetailDto.setColorDetailDto(this.colorService.getColorDetailId(car.getColor().getColorId()).getData());
+		carDetailDto.setCityDetailDto(this.cityService.getCityDetailId(car.getCity().getCityId()).getData());
+		carDetailDto.setCarImageDetailDto(this.carImageService.getCarImageDetailByCarId(car.getCarId()).getData());
 
 		return new SuccessDataResult<CarDetailDto>(carDetailDto, Messages.CarDetailsListed);
 	}
@@ -172,14 +170,7 @@ public class CarManager implements CarService {
 
 		City city = this.cityService.getById(createCarRequest.getCityId()).getData();
 
-		Car car = new Car();
-		car.setCarName(createCarRequest.getCarName());
-		car.setDailyPrice(createCarRequest.getDailyPrice());
-		car.setModelYear(createCarRequest.getModelYear());
-		car.setDescription(createCarRequest.getDescription());
-		car.setMinFindeksScore(createCarRequest.getMinFindeksScore());
-		car.setKilometer(createCarRequest.getKilometer());
-
+		Car car = modelMapper.map(createCarRequest, Car.class);
 		car.setBrand(brand);
 		car.setColor(color);
 		car.setCity(city);
@@ -198,14 +189,7 @@ public class CarManager implements CarService {
 
 		City city = this.cityService.getById(updateCarRequest.getCityId()).getData();
 
-		Car car = this.carDao.getById(updateCarRequest.getCarId());
-		car.setCarName(updateCarRequest.getCarName());
-		car.setDailyPrice(updateCarRequest.getDailyPrice());
-		car.setModelYear(updateCarRequest.getModelYear());
-		car.setDescription(updateCarRequest.getDescription());
-		car.setMinFindeksScore(updateCarRequest.getMinFindeksScore());
-		car.setKilometer(updateCarRequest.getKilometer());
-
+		Car car = modelMapper.map(updateCarRequest, Car.class);
 		car.setBrand(brand);
 		car.setColor(color);
 		car.setCity(city);
@@ -217,11 +201,11 @@ public class CarManager implements CarService {
 
 	@Override
 	public Result delete(DeleteCarRequest deleteCarRequest) {
+
 		Car car = this.carDao.getById(deleteCarRequest.getCarId());
 
 		this.carDao.delete(car);
 		return new SuccessResult(Messages.CarDeleted);
-
 	}
 
 	@Override

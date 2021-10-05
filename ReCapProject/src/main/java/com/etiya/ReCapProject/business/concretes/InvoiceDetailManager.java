@@ -2,7 +2,9 @@ package com.etiya.ReCapProject.business.concretes;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import com.etiya.ReCapProject.entities.concretes.Invoice;
 import com.etiya.ReCapProject.entities.concretes.InvoiceDetail;
 import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.etiya.ReCapProject.entities.concretes.RentalAdditional;
+import com.etiya.ReCapProject.entities.dtos.InvoiceDetailDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateInvoiceDetailRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteInvoiceDetailRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateInvoiceDetailRequest;
@@ -25,29 +28,53 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateInvoiceDetailReques
 public class InvoiceDetailManager implements InvoiceDetailService {
 
 	private InvoiceDetailDao invoiceDetailDao;
+	private ModelMapper modelMapper;
 
 	@Autowired
-	public InvoiceDetailManager(InvoiceDetailDao invoiceDetailDao) {
+	public InvoiceDetailManager(InvoiceDetailDao invoiceDetailDao,ModelMapper modelMapper) {
 		super();
 		this.invoiceDetailDao = invoiceDetailDao;
+		this.modelMapper = modelMapper;
 	}
 
 	@Override
 	public DataResult<List<InvoiceDetail>> getAll() {
+		
 		return new SuccessDataResult<List<InvoiceDetail>>(this.invoiceDetailDao.findAll(),
 				Messages.InvoiceDetailsListed);
 	}
 
 	@Override
 	public DataResult<InvoiceDetail> getById(int invoiceDetaillId) {
+		
 		return new SuccessDataResult<InvoiceDetail>(this.invoiceDetailDao.getById(invoiceDetaillId),
 				Messages.InvoiceDetailListed);
 	}
 
 	@Override
 	public DataResult<List<InvoiceDetail>> getInvoiceDetailsByInvoiceId(int invoiceId) {
+		
 		return new SuccessDataResult<List<InvoiceDetail>>(this.invoiceDetailDao.getByInvoice_InvoiceId(invoiceId),
 				Messages.InvoiceDetailsListed);
+	}
+	
+	@Override
+	public DataResult<List<InvoiceDetailDetailDto>> getInvoiceDetailsDetail() {
+		
+		List<InvoiceDetail> invoiceDetails = this.invoiceDetailDao.findAll();
+		
+		List<InvoiceDetailDetailDto> invoiceDetailDetailDto = invoiceDetails.stream()
+				.map(invoiceDetail -> modelMapper.map(invoiceDetails, InvoiceDetailDetailDto.class)).collect(Collectors.toList());
+		
+		return new SuccessDataResult<List<InvoiceDetailDetailDto>>(invoiceDetailDetailDto, Messages.InvoiceDetailsListed);
+	}
+
+	@Override
+	public DataResult<InvoiceDetailDetailDto> getInvoiceDetailDetailId(int invoiceDetailDetailId) {
+		
+		InvoiceDetail invoiceDetail = this.invoiceDetailDao.getById(invoiceDetailDetailId);
+		
+		return new SuccessDataResult<InvoiceDetailDetailDto>(modelMapper.map(invoiceDetail, InvoiceDetailDetailDto.class), Messages.InvoiceDetailsListed);
 	}
 
 	@Override
@@ -117,6 +144,7 @@ public class InvoiceDetailManager implements InvoiceDetailService {
 	// Faturaya ait detaların genel toplam tutarını hesaplar
 	@Override
 	public DataResult<Double> getSumtotalPriceByInvoice_InvoiceId(int invoiceId) {
+		
 		return new SuccessDataResult<Double>(this.invoiceDetailDao.SumTotalPriceByInvoice_InvoiceId(invoiceId));
 	}
 

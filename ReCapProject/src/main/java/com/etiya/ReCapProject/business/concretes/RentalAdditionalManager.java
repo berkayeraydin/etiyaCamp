@@ -32,12 +32,14 @@ public class RentalAdditionalManager implements RentalAdditionalService {
 
 	@Override
 	public DataResult<List<RentalAdditional>> getAll() {
+		
 		return new SuccessDataResult<List<RentalAdditional>>(this.rentalAdditionalDao.findAll(),
 				Messages.RentalAdditionalsListed);
 	}
 
 	@Override
 	public DataResult<RentalAdditional> getById(int rentalAdditionalId) {
+		
 		return new SuccessDataResult<RentalAdditional>(this.rentalAdditionalDao.getById(rentalAdditionalId),
 				Messages.RentalAdditionalListed);
 	}
@@ -92,6 +94,7 @@ public class RentalAdditionalManager implements RentalAdditionalService {
 	}
 
 	private Result checkRentalAdditionalByRentalAdditionalName(String rentalAdditionalName) {
+		
 		if (this.rentalAdditionalDao.existsByRentalAdditionalName(rentalAdditionalName)) {
 			return new ErrorResult(Messages.RentalAdditionalIsFound);
 		}

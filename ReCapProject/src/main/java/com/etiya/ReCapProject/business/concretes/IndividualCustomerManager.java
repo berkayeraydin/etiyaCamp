@@ -36,12 +36,14 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
 	@Override
 	public DataResult<List<IndividualCustomer>> getAll() {
+		
 		return new SuccessDataResult<List<IndividualCustomer>>(this.individualCustomerDao.findAll(),
 				Messages.CustomersListed);
 	}
 
 	@Override
 	public DataResult<IndividualCustomer> getById(int individualCustomerId) {
+		
 		return new SuccessDataResult<IndividualCustomer>(this.individualCustomerDao.getById(individualCustomerId),
 				Messages.CustomerListed);
 	}
@@ -55,6 +57,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		individualCustomerDetailDto.setFirstName(individualCustomer.getFirstName());
 		individualCustomerDetailDto.setLastName(individualCustomer.getLastName());
 		individualCustomerDetailDto.setNationalIdentityNumber(individualCustomer.getNationalIdentityNumber());
+		individualCustomerDetailDto.setEmail(individualCustomer.getApplicationUser().getEmail());
 
 		return new SuccessDataResult<IndividualCustomerDetailDto>(individualCustomerDetailDto,
 				Messages.IndividualCustomerDetail);
@@ -62,6 +65,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
 	@Override
 	public DataResult<IndividualCustomer> getByApplicationUser_UserId(int applicationUserId) {
+		
 		return new SuccessDataResult<IndividualCustomer>(
 				this.individualCustomerDao.getByApplicationUser_UserId(applicationUserId));
 	}
@@ -110,6 +114,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
 	@Override
 	public Result existsByUserId(int applicationUserId) {
+		
 		if (this.individualCustomerDao.existsByApplicationUser_UserId(applicationUserId)) {
 			return new SuccessResult();
 		}

@@ -2,8 +2,6 @@ package com.etiya.ReCapProject.entities.dtos;
 
 import java.util.List;
 
-import com.etiya.ReCapProject.entities.concretes.CarImage;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,14 +10,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarDetailDto {
+	
 	private String carName;
 
-	private String brandName;
+	private BrandDetailDto brandDetailDto;
 
-	private String colorName;
+	private ColorDetailDto colorDetailDto;
+	
+	private CityDetailDto cityDetailDto;
+	
+	private long kilometer;
+	
+	private String description;
+	
+	private int minFindeksScore;
 
 	private double dailyPrice;
 	
-	private List<CarImage> carImages;
+	private List<CarImageDetailDto> carImageDetailDto;
 	
 }

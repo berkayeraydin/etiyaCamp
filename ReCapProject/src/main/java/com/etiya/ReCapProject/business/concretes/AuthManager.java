@@ -1,5 +1,6 @@
 package com.etiya.ReCapProject.business.concretes;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,18 +35,21 @@ public class AuthManager implements AuthService {
 	private UserService userService;
 	private IndividualCustomerService individualCustomerService;
 	private CorporateCustomerService corporateCustomerService;
+	private ModelMapper modelMapper;
 
 	@Autowired
 	public AuthManager(UserService userService, IndividualCustomerService individualCustomerService,
-			CorporateCustomerService corporateCustomerService) {
+			CorporateCustomerService corporateCustomerService, ModelMapper modelMapper) {
 		super();
 		this.userService = userService;
 		this.individualCustomerService = individualCustomerService;
 		this.corporateCustomerService = corporateCustomerService;
+		this.modelMapper = modelMapper;
 	}
 
 	@Override
 	public Result individualCustomerRegister(RegisterIndividualCustomerRequest registerIndividualCustomerRequest) {
+
 		var result = BusinessRules.run(checkCustomerByEmail(registerIndividualCustomerRequest.getEmail()),
 				checkPasswordByPasswordConfirm(registerIndividualCustomerRequest.getPassword(),
 						registerIndividualCustomerRequest.getPasswordConfirm()));
@@ -54,19 +58,16 @@ public class AuthManager implements AuthService {
 			return result;
 		}
 
-		CreateApplicationUserRequest createApplicationUserRequest = new CreateApplicationUserRequest();
-		createApplicationUserRequest.setEmail(registerIndividualCustomerRequest.getEmail());
-		createApplicationUserRequest.setPassword(registerIndividualCustomerRequest.getPassword());
+		CreateApplicationUserRequest createApplicationUserRequest = modelMapper.map(registerIndividualCustomerRequest,
+				CreateApplicationUserRequest.class);
 
 		this.userService.add(createApplicationUserRequest);
 
-		CreateIndividualCustomerRequest createIndividualCustomerRequest = new CreateIndividualCustomerRequest();
-		createIndividualCustomerRequest.setFirstName(registerIndividualCustomerRequest.getFirstName());
-		createIndividualCustomerRequest.setLastName(registerIndividualCustomerRequest.getLastName());
+		CreateIndividualCustomerRequest createIndividualCustomerRequest = modelMapper
+				.map(registerIndividualCustomerRequest, CreateIndividualCustomerRequest.class);
+
 		createIndividualCustomerRequest
-				.setNationalIdentityNumber(registerIndividualCustomerRequest.getNationalIdentityNumber());
-		createIndividualCustomerRequest.setUserId(
-				this.userService.getByEmail(registerIndividualCustomerRequest.getEmail()).getData().getUserId());
+				.setUserId(this.userService.getByEmail(createApplicationUserRequest.getEmail()).getData().getUserId());
 
 		this.individualCustomerService.add(createIndividualCustomerRequest);
 
@@ -75,6 +76,7 @@ public class AuthManager implements AuthService {
 
 	@Override
 	public Result corporateCustomerRegister(RegisterCorporateCustomerRequest registerCorporateCustomerRequest) {
+
 		var result = BusinessRules.run(checkCustomerByEmail(registerCorporateCustomerRequest.getEmail()),
 				checkPasswordByPasswordConfirm(registerCorporateCustomerRequest.getPassword(),
 						registerCorporateCustomerRequest.getPasswordConfirm()));
@@ -82,15 +84,13 @@ public class AuthManager implements AuthService {
 		if (result != null) {
 			return result;
 		}
-		CreateApplicationUserRequest createApplicationUserRequest = new CreateApplicationUserRequest();
-		createApplicationUserRequest.setEmail(registerCorporateCustomerRequest.getEmail());
-		createApplicationUserRequest.setPassword(registerCorporateCustomerRequest.getPassword());
+		CreateApplicationUserRequest createApplicationUserRequest = modelMapper.map(registerCorporateCustomerRequest,
+				CreateApplicationUserRequest.class);
 
 		this.userService.add(createApplicationUserRequest);
 
-		CreateCorporateCustomerRequest createCorporateCustomerRequest = new CreateCorporateCustomerRequest();
-		createCorporateCustomerRequest.setCompanyName(registerCorporateCustomerRequest.getCompanyName());
-		createCorporateCustomerRequest.setTaxNumber(registerCorporateCustomerRequest.getTaxNumber());
+		CreateCorporateCustomerRequest createCorporateCustomerRequest = modelMapper
+				.map(registerCorporateCustomerRequest, CreateCorporateCustomerRequest.class);
 		createCorporateCustomerRequest.setUserId(
 				this.userService.getByEmail(registerCorporateCustomerRequest.getEmail()).getData().getUserId());
 
@@ -109,8 +109,7 @@ public class AuthManager implements AuthService {
 			return result;
 		}
 
-		return new SuccessDataResult<CustomerDto>(this.returnLoginedCustomerDto(loginRequest.getEmail()).getData(),
-				Messages.LoggedCustomer);
+		return new SuccessResult(Messages.SuccessfulLogin);
 	}
 
 	@Override
@@ -124,10 +123,9 @@ public class AuthManager implements AuthService {
 			IndividualCustomer individualCustomer = this.individualCustomerService
 					.getByApplicationUser_UserId(applicationUser.getUserId()).getData();
 
-			IndividualCustomerDetailDto individualCustomerDetailDto = new IndividualCustomerDetailDto();
-			individualCustomerDetailDto.setFirstName(individualCustomer.getFirstName());
-			individualCustomerDetailDto.setLastName(individualCustomer.getLastName());
-			individualCustomerDetailDto.setNationalIdentityNumber(individualCustomer.getNationalIdentityNumber());
+			IndividualCustomerDetailDto individualCustomerDetailDto = modelMapper.map(individualCustomer,
+					IndividualCustomerDetailDto.class);
+			individualCustomerDetailDto.setEmail(individualCustomer.getApplicationUser().getEmail());
 
 			return new SuccessDataResult<CustomerDto>(individualCustomerDetailDto, Messages.LoggedCustomer);
 		}
@@ -138,9 +136,9 @@ public class AuthManager implements AuthService {
 			CorporateCustomer corporateCustomer = this.corporateCustomerService
 					.getByApplicationUser_UserId(applicationUser.getUserId()).getData();
 
-			CorporateCustomerDetailDto corporateCustomerDetailDto = new CorporateCustomerDetailDto();
-			corporateCustomerDetailDto.setCompanyName(corporateCustomer.getCompanyName());
-			corporateCustomerDetailDto.setTaxNumber(corporateCustomer.getTaxNumber());
+			CorporateCustomerDetailDto corporateCustomerDetailDto = modelMapper.map(corporateCustomer,
+					CorporateCustomerDetailDto.class);
+			corporateCustomerDetailDto.setEmail(corporateCustomer.getApplicationUser().getEmail());
 
 			return new SuccessDataResult<CustomerDto>(corporateCustomerDetailDto, Messages.LoggedCustomer);
 		}
@@ -150,6 +148,7 @@ public class AuthManager implements AuthService {
 	}
 
 	private Result checkCustomerEmailByEmailIsMatched(LoginRequest loginRequest) {
+
 		if (!this.userService.existsByEmail(loginRequest.getEmail()).isSuccess()) {
 			return new ErrorResult(Messages.UserNotFound);
 		}
@@ -157,6 +156,7 @@ public class AuthManager implements AuthService {
 	}
 
 	private Result checkCustomerPasswordByPasswordIsMatched(LoginRequest loginRequest) {
+
 		if (checkCustomerEmailByEmailIsMatched(loginRequest).isSuccess()) {
 
 			if (!this.userService.getByEmail(loginRequest.getEmail()).getData().getPassword()
@@ -168,13 +168,15 @@ public class AuthManager implements AuthService {
 	}
 
 	private Result checkCustomerByEmail(String email) {
-		if (this.userService.existsByEmail(email).isSuccess()) {
+
+		if (!this.userService.existsByEmail(email).isSuccess()) {
 			return new ErrorResult(Messages.UserAlreadyExists);
 		}
 		return new SuccessResult();
 	}
 
 	private Result checkPasswordByPasswordConfirm(String password, String passwordConfirm) {
+
 		if (!password.equals(passwordConfirm)) {
 			return new ErrorResult(Messages.PasswordError);
 		}

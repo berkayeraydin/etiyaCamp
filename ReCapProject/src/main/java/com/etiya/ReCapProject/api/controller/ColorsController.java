@@ -5,15 +5,19 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.ReCapProject.business.abstracts.ColorService;
 import com.etiya.ReCapProject.core.utilities.result.*;
 import com.etiya.ReCapProject.entities.concretes.Color;
+import com.etiya.ReCapProject.entities.dtos.ColorDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateColorRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteColorRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateColorRequest;
@@ -35,8 +39,18 @@ public class ColorsController {
 	}
 	
 	@GetMapping("/getbyid")
-	public DataResult<Color> getById(int colorId) {
+	public DataResult<Color> getById(@RequestParam("colorId") int colorId) {
 		return this.colorService.getById(colorId);
+	}
+	
+	@GetMapping("/getColorsDetail")
+	public DataResult<List<ColorDetailDto>> getColorsDetail(){
+		return this.colorService.getColorsDetail();
+	}
+	
+	@GetMapping("/getColorDetailId")
+	public DataResult<ColorDetailDto> getColorDetailId(int colorId){
+		return this.colorService.getColorDetailId(colorId);
 	}
 	
 	@PostMapping("/add")
@@ -44,12 +58,12 @@ public class ColorsController {
 		return this.colorService.add(createColorRequest);
 	}
 	
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public Result update(@Valid @RequestBody UpdateColorRequest updateColorRequest) {
 		return this.colorService.update(updateColorRequest);
 	}
 	
-	@PostMapping("/delete")
+	@DeleteMapping("/delete")
 	public Result delte(DeleteColorRequest deleteColorRequest) {
 		return this.colorService.delete(deleteColorRequest);
 	}

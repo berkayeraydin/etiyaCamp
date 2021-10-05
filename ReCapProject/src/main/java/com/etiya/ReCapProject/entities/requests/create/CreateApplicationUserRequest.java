@@ -23,7 +23,4 @@ public class CreateApplicationUserRequest {
 	@NotNull
 	private String email;
 	
-	@NotBlank
-	@NotNull
-	private String passwordConfirm;
 }

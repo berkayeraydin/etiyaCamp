@@ -32,11 +32,13 @@ public class UserManager implements UserService {
 
 	@Override
 	public DataResult<List<ApplicationUser>> getAll() {
+		
 		return new SuccessDataResult<List<ApplicationUser>>(this.applicationUserDao.findAll(), Messages.UsersListed);
 	}
 
 	@Override
 	public DataResult<ApplicationUser> getById(int applicationUserId) {
+		
 		return new SuccessDataResult<ApplicationUser>(this.applicationUserDao.getById(applicationUserId));
 	}
 
@@ -84,14 +86,16 @@ public class UserManager implements UserService {
 
 	@Override
 	public DataResult<ApplicationUser> getByEmail(String email) {
+		
 		return new SuccessDataResult<ApplicationUser>(this.applicationUserDao.getByEmail(email));
 	}
 
 	@Override
 	public Result existsByEmail(String email) {
-		if (!this.applicationUserDao.existsByEmail(email)) {
+		
+		if (this.applicationUserDao.existsByEmail(email)) {
 			return new ErrorResult(Messages.EmailAlreadyExists);
-		}
+		}		
 		return new SuccessResult();
 	}
 

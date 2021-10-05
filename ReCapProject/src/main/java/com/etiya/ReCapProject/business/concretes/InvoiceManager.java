@@ -50,16 +50,19 @@ public class InvoiceManager implements InvoiceService {
 
 	@Override
 	public DataResult<List<Invoice>> getAll() {
+		
 		return new SuccessDataResult<List<Invoice>>(this.invoiceDao.findAll(), Messages.InvoicesListed);
 	}
 
 	@Override
 	public DataResult<Invoice> getById(int invoiceId) {
+		
 		return new SuccessDataResult<Invoice>(this.invoiceDao.getById(invoiceId), Messages.InvoiceListed);
 	}
 
 	@Override
 	public DataResult<InvoiceDetailDto> getInvoiceDetailByRentalId(int rentalId) {
+		
 		Invoice invoice = this.invoiceDao.getByRental_RentalId(rentalId);
 
 		InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
@@ -84,7 +87,7 @@ public class InvoiceManager implements InvoiceService {
 		invoiceDetailDto.setTotalPrice(
 				this.invoiceDetailService.getSumtotalPriceByInvoice_InvoiceId(invoice.getInvoiceId()).getData());
 
-		return new SuccessDataResult<InvoiceDetailDto>(invoiceDetailDto, "Kirama işleminin fatura detayı");
+		return new SuccessDataResult<InvoiceDetailDto>(invoiceDetailDto, Messages.InvoiceDetailsByRentalId);
 	}
 
 	@Override

@@ -8,5 +8,5 @@ import com.etiya.ReCapProject.entities.concretes.CardInformation;
 
 public interface CardInformationDao extends JpaRepository<CardInformation, Integer>{
 	
-	List<CardInformation> getCardInformationByApplicationUser_UserId(int applicationUserId);
+	List<CardInformation> getCardsInformationByApplicationUser_UserId(int applicationUserId);
 }

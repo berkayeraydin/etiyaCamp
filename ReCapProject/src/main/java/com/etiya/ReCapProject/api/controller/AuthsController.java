@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.ReCapProject.business.abstracts.AuthService;
+import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
+import com.etiya.ReCapProject.entities.dtos.abstracts.CustomerDto;
 import com.etiya.ReCapProject.entities.requests.LoginRequest;
 import com.etiya.ReCapProject.entities.requests.RegisterCorporateCustomerRequest;
 import com.etiya.ReCapProject.entities.requests.RegisterIndividualCustomerRequest;
@@ -39,6 +42,11 @@ public class AuthsController {
 	@PostMapping("/login")
 	Result login(@Valid @RequestBody LoginRequest loginRequest) {
 		return this.authService.login(loginRequest);
+	}
+	
+	@PostMapping("/returnLoginedCustomerDto")
+	public DataResult<CustomerDto> returnLoginedCustomerDto(@RequestParam("email") String email){
+		return this.authService.returnLoginedCustomerDto(email);
 	}
 	
 }

@@ -83,11 +83,13 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public DataResult<List<Rental>> getAll() {
+		
 		return new SuccessDataResult<List<Rental>>(this.rentalDao.findAll(), Messages.RentalsListed);
 	}
 
 	@Override
 	public DataResult<Rental> getById(int rentalId) {
+		
 		return new SuccessDataResult<Rental>(this.rentalDao.getById(rentalId), Messages.RentalListed);
 	}
 
@@ -310,6 +312,7 @@ public class RentalManager implements RentalService {
 
 	// Arabanın galeride olup olmadığını kontrol eder
 	private Result checkCarIsReturned(int carId) {
+		
 		if (this.rentalDao.existsByIsCarReturnedIsFalseAndCar_CarId(carId)) {
 			return new ErrorResult(Messages.RentalCarNotReturn);
 		}

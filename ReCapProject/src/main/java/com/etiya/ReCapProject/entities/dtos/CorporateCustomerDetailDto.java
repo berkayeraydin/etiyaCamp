@@ -14,5 +14,7 @@ public class CorporateCustomerDetailDto implements CustomerDto{
 	private String companyName;
 	
 	private String taxNumber;
+	
+	private String email;
 
 }
