@@ -6,11 +6,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.CarImageService;
+import com.etiya.ReCapProject.business.abstracts.ModelMapperService;
 import com.etiya.ReCapProject.business.constants.FilePathConfiguration;
 import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
@@ -34,14 +34,14 @@ public class CarImageManager implements CarImageService {
 
 	private CarImageDao carImageDao;
 	private FileHelper fileHelper;
-	private ModelMapper modelMapper;
+	private ModelMapperService modelMapperService;
 
 	@Autowired
-	public CarImageManager(CarImageDao carImageDao, FileHelper fileHelper, ModelMapper modelMapper) {
+	public CarImageManager(CarImageDao carImageDao, FileHelper fileHelper, ModelMapperService modelMapperService) {
 		super();
 		this.carImageDao = carImageDao;
 		this.fileHelper = fileHelper;
-		this.modelMapper = modelMapper;
+		this.modelMapperService = modelMapperService;
 	}
 
 	@Override
@@ -62,7 +62,8 @@ public class CarImageManager implements CarImageService {
 		List<CarImage> carImages = this.carImageDao.findAll();
 
 		List<CarImageDetailDto> carImageDetailDto = carImages.stream()
-				.map(carImage -> modelMapper.map(carImage, CarImageDetailDto.class)).collect(Collectors.toList());
+				.map(carImage -> modelMapperService.forDto().map(carImage, CarImageDetailDto.class))
+				.collect(Collectors.toList());
 
 		return new SuccessDataResult<List<CarImageDetailDto>>(carImageDetailDto, Messages.CarImagesListed);
 	}
@@ -72,7 +73,8 @@ public class CarImageManager implements CarImageService {
 
 		CarImage carImage = this.carImageDao.getById(carImageId);
 
-		return new SuccessDataResult<CarImageDetailDto>(modelMapper.map(carImage, CarImageDetailDto.class));
+		return new SuccessDataResult<CarImageDetailDto>(
+				modelMapperService.forDto().map(carImage, CarImageDetailDto.class));
 	}
 
 	@Override
@@ -81,7 +83,8 @@ public class CarImageManager implements CarImageService {
 		List<CarImage> carImages = this.returnCarImageWithDefaultImageIfCarImageIsNull(carId).getData();
 
 		List<CarImageDetailDto> carImageDetailDtos = carImages.stream()
-				.map(carImage -> modelMapper.map(carImage, CarImageDetailDto.class)).collect(Collectors.toList());
+				.map(carImage -> modelMapperService.forDto().map(carImage, CarImageDetailDto.class))
+				.collect(Collectors.toList());
 
 		return new SuccessDataResult<List<CarImageDetailDto>>(carImageDetailDtos);
 	}
@@ -98,7 +101,7 @@ public class CarImageManager implements CarImageService {
 
 		Date dateNow = new java.sql.Date(new java.util.Date().getTime());
 
-		Car car = modelMapper.map(createCarImageRequest, Car.class);
+		Car car = modelMapperService.forRequest().map(createCarImageRequest, Car.class);
 
 		CarImage carImage = new CarImage();
 		carImage.setImagePath(this.fileHelper
@@ -117,7 +120,7 @@ public class CarImageManager implements CarImageService {
 	@Override
 	public Result update(UpdateCarImageRequest updateCarImageRequest) throws IOException {
 
-		CarImage carImage = modelMapper.map(updateCarImageRequest, CarImage.class);
+		CarImage carImage = this.carImageDao.getById(updateCarImageRequest.getCarImageId());
 
 		var result = BusinessRules.run(checkCarImagesCount(carImage.getCar().getCarId(), 5),
 				this.fileHelper.checkImageType(updateCarImageRequest.getFile()));
@@ -140,7 +143,7 @@ public class CarImageManager implements CarImageService {
 	@Override
 	public Result delete(DeleteCarImageRequest deleteCarImageRequest) {
 
-		CarImage carImage = modelMapper.map(deleteCarImageRequest, CarImage.class);
+		CarImage carImage = this.carImageDao.getById(deleteCarImageRequest.getCarImageId());
 
 		this.carImageDao.delete(carImage);
 
@@ -159,7 +162,7 @@ public class CarImageManager implements CarImageService {
 
 	// Arabaya ait resim yoksa varsayılan resmi döndürür
 	private DataResult<List<CarImage>> returnCarImageWithDefaultImageIfCarImageIsNull(int carId) {
-		
+
 		if (this.carImageDao.existsByCar_CarId(carId)) {
 			return new ErrorDataResult<List<CarImage>>(this.carImageDao.getByCar_CarId(carId));
 		}

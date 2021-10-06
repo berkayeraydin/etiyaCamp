@@ -4,13 +4,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.InvoiceDetailService;
+import com.etiya.ReCapProject.business.abstracts.ModelMapperService;
 import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
+import com.etiya.ReCapProject.core.utilities.result.ErrorDataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.core.utilities.result.SuccessDataResult;
 import com.etiya.ReCapProject.core.utilities.result.SuccessResult;
@@ -28,53 +29,63 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateInvoiceDetailReques
 public class InvoiceDetailManager implements InvoiceDetailService {
 
 	private InvoiceDetailDao invoiceDetailDao;
-	private ModelMapper modelMapper;
+	private ModelMapperService modelMapperService;
 
 	@Autowired
-	public InvoiceDetailManager(InvoiceDetailDao invoiceDetailDao,ModelMapper modelMapper) {
+	public InvoiceDetailManager(InvoiceDetailDao invoiceDetailDao, ModelMapperService modelMapperService) {
 		super();
 		this.invoiceDetailDao = invoiceDetailDao;
-		this.modelMapper = modelMapper;
+		this.modelMapperService = modelMapperService;
 	}
 
 	@Override
 	public DataResult<List<InvoiceDetail>> getAll() {
-		
+
 		return new SuccessDataResult<List<InvoiceDetail>>(this.invoiceDetailDao.findAll(),
 				Messages.InvoiceDetailsListed);
 	}
 
 	@Override
 	public DataResult<InvoiceDetail> getById(int invoiceDetaillId) {
-		
+
 		return new SuccessDataResult<InvoiceDetail>(this.invoiceDetailDao.getById(invoiceDetaillId),
 				Messages.InvoiceDetailListed);
 	}
 
 	@Override
-	public DataResult<List<InvoiceDetail>> getInvoiceDetailsByInvoiceId(int invoiceId) {
-		
-		return new SuccessDataResult<List<InvoiceDetail>>(this.invoiceDetailDao.getByInvoice_InvoiceId(invoiceId),
-				Messages.InvoiceDetailsListed);
-	}
-	
-	@Override
 	public DataResult<List<InvoiceDetailDetailDto>> getInvoiceDetailsDetail() {
-		
+
 		List<InvoiceDetail> invoiceDetails = this.invoiceDetailDao.findAll();
-		
-		List<InvoiceDetailDetailDto> invoiceDetailDetailDto = invoiceDetails.stream()
-				.map(invoiceDetail -> modelMapper.map(invoiceDetails, InvoiceDetailDetailDto.class)).collect(Collectors.toList());
-		
-		return new SuccessDataResult<List<InvoiceDetailDetailDto>>(invoiceDetailDetailDto, Messages.InvoiceDetailsListed);
+
+		List<InvoiceDetailDetailDto> invoiceDetailDetailDtos = invoiceDetails.stream()
+				.map(invoiceDetail -> modelMapperService.forDto().map(invoiceDetail, InvoiceDetailDetailDto.class))
+				.collect(Collectors.toList());
+
+		return new SuccessDataResult<List<InvoiceDetailDetailDto>>(invoiceDetailDetailDtos,
+				Messages.InvoiceDetailsListed);
 	}
 
 	@Override
-	public DataResult<InvoiceDetailDetailDto> getInvoiceDetailDetailId(int invoiceDetailDetailId) {
-		
-		InvoiceDetail invoiceDetail = this.invoiceDetailDao.getById(invoiceDetailDetailId);
-		
-		return new SuccessDataResult<InvoiceDetailDetailDto>(modelMapper.map(invoiceDetail, InvoiceDetailDetailDto.class), Messages.InvoiceDetailsListed);
+	public DataResult<InvoiceDetailDetailDto> getInvoiceDetailDetailById(int invoiceDetailId) {
+
+		InvoiceDetail invoiceDetail = this.invoiceDetailDao.getById(invoiceDetailId);
+
+		return new SuccessDataResult<InvoiceDetailDetailDto>(
+				modelMapperService.forDto().map(invoiceDetail, InvoiceDetailDetailDto.class),
+				Messages.InvoiceDetailListed);
+	}
+
+	@Override
+	public DataResult<List<InvoiceDetailDetailDto>> getInvoiceDetailDetailsByInvoiceId(int invoiceId) {
+
+		List<InvoiceDetail> invoiceDetails = this.invoiceDetailDao.getByInvoice_InvoiceId(invoiceId);
+
+		List<InvoiceDetailDetailDto> invoiceDetailDetailDtos = invoiceDetails.stream()
+				.map(invoiceDetail -> modelMapperService.forDto().map(invoiceDetail, InvoiceDetailDetailDto.class))
+				.collect(Collectors.toList());
+
+		return new SuccessDataResult<List<InvoiceDetailDetailDto>>(invoiceDetailDetailDtos,
+				Messages.InvoiceDetailsListed);
 	}
 
 	@Override
@@ -136,6 +147,7 @@ public class InvoiceDetailManager implements InvoiceDetailService {
 	public Result delete(DeleteInvoiceDetailRequest deleteInvoiceDetailRequest) {
 
 		InvoiceDetail invoiceDetail = this.invoiceDetailDao.getById(deleteInvoiceDetailRequest.getInvoiceDetailId());
+
 		this.invoiceDetailDao.delete(invoiceDetail);
 
 		return new SuccessResult(Messages.InvoiceDetailDeleted);
@@ -144,7 +156,10 @@ public class InvoiceDetailManager implements InvoiceDetailService {
 	// Faturaya ait detaların genel toplam tutarını hesaplar
 	@Override
 	public DataResult<Double> getSumtotalPriceByInvoice_InvoiceId(int invoiceId) {
-		
+
+		if (!this.invoiceDetailDao.existsByInvoice_InvoiceId(invoiceId)) {
+			return new ErrorDataResult<Double>(0.0, "");
+		}
 		return new SuccessDataResult<Double>(this.invoiceDetailDao.SumTotalPriceByInvoice_InvoiceId(invoiceId));
 	}
 

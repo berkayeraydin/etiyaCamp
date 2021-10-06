@@ -18,6 +18,8 @@ public class CarMaintenanceDetailDto {
 	private Date returnDate;      
 	
 	private boolean isCarReturned;      
-	
+
 	private CarDetailDto carDetailDto; 
+	
+	
 }

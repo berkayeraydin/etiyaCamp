@@ -18,7 +18,7 @@ public interface BrandService {
 	
 	DataResult<List<BrandDetailDto>> getBrandsDetail();
 	
-	DataResult<BrandDetailDto> getBrandDetailId(int brandId);
+	DataResult<BrandDetailDto> getBrandDetailById(int brandId);
 
 	Result add(CreateBrandRequest createBrandRequest);
 

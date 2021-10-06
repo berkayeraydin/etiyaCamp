@@ -2,7 +2,6 @@ package com.etiya.ReCapProject.entities.requests;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;

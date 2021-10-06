@@ -1,6 +1,5 @@
 package com.etiya.ReCapProject.entities.requests.create;
 
-
 import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.sun.istack.NotNull;
 

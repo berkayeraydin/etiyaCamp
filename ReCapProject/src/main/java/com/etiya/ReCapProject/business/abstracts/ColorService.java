@@ -18,7 +18,7 @@ public interface ColorService {
 	
 	DataResult<List<ColorDetailDto>> getColorsDetail();
 	
-	DataResult<ColorDetailDto> getColorDetailId(int colorId);
+	DataResult<ColorDetailDto> getColorDetailById(int colorId);
 
 	Result add(CreateColorRequest createColorRequest);
 

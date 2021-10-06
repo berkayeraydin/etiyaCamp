@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.ReCapProject.business.abstracts.ColorService;
 import com.etiya.ReCapProject.core.utilities.result.*;
-import com.etiya.ReCapProject.entities.concretes.Color;
 import com.etiya.ReCapProject.entities.dtos.ColorDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateColorRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteColorRequest;
@@ -32,39 +31,39 @@ public class ColorsController {
 		super();
 		this.colorService = colorService;
 	}
-	
-	@GetMapping("/getAll")
-	public DataResult<List<Color>> getAll() {
-		return this.colorService.getAll();
-	}
-	
-	@GetMapping("/getbyid")
-	public DataResult<Color> getById(@RequestParam("colorId") int colorId) {
-		return this.colorService.getById(colorId);
-	}
-	
+
+//	@GetMapping("/getAll")
+//	public DataResult<List<Color>> getAll() {
+//		return this.colorService.getAll();
+//	}
+//
+//	@GetMapping("/getbyid")
+//	public DataResult<Color> getById(@RequestParam("colorId") int colorId) {
+//		return this.colorService.getById(colorId);
+//	}
+
 	@GetMapping("/getColorsDetail")
-	public DataResult<List<ColorDetailDto>> getColorsDetail(){
+	public DataResult<List<ColorDetailDto>> getColorsDetail() {
 		return this.colorService.getColorsDetail();
 	}
-	
-	@GetMapping("/getColorDetailId")
-	public DataResult<ColorDetailDto> getColorDetailId(int colorId){
-		return this.colorService.getColorDetailId(colorId);
+
+	@GetMapping("/getColorDetailById")
+	public DataResult<ColorDetailDto> getColorDetailById(@RequestParam("colorId") int colorId) {
+		return this.colorService.getColorDetailById(colorId);
 	}
-	
+
 	@PostMapping("/add")
 	public Result add(@Valid @RequestBody CreateColorRequest createColorRequest) {
 		return this.colorService.add(createColorRequest);
 	}
-	
+
 	@PutMapping("/update")
 	public Result update(@Valid @RequestBody UpdateColorRequest updateColorRequest) {
 		return this.colorService.update(updateColorRequest);
 	}
-	
+
 	@DeleteMapping("/delete")
-	public Result delte(DeleteColorRequest deleteColorRequest) {
+	public Result delte(@Valid DeleteColorRequest deleteColorRequest) {
 		return this.colorService.delete(deleteColorRequest);
 	}
 }

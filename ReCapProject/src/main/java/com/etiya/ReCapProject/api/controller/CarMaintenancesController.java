@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.ReCapProject.business.abstracts.CarMaintenanceService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
-import com.etiya.ReCapProject.entities.concretes.CarMaintenance;
 import com.etiya.ReCapProject.entities.dtos.CarMaintenanceDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCarMaintenanceRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCarMaintenanceRequest;
@@ -33,15 +33,15 @@ public class CarMaintenancesController {
 		this.carMaintenanceService = carMaintenanceService;
 	}
 
-	@GetMapping("/getAll")
-	public DataResult<List<CarMaintenance>> getAll() {
-		return this.carMaintenanceService.getAll();
-	}
-
-	@GetMapping("/getbyid")
-	public DataResult<CarMaintenance> getById(@RequestParam("carMaintenanceId") int carMaintenanceId) {
-		return this.carMaintenanceService.getById(carMaintenanceId);
-	}
+//	@GetMapping("/getAll")
+//	public DataResult<List<CarMaintenance>> getAll() {
+//		return this.carMaintenanceService.getAll();
+//	}
+//
+//	@GetMapping("/getbyid")
+//	public DataResult<CarMaintenance> getById(@RequestParam("carMaintenanceId") int carMaintenanceId) {
+//		return this.carMaintenanceService.getById(carMaintenanceId);
+//	}
 
 	@GetMapping("/getCarMaintenancesDetail")
 	DataResult<List<CarMaintenanceDetailDto>> getCarMaintenancesDetail() {
@@ -53,12 +53,17 @@ public class CarMaintenancesController {
 		return this.carMaintenanceService.getCarMaintenanceDetailById(carMaintenanceId);
 	}
 
+	@GetMapping("/getCarMaintenanceDetailByCarId")
+	DataResult<List<CarMaintenanceDetailDto>> getCarMaintenanceDetailByCarId(int carId) {
+		return this.carMaintenanceService.getCarMaintenanceDetailByCarId(carId);
+	}
+
 	@PostMapping("/add")
 	public Result add(@Valid @RequestBody CreateCarMaintenanceRequest createCarMaintenanceRequest) {
 		return this.carMaintenanceService.add(createCarMaintenanceRequest);
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public Result update(@Valid @RequestBody UpdateCarMaintenanceRequest updateCarMaintenanceRequest) {
 		return this.carMaintenanceService.update(updateCarMaintenanceRequest);
 	}

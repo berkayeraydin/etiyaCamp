@@ -3,6 +3,7 @@ package com.etiya.ReCapProject;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,12 @@ public class ReCapProjectApplication {
 
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.etiya.ReCapProject")).build();
+	}
+	
+	@Bean
+	public ModelMapper getModelMapper() {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper;
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)

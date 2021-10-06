@@ -10,16 +10,16 @@ public class FindeksScoreAdapterServiceAdapter implements CustomerFindeksScoreSe
 	FindeksScoreService findeksScoreService = new FindeksScoreService();
 	
 	@Override
-	public int getCorporateFindeksScore(String taxNumber) {
+	public int getCorporateScore(String taxNumber) {
 		
 		
-		return findeksScoreService.getCorporateFindeksScore(taxNumber);
+		return findeksScoreService.getCorporateScore(taxNumber);
 	}
 
 	@Override
-	public int getIndividualFindeksScore(String nationalIdentityNumber) {
+	public int getIndivicualScore(String nationalIdentityNumber) {
 
-		return findeksScoreService.getCorporateFindeksScore(nationalIdentityNumber);
+		return findeksScoreService.getIndivicualScore(nationalIdentityNumber);
 	}
 
 }

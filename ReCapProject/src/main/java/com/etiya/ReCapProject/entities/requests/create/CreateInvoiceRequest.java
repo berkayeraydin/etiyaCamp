@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateInvoiceRequest {
-
+	
 	@NotNull
 	private Rental rental;
 

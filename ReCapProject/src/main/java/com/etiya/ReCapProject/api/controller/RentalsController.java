@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.ReCapProject.business.abstracts.RentalService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
-import com.etiya.ReCapProject.entities.concretes.Rental;
 import com.etiya.ReCapProject.entities.dtos.RentalDetailDto;
 import com.etiya.ReCapProject.entities.requests.CarReturnedRequest;
 import com.etiya.ReCapProject.entities.requests.create.CreateRentalRequest;
@@ -34,15 +34,15 @@ public class RentalsController {
 		this.rentalService = rentalService;
 	}
 
-	@GetMapping("/getAll")
-	public DataResult<List<Rental>> getAll() {
-		return this.rentalService.getAll();
-	}
-
-	@GetMapping("/getbyid")
-	public DataResult<Rental> getById(@RequestParam("rentalId") int rentalId) {
-		return this.rentalService.getById(rentalId);
-	}
+//	@GetMapping("/getAll")
+//	public DataResult<List<Rental>> getAll() {
+//		return this.rentalService.getAll();
+//	}
+//
+//	@GetMapping("/getbyid")
+//	public DataResult<Rental> getById(@RequestParam("rentalId") int rentalId) {
+//		return this.rentalService.getById(rentalId);
+//	}
 
 	@GetMapping("/getRentalDetailsByRentalId")
 	public DataResult<RentalDetailDto> getRentalDetailsByRentalId(@RequestParam("rentalId") int rentalId) {
@@ -50,7 +50,8 @@ public class RentalsController {
 	}
 
 	@GetMapping("/getRentalsDetailByApplicationUserId")
-	DataResult<List<RentalDetailDto>> getRentalsDetailByApplicationUserId(@RequestParam("applicationUserId") int applicationUserId) {
+	DataResult<List<RentalDetailDto>> getRentalsDetailByApplicationUserId(
+			@RequestParam("applicationUserId") int applicationUserId) {
 		return this.rentalService.getRentalsDetailByApplicationUserId(applicationUserId);
 	}
 
@@ -59,7 +60,7 @@ public class RentalsController {
 		return this.rentalService.add(createRentalRequest);
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public Result update(@Valid @RequestBody UpdateRentalRequest updateRentalRequest) {
 		return this.rentalService.update(updateRentalRequest);
 	}

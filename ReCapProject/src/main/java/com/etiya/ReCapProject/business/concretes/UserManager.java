@@ -2,6 +2,7 @@ package com.etiya.ReCapProject.business.concretes;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +24,13 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateApplicationUserRequ
 public class UserManager implements UserService {
 
 	private ApplicationUserDao applicationUserDao;
+	private ModelMapper modelMapper;
 
 	@Autowired
-	public UserManager(ApplicationUserDao applicationUserDao) {
+	public UserManager(ApplicationUserDao applicationUserDao,ModelMapper modelMapper) {
 		super();
 		this.applicationUserDao = applicationUserDao;
+		this.modelMapper = modelMapper;
 	}
 
 	@Override
@@ -51,9 +54,10 @@ public class UserManager implements UserService {
 			return result;
 		}
 
-		ApplicationUser applicationUser = new ApplicationUser();
-		applicationUser.setEmail(createApplicationUserRequest.getEmail());
-		applicationUser.setPassword(createApplicationUserRequest.getPassword());
+//		ApplicationUser applicationUser = new ApplicationUser();
+//		applicationUser.setEmail(createApplicationUserRequest.getEmail());
+//		applicationUser.setPassword(createApplicationUserRequest.getPassword());
+		ApplicationUser applicationUser = modelMapper.map(createApplicationUserRequest, ApplicationUser.class);
 
 		this.applicationUserDao.save(applicationUser);
 		return new SuccessResult(Messages.UserAdded);
@@ -67,9 +71,11 @@ public class UserManager implements UserService {
 		if (result != null) {
 			return result;
 		}
-		ApplicationUser applicationUser = this.applicationUserDao.getById(updateApplicationUserRequest.getUserId());
-		applicationUser.setEmail(updateApplicationUserRequest.getEmail());
-		applicationUser.setPassword(updateApplicationUserRequest.getPassword());
+		
+		ApplicationUser applicationUser = modelMapper.map(updateApplicationUserRequest, ApplicationUser.class);
+//		ApplicationUser applicationUser = this.applicationUserDao.getById(updateApplicationUserRequest.getUserId());
+//		applicationUser.setEmail(updateApplicationUserRequest.getEmail());
+//		applicationUser.setPassword(updateApplicationUserRequest.getPassword());
 
 		this.applicationUserDao.save(applicationUser);
 		return new SuccessResult(Messages.UserUpdated);

@@ -2,6 +2,7 @@ package com.etiya.ReCapProject.entities.concretes;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -21,23 +22,22 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "corporateCustomer" })
 @Table(name = "users")
 public class ApplicationUser extends User {
 
-	
 	@OneToOne(mappedBy = "applicationUser")
 	private IndividualCustomer individualCustomer;
-	
-	
+
 	@OneToOne(mappedBy = "applicationUser")
 	private CorporateCustomer corporateCustomer;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "applicationUser")
 	private List<Rental> rentals;
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy = "applicationUser")
+	@OneToMany(mappedBy = "applicationUser", cascade = CascadeType.ALL)
 	private List<CardInformation> cardInformations;
+
 }

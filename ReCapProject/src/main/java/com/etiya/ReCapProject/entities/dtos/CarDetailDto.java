@@ -10,23 +10,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarDetailDto {
-	
 	private String carName;
 
-	private BrandDetailDto brandDetailDto;
+	private String brandName;
 
-	private ColorDetailDto colorDetailDto;
-	
-	private CityDetailDto cityDetailDto;
-	
+	private String colorName;
+
+	private String cityName;
+
 	private long kilometer;
-	
+
 	private String description;
-	
+
 	private int minFindeksScore;
 
 	private double dailyPrice;
-	
-	private List<CarImageDetailDto> carImageDetailDto;
-	
+
+	private List<CarImageDetailDto> carcarImageDetailDtos;
+
 }
+
+

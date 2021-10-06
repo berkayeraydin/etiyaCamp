@@ -13,4 +13,6 @@ public interface InvoiceDetailDao extends JpaRepository<InvoiceDetail, Integer>{
 	
 	@Query("SELECT sum(i.totalPrice) from InvoiceDetail i Where i.invoice.invoiceId = :invoiceId")
 	double SumTotalPriceByInvoice_InvoiceId(int invoiceId);
+	
+	boolean existsByInvoice_InvoiceId(int invoiceId);
 }

@@ -15,5 +15,5 @@ public interface AuthService {
 
 	Result login(LoginRequest loginRequest);
 	
-	DataResult<CustomerDto> returnLoginedCustomerDto(String email);
+	DataResult<CustomerDto> getCustomerDtoByEmail(String email);
 }

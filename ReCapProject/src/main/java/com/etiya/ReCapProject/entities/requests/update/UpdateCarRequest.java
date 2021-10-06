@@ -27,7 +27,6 @@ public class UpdateCarRequest {
 	private String modelYear; 
 	
 	@NotNull
-	@NotBlank
 	@Min(0)
 	private double dailyPrice; 
 	
@@ -40,7 +39,7 @@ public class UpdateCarRequest {
 	@NotNull
 	private int minFindeksScore;
 	
-	@NotBlank
+	@NotNull
 	private boolean isListed;
 	
 	@NotNull

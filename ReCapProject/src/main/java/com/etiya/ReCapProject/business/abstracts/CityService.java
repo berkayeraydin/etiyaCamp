@@ -18,7 +18,7 @@ public interface CityService {
 	
 	DataResult<List<CityDetailDto>> getCitysDetail();
 	
-	DataResult<CityDetailDto> getCityDetailId(int cityId);
+	DataResult<CityDetailDto> getCityDetailById(int cityId);
 
 	Result add(CreateCityRequest createCityRequest);
 

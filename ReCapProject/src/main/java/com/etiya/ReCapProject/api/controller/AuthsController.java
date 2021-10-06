@@ -3,6 +3,7 @@ package com.etiya.ReCapProject.api.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,33 +21,34 @@ import com.etiya.ReCapProject.entities.requests.RegisterIndividualCustomerReques
 @RestController
 @RequestMapping("api/auths")
 public class AuthsController {
-		
 	private AuthService authService;
-	
+
 	@Autowired
 	public AuthsController(AuthService authService) {
 		super();
 		this.authService = authService;
 	}
-	
+
 	@PostMapping("/individualCustomerRegister")
-	Result individualCustomerRegister(@Valid @RequestBody RegisterIndividualCustomerRequest registerIndividualCustomerRequest) {
+	Result individualCustomerRegister(
+			@Valid @RequestBody RegisterIndividualCustomerRequest registerIndividualCustomerRequest) {
 		return this.authService.individualCustomerRegister(registerIndividualCustomerRequest);
 	}
-	
+
 	@PostMapping("/corporateCustomerRegister")
-	Result corporateCustomerRegister(@Valid @RequestBody RegisterCorporateCustomerRequest registerCorporateCustomerRequest) {
+	Result corporateCustomerRegister(
+			@Valid @RequestBody RegisterCorporateCustomerRequest registerCorporateCustomerRequest) {
 		return this.authService.corporateCustomerRegister(registerCorporateCustomerRequest);
 	}
-	
+
 	@PostMapping("/login")
 	Result login(@Valid @RequestBody LoginRequest loginRequest) {
 		return this.authService.login(loginRequest);
 	}
-	
-	@PostMapping("/returnLoginedCustomerDto")
-	public DataResult<CustomerDto> returnLoginedCustomerDto(@RequestParam("email") String email){
-		return this.authService.returnLoginedCustomerDto(email);
+
+	@GetMapping("/getCustomerDtoByEmail")
+	DataResult<CustomerDto> getCustomerDtoByEmail(@RequestParam("email") String email) {
+		return this.authService.getCustomerDtoByEmail(email);
 	}
-	
+
 }

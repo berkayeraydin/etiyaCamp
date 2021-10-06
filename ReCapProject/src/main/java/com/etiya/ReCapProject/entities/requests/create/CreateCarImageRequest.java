@@ -19,7 +19,6 @@ import lombok.Setter;
 
 public class CreateCarImageRequest {
 	
-	
 	@NotNull
 	private int carId;
 	

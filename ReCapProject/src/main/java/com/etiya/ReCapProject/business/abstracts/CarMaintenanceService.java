@@ -15,17 +15,19 @@ public interface CarMaintenanceService {
 	DataResult<List<CarMaintenance>> getAll();
 
 	DataResult<CarMaintenance> getById(int carMaintenanceId);
-	
+
 	DataResult<List<CarMaintenanceDetailDto>> getCarMaintenancesDetail();
-	
+
 	DataResult<CarMaintenanceDetailDto> getCarMaintenanceDetailById(int carMaintenanceId);
+
+	DataResult<List<CarMaintenanceDetailDto>> getCarMaintenanceDetailByCarId(int carId);
 
 	Result add(CreateCarMaintenanceRequest createCarMaintenanceRequest);
 
 	Result update(UpdateCarMaintenanceRequest updateCarMaintenanceRequest);
 
 	Result delete(DeleteCarMaintenanceRequest deleteCarMaintenanceRequest);
-	
+
 	Result CarAtMaintenanceReturnedIsTrue(int carMaintenanceId);
 
 }

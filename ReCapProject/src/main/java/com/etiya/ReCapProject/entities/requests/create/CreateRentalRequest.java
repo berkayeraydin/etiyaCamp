@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.etiya.ReCapProject.entities.dtos.CardInformationDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -16,14 +17,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateRentalRequest {
-
+	
+	@JsonIgnore
+	private int rentalId;
+	
 	@NotNull
 	private Date rentDate;
 
 	@NotNull
 	private Date returnDate;
 
-	boolean cardIsSaved;
+	boolean isShouldCardBeSaved;
 
 	@NotNull
 	private int carId;

@@ -4,6 +4,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +17,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCarRequest {
+	
+	@JsonIgnore
+	private int carId;
 	
 	private String carName;
 	

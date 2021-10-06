@@ -24,25 +24,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler","rental"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"})
 @Table(name = "invoices")
 public class Invoice {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "invoice_id")
 	private int invoiceId;
-	
+
 	@Column(name = "invoice_no")
 	private String invoiceNo;
 
 	@Column(name = "creation_date")
 	private Date creationDate;
-	
-	@OneToMany(mappedBy = "invoice",cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
 	private List<InvoiceDetail> invoiceDetails;
-	
-	@OneToOne
+
+	@OneToOne()
 	@JoinColumn(name = "rental_id")
 	private Rental rental;
 

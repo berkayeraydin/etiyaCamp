@@ -15,17 +15,17 @@ public interface CarDamageInformationService {
 	DataResult<List<CarDamageInformation>> getAll();
 
 	DataResult<CarDamageInformation> getById(int carDamageInformationId);
-	
+
 	DataResult<List<CarDamageInformationDetailDto>> getCarDamageInformationsDetail();
-	
-	DataResult<CarDamageInformationDetailDto> getCarDamageInformationsDetailId(int carDamageInformationId);
+
+	DataResult<CarDamageInformationDetailDto> getCarDamageInformationDetailById(int carDamageInformationId);
+
+	DataResult<List<CarDamageInformationDetailDto>> getCarDamageInformationsByCarId(int carId);
 
 	Result add(CreateCarDamageInformationRequest createCarDamageInformationRequest);
 
 	Result update(UpdateCarDamageInformationRequest updateCarDamageInformationRequest);
 
 	Result delete(DeleteCarDamageInformationRequest deleteCarDamageInformationRequest);
-
-	DataResult<List<CarDamageInformation>> getCarDamageInformationsByCarId(int carId);
 
 }

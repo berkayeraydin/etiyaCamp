@@ -15,13 +15,13 @@ public interface InvoiceDetailService {
 	DataResult<List<InvoiceDetail>> getAll();
 
 	DataResult<InvoiceDetail> getById(int invoiceDetaillId);
-	
+
 	DataResult<List<InvoiceDetailDetailDto>> getInvoiceDetailsDetail();
-	
-	DataResult<InvoiceDetailDetailDto> getInvoiceDetailDetailId(int invoiceDetailDetailId);
-	
-	DataResult<List<InvoiceDetail>> getInvoiceDetailsByInvoiceId(int invoiceId);
-	
+
+	DataResult<InvoiceDetailDetailDto> getInvoiceDetailDetailById(int invoiceDetailId);
+
+	DataResult<List<InvoiceDetailDetailDto>> getInvoiceDetailDetailsByInvoiceId(int invoiceId);
+
 	DataResult<Double> getSumtotalPriceByInvoice_InvoiceId(int invoiceId);
 
 	Result add(CreateInvoiceDetailRequest createInvoiceDetailRequests);

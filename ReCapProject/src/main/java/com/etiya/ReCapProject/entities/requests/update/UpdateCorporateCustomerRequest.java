@@ -22,4 +22,7 @@ public class UpdateCorporateCustomerRequest {
 	@NotNull
 	private String taxNumber;
 	
+//	@NotNull
+//	private int userId;
+	
 }

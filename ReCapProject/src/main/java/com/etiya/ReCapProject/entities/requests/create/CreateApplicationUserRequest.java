@@ -1,4 +1,5 @@
 package com.etiya.ReCapProject.entities.requests.create;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 

@@ -3,12 +3,12 @@ package com.etiya.ReCapProject.business.concretes;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.CarMaintenanceService;
 import com.etiya.ReCapProject.business.abstracts.CarService;
+import com.etiya.ReCapProject.business.abstracts.ModelMapperService;
 import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
@@ -28,14 +28,15 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 
 	private CarMaintenanceDao carMaintenanceDao;
 	private CarService carService;
-	private ModelMapper modelMapper;
+	private ModelMapperService modelMapperService;
 
 	@Autowired
-	public CarMaintenanceManager(CarMaintenanceDao carMaintenanceDao, CarService carService, ModelMapper modelMapper) {
+	public CarMaintenanceManager(CarMaintenanceDao carMaintenanceDao, CarService carService,
+			ModelMapperService modelMapperService) {
 		super();
 		this.carMaintenanceDao = carMaintenanceDao;
 		this.carService = carService;
-		this.modelMapper = modelMapper;
+		this.modelMapperService = modelMapperService;
 	}
 
 	@Override
@@ -61,7 +62,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 
 		for (CarMaintenance carMaintenance : carMaintenances) {
 
-			CarMaintenanceDetailDto carMaintenanceDetailDto = modelMapper.map(carMaintenance,
+			CarMaintenanceDetailDto carMaintenanceDetailDto = modelMapperService.forDto().map(carMaintenance,
 					CarMaintenanceDetailDto.class);
 
 			carMaintenanceDetailDto.setCarDetailDto(
@@ -79,14 +80,35 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 
 		CarMaintenance carMaintenance = this.carMaintenanceDao.getById(carMaintenanceId);
 
-		CarMaintenanceDetailDto carMaintenanceDetailDto = modelMapper.map(carMaintenance,
+		CarMaintenanceDetailDto carMaintenanceDetailDto = modelMapperService.forDto().map(carMaintenance,
 				CarMaintenanceDetailDto.class);
 
 		carMaintenanceDetailDto
 				.setCarDetailDto(this.carService.getCarDetailsByCarId(carMaintenance.getCar().getCarId()).getData());
 
-		return new SuccessDataResult<CarMaintenanceDetailDto>(
-				modelMapper.map(carMaintenanceDetailDto, CarMaintenanceDetailDto.class), Messages.CarMaintenancesListed);
+		return new SuccessDataResult<CarMaintenanceDetailDto>(carMaintenanceDetailDto, Messages.CarMaintenancesListed);
+	}
+
+	@Override
+	public DataResult<List<CarMaintenanceDetailDto>> getCarMaintenanceDetailByCarId(int carId) {
+
+		List<CarMaintenance> carMaintenances = this.carMaintenanceDao.getByCar_CarId(carId);
+
+		List<CarMaintenanceDetailDto> carMaintenanceDetailDtos = new ArrayList<CarMaintenanceDetailDto>();
+
+		for (CarMaintenance carMaintenance : carMaintenances) {
+
+			CarMaintenanceDetailDto carMaintenanceDetailDto = modelMapperService.forDto().map(carMaintenance,
+					CarMaintenanceDetailDto.class);
+
+			carMaintenanceDetailDto.setCarDetailDto(
+					this.carService.getCarDetailsByCarId(carMaintenance.getCar().getCarId()).getData());
+
+			carMaintenanceDetailDtos.add(carMaintenanceDetailDto);
+		}
+
+		return new SuccessDataResult<List<CarMaintenanceDetailDto>>(carMaintenanceDetailDtos,
+				Messages.CarMaintenancesListed);
 	}
 
 	@Override
@@ -101,7 +123,8 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 		Car car = this.carService.getById(createCarMaintenanceRequest.getCarId()).getData();
 		this.carService.carListedIsFalse(car.getCarId());
 
-		CarMaintenance carMaintenance = modelMapper.map(createCarMaintenanceRequest, CarMaintenance.class);
+		CarMaintenance carMaintenance = modelMapperService.forRequest().map(createCarMaintenanceRequest,
+				CarMaintenance.class);
 
 		carMaintenance.setCar(car);
 
@@ -113,7 +136,10 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 	@Override
 	public Result update(UpdateCarMaintenanceRequest updateCarMaintenanceRequest) {
 
-		CarMaintenance carMaintenance = modelMapper.map(updateCarMaintenanceRequest, CarMaintenance.class);
+		CarMaintenance carMaintenance = this.carMaintenanceDao
+				.getById(updateCarMaintenanceRequest.getCarMaintenanceId());
+		carMaintenance.setDescription(updateCarMaintenanceRequest.getDescription());
+		carMaintenance.setReturnDate(updateCarMaintenanceRequest.getReturnDate());
 
 		this.carMaintenanceDao.save(carMaintenance);
 
@@ -123,7 +149,8 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 	@Override
 	public Result delete(DeleteCarMaintenanceRequest deleteCarMaintenanceRequest) {
 
-		CarMaintenance carMaintenance = modelMapper.map(deleteCarMaintenanceRequest, CarMaintenance.class);
+		CarMaintenance carMaintenance = this.carMaintenanceDao
+				.getById(deleteCarMaintenanceRequest.getCarMaintenanceId());
 
 		this.carMaintenanceDao.delete(carMaintenance);
 

@@ -24,7 +24,7 @@ public class RentalDetailDto {
 
 	private long returnKilometer;
 
-	private String rentCityName;
+	private String takeCityName;
 
 	private String returnCityName;
 

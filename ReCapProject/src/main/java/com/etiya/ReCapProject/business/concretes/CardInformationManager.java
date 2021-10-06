@@ -5,11 +5,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.CardInformationService;
+import com.etiya.ReCapProject.business.abstracts.ModelMapperService;
 import com.etiya.ReCapProject.business.abstracts.UserService;
 import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.businnes.BusinessRules;
@@ -31,15 +31,15 @@ public class CardInformationManager implements CardInformationService {
 
 	private CardInformationDao cardInformationDao;
 	private UserService userService;
-	private ModelMapper modelMapper;
+	private ModelMapperService modelMapperService;
 
 	@Autowired
 	public CardInformationManager(CardInformationDao cardInformationDao, UserService userService,
-			ModelMapper modelMapper) {
+			ModelMapperService modelMapperService) {
 		super();
 		this.cardInformationDao = cardInformationDao;
 		this.userService = userService;
-		this.modelMapper = modelMapper;
+		this.modelMapperService = modelMapperService;
 	}
 
 	@Override
@@ -62,10 +62,11 @@ public class CardInformationManager implements CardInformationService {
 				.getCardsInformationByApplicationUser_UserId(applicationUserId);
 
 		List<CardInformationDto> cardInformationDtos = cardInformations.stream()
-				.map(cardInformation -> modelMapper.map(cardInformation, CardInformationDto.class))
+				.map(cardInformation -> modelMapperService.forDto().map(cardInformation, CardInformationDto.class))
 				.collect(Collectors.toList());
 
-		return new SuccessDataResult<List<CardInformationDto>>(cardInformationDtos,Messages.CardInformationListedByUser);
+		return new SuccessDataResult<List<CardInformationDto>>(cardInformationDtos,
+				Messages.CardInformationListedByUser);
 	}
 
 	@Override
@@ -79,7 +80,8 @@ public class CardInformationManager implements CardInformationService {
 
 		ApplicationUser applicationUser = this.userService.getById(createCardInformationRequest.getUserId()).getData();
 
-		CardInformation cardInformation = modelMapper.map(createCardInformationRequest, CardInformation.class);
+		CardInformation cardInformation = modelMapperService.forRequest().map(createCardInformationRequest,
+				CardInformation.class);
 
 		cardInformation.setApplicationUser(applicationUser);
 
@@ -96,7 +98,13 @@ public class CardInformationManager implements CardInformationService {
 			return result;
 		}
 
-		CardInformation cardInformation = modelMapper.map(updateCardInformationRequest, CardInformation.class);
+		CardInformation cardInformation = this.cardInformationDao
+				.getById(updateCardInformationRequest.getCardInformationId());
+		cardInformation.setCardName(updateCardInformationRequest.getCardName());
+		cardInformation.setCardNumber(updateCardInformationRequest.getCardNumber());
+		cardInformation.setCvv(updateCardInformationRequest.getCvv());
+		cardInformation.setExpirationDate(updateCardInformationRequest.getExpirationDate());
+		cardInformation.setCardHolderName(updateCardInformationRequest.getCardHolderName());
 
 		this.cardInformationDao.save(cardInformation);
 
@@ -106,7 +114,8 @@ public class CardInformationManager implements CardInformationService {
 	@Override
 	public Result delete(DeleteCardInformationRequest deleteCardInformationRequest) {
 
-		CardInformation cardInformation = modelMapper.map(deleteCardInformationRequest, CardInformation.class);
+		CardInformation cardInformation = this.cardInformationDao
+				.getById(deleteCardInformationRequest.getCardInformationId());
 
 		this.cardInformationDao.delete(cardInformation);
 

@@ -3,11 +3,11 @@ package com.etiya.ReCapProject.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.ReCapProject.business.abstracts.CarDamageInformationService;
+import com.etiya.ReCapProject.business.abstracts.ModelMapperService;
 import com.etiya.ReCapProject.business.constants.Messages;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
@@ -25,52 +25,65 @@ import com.etiya.ReCapProject.entities.requests.update.UpdateCarDamageInformatio
 public class CarDamageInformationManager implements CarDamageInformationService {
 
 	private CarDamageInformationDao carDamageInformationDao;
-	private ModelMapper modelMapper;
+	private ModelMapperService modelMapperService;
 
 	@Autowired
-	public CarDamageInformationManager(CarDamageInformationDao carDamageInformationDao,ModelMapper modelMapper) {
+	public CarDamageInformationManager(CarDamageInformationDao carDamageInformationDao,
+			ModelMapperService modelMapperService) {
 		super();
 		this.carDamageInformationDao = carDamageInformationDao;
-		this.modelMapper = modelMapper ;
+		this.modelMapperService = modelMapperService;
 	}
 
 	@Override
 	public DataResult<List<CarDamageInformation>> getAll() {
-		
+
 		return new SuccessDataResult<List<CarDamageInformation>>(this.carDamageInformationDao.findAll(),
 				Messages.CarDamageInformationsListed);
 	}
 
 	@Override
 	public DataResult<CarDamageInformation> getById(int carDamageInformationId) {
-		
+
 		return new SuccessDataResult<CarDamageInformation>(this.carDamageInformationDao.getById(carDamageInformationId),
 				Messages.CarDamageInformationListed);
 	}
-	
+
 	@Override
 	public DataResult<List<CarDamageInformationDetailDto>> getCarDamageInformationsDetail() {
-		
+
 		List<CarDamageInformation> carDamageInformations = this.carDamageInformationDao.findAll();
-		
-		List<CarDamageInformationDetailDto> carDamageInformationDetailDto = carDamageInformations
-				.stream().map(carDamageInformation -> modelMapper.map(carDamageInformation, CarDamageInformationDetailDto.class)).collect(Collectors.toList());
-		
-		return new SuccessDataResult<List<CarDamageInformationDetailDto>>(carDamageInformationDetailDto, Messages.CarDamageInformationsListed);
+
+		List<CarDamageInformationDetailDto> carDamageInformationDetailDtos = carDamageInformations.stream()
+				.map(carDamageInformation -> modelMapperService.forDto().map(carDamageInformation,
+						CarDamageInformationDetailDto.class))
+				.collect(Collectors.toList());
+
+		return new SuccessDataResult<List<CarDamageInformationDetailDto>>(carDamageInformationDetailDtos,
+				Messages.CarDamageInformationsListed);
 	}
 
 	@Override
-	public DataResult<CarDamageInformationDetailDto> getCarDamageInformationsDetailId(int carDamageInformationId) {
-		
+	public DataResult<CarDamageInformationDetailDto> getCarDamageInformationDetailById(int carDamageInformationId) {
+
 		CarDamageInformation carDamageInformation = this.carDamageInformationDao.getById(carDamageInformationId);
-		
-		return new SuccessDataResult<CarDamageInformationDetailDto>(modelMapper.map(carDamageInformation, CarDamageInformationDetailDto.class), Messages.CarDamageInformationListed);
+
+		return new SuccessDataResult<CarDamageInformationDetailDto>(
+				modelMapperService.forDto().map(carDamageInformation, CarDamageInformationDetailDto.class),
+				Messages.CarDamageInformationListed);
 	}
 
 	@Override
-	public DataResult<List<CarDamageInformation>> getCarDamageInformationsByCarId(int carId) {
-		
-		return new SuccessDataResult<List<CarDamageInformation>>(this.carDamageInformationDao.getByCar_CarId(carId),
+	public DataResult<List<CarDamageInformationDetailDto>> getCarDamageInformationsByCarId(int carId) {
+
+		List<CarDamageInformation> carDamageInformations = this.carDamageInformationDao.getByCar_CarId(carId);
+
+		List<CarDamageInformationDetailDto> carDamageInformationDetailDtos = carDamageInformations.stream()
+				.map(carDamageInformation -> modelMapperService.forDto().map(carDamageInformation,
+						CarDamageInformationDetailDto.class))
+				.collect(Collectors.toList());
+
+		return new SuccessDataResult<List<CarDamageInformationDetailDto>>(carDamageInformationDetailDtos,
 				Messages.CarDamageInformationsListedByCar);
 	}
 
@@ -80,7 +93,8 @@ public class CarDamageInformationManager implements CarDamageInformationService 
 		Car car = new Car();
 		car.setCarId(createCarDamageInformationRequest.getCarId());
 
-		CarDamageInformation carDamageInformation = modelMapper.map(createCarDamageInformationRequest, CarDamageInformation.class);
+		CarDamageInformation carDamageInformation = modelMapperService.forRequest()
+				.map(createCarDamageInformationRequest, CarDamageInformation.class);
 
 		carDamageInformation.setCar(car);
 
@@ -92,7 +106,9 @@ public class CarDamageInformationManager implements CarDamageInformationService 
 	@Override
 	public Result update(UpdateCarDamageInformationRequest updateCarDamageInformationRequest) {
 
-		CarDamageInformation carDamageInformation = modelMapper.map(updateCarDamageInformationRequest, CarDamageInformation.class);
+		CarDamageInformation carDamageInformation = this.carDamageInformationDao
+				.getById(updateCarDamageInformationRequest.getCarDamageInformationId());
+		carDamageInformation.setDescription(updateCarDamageInformationRequest.getDescription());
 
 		this.carDamageInformationDao.save(carDamageInformation);
 
@@ -102,8 +118,9 @@ public class CarDamageInformationManager implements CarDamageInformationService 
 	@Override
 	public Result delete(DeleteCarDamageInformationRequest deleteCarDamageInformationRequest) {
 
-		CarDamageInformation carDamageInformation = modelMapper.map(deleteCarDamageInformationRequest, CarDamageInformation.class);
-		
+		CarDamageInformation carDamageInformation = this.carDamageInformationDao
+				.getById(deleteCarDamageInformationRequest.getCarDamageInformationId());
+
 		this.carDamageInformationDao.delete(carDamageInformation);
 
 		return new SuccessResult(Messages.CarDamageInformationDeleted);
