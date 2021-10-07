@@ -2,6 +2,8 @@ package com.etiya.ReCapProject.entities.requests;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ public class RegisterIndividualCustomerRequest {
 	
 	@NotBlank
 	@NotNull
+	@Size(min = 11,max = 11)
 	private String nationalIdentityNumber;
 	
 	@NotBlank

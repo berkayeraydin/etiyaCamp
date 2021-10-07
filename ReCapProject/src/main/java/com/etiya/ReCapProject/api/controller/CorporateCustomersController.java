@@ -1,5 +1,7 @@
 package com.etiya.ReCapProject.api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.ReCapProject.business.abstracts.CorporateCustomerService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
+import com.etiya.ReCapProject.entities.concretes.CorporateCustomer;
 import com.etiya.ReCapProject.entities.dtos.CorporateCustomerDetailDto;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCorporateCustomerRequest;
 import com.etiya.ReCapProject.entities.requests.update.UpdateCorporateCustomerRequest;
@@ -29,10 +32,10 @@ public class CorporateCustomersController {
 		this.corporateCustomerService = corporateCustomerService;
 	}
 
-//	@GetMapping("/getAll")
-//	public DataResult<List<CorporateCustomer>> getAll() {
-//		return this.corporateCustomerService.getAll();
-//	}
+	@GetMapping("/getAll")
+	public DataResult<List<CorporateCustomer>> getAll() {
+		return this.corporateCustomerService.getAll();
+	}
 //
 //	@GetMapping("/getbyid")
 //	public DataResult<CorporateCustomer> getById(@RequestParam("customerId") int customerId) {

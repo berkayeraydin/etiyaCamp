@@ -14,7 +14,6 @@ import com.etiya.ReCapProject.core.utilities.result.Result;
 import com.etiya.ReCapProject.core.utilities.result.SuccessDataResult;
 import com.etiya.ReCapProject.core.utilities.result.SuccessResult;
 import com.etiya.ReCapProject.dataAccess.abstracts.CarDamageInformationDao;
-import com.etiya.ReCapProject.entities.concretes.Car;
 import com.etiya.ReCapProject.entities.concretes.CarDamageInformation;
 import com.etiya.ReCapProject.entities.dtos.CarDamageInformationDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCarDamageInformationRequest;
@@ -90,13 +89,19 @@ public class CarDamageInformationManager implements CarDamageInformationService 
 	@Override
 	public Result add(CreateCarDamageInformationRequest createCarDamageInformationRequest) {
 
-		Car car = new Car();
-		car.setCarId(createCarDamageInformationRequest.getCarId());
+//		Car car = new Car();
+//		car.setCarId(createCarDamageInformationRequest.getCarId());
 
-		CarDamageInformation carDamageInformation = modelMapperService.forRequest()
+		CarDamageInformation carDamageInformation =
+				modelMapperService.forRequest()
 				.map(createCarDamageInformationRequest, CarDamageInformation.class);
+				//new CarDamageInformation();
+				
 
-		carDamageInformation.setCar(car);
+
+//		carDamageInformation.setCar(car);
+//		carDamageInformation.setDescription(createCarDamageInformationRequest.getDescription());
+		
 
 		this.carDamageInformationDao.save(carDamageInformation);
 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.ReCapProject.business.abstracts.CarDamageInformationService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
+import com.etiya.ReCapProject.entities.concretes.CarDamageInformation;
 import com.etiya.ReCapProject.entities.dtos.CarDamageInformationDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCarDamageInformationRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCarDamageInformationRequest;
@@ -34,10 +35,10 @@ public class CarDamageInformationsController {
 		this.carDamageInformationService = carDamageInformationService;
 	}
 
-//	@GetMapping("/getAll")
-//	public DataResult<List<CarDamageInformation>> getAll() {
-//		return this.carDamageInformationService.getAll();
-//	}
+	@GetMapping("/getAll")
+	public DataResult<List<CarDamageInformation>> getAll() {
+		return this.carDamageInformationService.getAll();
+	}
 //
 //	@GetMapping("/getbyid")
 //	public DataResult<CarDamageInformation> getById(

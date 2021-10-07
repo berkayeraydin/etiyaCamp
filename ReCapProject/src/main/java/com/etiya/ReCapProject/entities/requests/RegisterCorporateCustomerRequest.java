@@ -2,6 +2,8 @@ package com.etiya.ReCapProject.entities.requests;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ public class RegisterCorporateCustomerRequest {
 
 	@NotBlank
 	@NotNull
+	@Size(min = 10,max = 10)
 	private String taxNumber;
 
 	@NotBlank

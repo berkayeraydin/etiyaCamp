@@ -38,8 +38,8 @@ public class CarMaintenance {
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "is_car_returned", columnDefinition = "boolean default false")
-	private boolean isCarReturned;
+	@Column(name = "is_car_returned")
+	private boolean isCarReturned = false;
 
 	@ManyToOne
 	@JoinColumn(name = "car_id")

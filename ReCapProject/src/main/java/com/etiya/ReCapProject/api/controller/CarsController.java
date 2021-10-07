@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.ReCapProject.business.abstracts.CarService;
-import com.etiya.ReCapProject.core.utilities.result.*;
+import com.etiya.ReCapProject.core.utilities.result.DataResult;
+import com.etiya.ReCapProject.core.utilities.result.Result;
+import com.etiya.ReCapProject.entities.concretes.Car;
 import com.etiya.ReCapProject.entities.dtos.CarDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCarRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCarRequest;
@@ -32,10 +34,10 @@ public class CarsController {
 		this.carService = carService;
 	}
 
-//	@GetMapping("/getAll")
-//	public DataResult<List<Car>> getAll() {
-//		return this.carService.getAll();
-//	}
+	@GetMapping("/getAll")
+	public DataResult<List<Car>> getAll() {
+		return this.carService.getAll();
+	}
 //
 //	@GetMapping("/getbyid")
 //	public DataResult<Car> getById(@RequestParam("carId") int carId) {

@@ -103,6 +103,7 @@ public class Messages {
 		public static String CardInformationListed = "Kart bilgisi listelendi";
 		public static String CardInformationListedByUser = "Kullanıcının Kart bilgisi listelendi";
 		public static String CardNumberTypeIsNotValid = "Kart numarası geçerli değil";
+		public static String CardNumberIsFound = "Kart numarası kayıtlı";
 
 		// CarMaintenance
 		public static String CarMaintenanceAdded = "Araba bakım bilgisi eklendi";

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.ReCapProject.business.abstracts.CityService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
+import com.etiya.ReCapProject.entities.concretes.City;
 import com.etiya.ReCapProject.entities.dtos.CityDetailDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCityRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCityRequest;
@@ -33,10 +34,10 @@ public class CitiesController {
 		this.cityService = cityService;
 	}
 
-//	@GetMapping("/getAll")
-//	public DataResult<List<City>> getAll() {
-//		return this.cityService.getAll();
-//	}
+	@GetMapping("/getAll")
+	public DataResult<List<City>> getAll() {
+		return this.cityService.getAll();
+	}
 //
 //	@GetMapping("/getbyid")
 //	public DataResult<City> getById(@RequestParam("cityId") int cityId) {

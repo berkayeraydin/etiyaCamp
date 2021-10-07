@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.ReCapProject.business.abstracts.CardInformationService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
+import com.etiya.ReCapProject.entities.concretes.CardInformation;
 import com.etiya.ReCapProject.entities.dtos.CardInformationDto;
 import com.etiya.ReCapProject.entities.requests.create.CreateCardInformationRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteCardInformationRequest;
@@ -33,10 +34,10 @@ public class CardsInformationController {
 		this.cardInformationService = cardInformationService;
 	}
 
-//	@GetMapping("/getAll")
-//	public DataResult<List<CardInformation>> getAll() {
-//		return this.cardInformationService.getAll();
-//	}
+	@GetMapping("/getAll")
+	public DataResult<List<CardInformation>> getAll() {
+		return this.cardInformationService.getAll();
+	}
 //
 //	@GetMapping("/getbyid")
 //	public DataResult<CardInformation> getById(@RequestParam("carInformationId") int carInformationId) {

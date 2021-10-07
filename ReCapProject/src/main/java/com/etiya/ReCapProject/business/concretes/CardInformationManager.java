@@ -72,7 +72,8 @@ public class CardInformationManager implements CardInformationService {
 	@Override
 	public Result add(CreateCardInformationRequest createCardInformationRequest) {
 
-		var result = BusinessRules.run(this.checkCardFormat(createCardInformationRequest.getCardNumber()));
+		var result = BusinessRules.run(this.checkCardFormat(createCardInformationRequest.getCardNumber()),
+				this.checkCardNumberByCardNumber(createCardInformationRequest.getCardNumber()));
 
 		if (result != null) {
 			return result;
@@ -139,6 +140,14 @@ public class CardInformationManager implements CardInformationService {
 
 		return new SuccessResult();
 
+	}
+	
+	private Result checkCardNumberByCardNumber(String cardNumber) {
+
+		if (this.cardInformationDao.existsByCardNumber(cardNumber)) {
+			return new ErrorResult(Messages.CardNumberIsFound);
+		}
+		return new SuccessResult();
 	}
 
 }

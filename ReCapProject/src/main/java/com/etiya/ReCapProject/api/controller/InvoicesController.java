@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.ReCapProject.business.abstracts.InvoiceService;
 import com.etiya.ReCapProject.core.utilities.result.DataResult;
 import com.etiya.ReCapProject.core.utilities.result.Result;
+import com.etiya.ReCapProject.entities.concretes.Invoice;
 import com.etiya.ReCapProject.entities.dtos.InvoiceDetailDto;
 import com.etiya.ReCapProject.entities.requests.InvoiceBetweenDateRequest;
 import com.etiya.ReCapProject.entities.requests.delete.DeleteInvoiceRequest;
@@ -34,10 +35,10 @@ public class InvoicesController {
 		this.invoiceService = invoiceService;
 	}
 
-//	@GetMapping("/getall")
-//	public DataResult<List<Invoice>> getAll() {
-//		return this.invoiceService.getAll();
-//	}
+	@GetMapping("/getall")
+	public DataResult<List<Invoice>> getAll() {
+		return this.invoiceService.getAll();
+	}
 //
 //	@GetMapping("/getbyid")
 //	public DataResult<Invoice> getById(@RequestParam("invoiceId") int invoiceId) {
