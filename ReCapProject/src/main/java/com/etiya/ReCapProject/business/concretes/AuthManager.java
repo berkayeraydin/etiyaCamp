@@ -58,12 +58,12 @@ public class AuthManager implements AuthService {
 			return result;
 		}
 
-		CreateApplicationUserRequest createApplicationUserRequest = modelMapperService.forRequest()
+		CreateApplicationUserRequest createApplicationUserRequest =  modelMapperService.forRequest()
 				.map(registerIndividualCustomerRequest, CreateApplicationUserRequest.class);
 
 		this.userService.add(createApplicationUserRequest);
 
-		CreateIndividualCustomerRequest createIndividualCustomerRequest = modelMapperService.forRequest()
+		CreateIndividualCustomerRequest createIndividualCustomerRequest =  modelMapperService.forRequest()
 				.map(registerIndividualCustomerRequest, CreateIndividualCustomerRequest.class);
 
 		createIndividualCustomerRequest

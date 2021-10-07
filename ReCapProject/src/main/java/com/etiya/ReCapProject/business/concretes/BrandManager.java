@@ -76,7 +76,7 @@ public class BrandManager implements BrandService {
 			return result;
 		}
 
-		Brand brand = modelMapperService.forRequest().map(createBrandRequest, Brand.class);
+		Brand brand =  modelMapperService.forRequest().map(createBrandRequest, Brand.class);
 
 		this.brandDao.save(brand);
 
